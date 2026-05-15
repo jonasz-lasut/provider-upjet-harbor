@@ -44,6 +44,7 @@ type ProviderConfigStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:storageversion
 
 // A ProviderConfig configures a Harbor provider.
 // +kubebuilder:subresource:status
@@ -69,6 +70,7 @@ type ProviderConfigList struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:storageversion
 
 // A ProviderConfigUsage indicates that a resource is using a ProviderConfig.
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
@@ -93,6 +95,7 @@ type ProviderConfigUsageList struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:storageversion
 
 // A ClusterProviderConfig configures a Harbor provider.
 // +kubebuilder:subresource:status
