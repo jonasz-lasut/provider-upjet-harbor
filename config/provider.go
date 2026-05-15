@@ -31,6 +31,23 @@ var providerSchema string
 //go:embed provider-metadata.yaml
 var providerMetadata string
 
+// harborBasePackages overrides upjet's DefaultBasePackages to drop the
+// top-level "v1alpha1" entry. We don't have an apis/{cluster,namespaced}/v1alpha1
+// placeholder package (it was removed in the L5 cleanup); leaving it in the
+// list causes upjet's pipeline to re-emit a broken import on every
+// `make generate` run.
+var harborBasePackages = ujconfig.BasePackages{
+	APIVersion: []string{
+		"v1beta1",
+	},
+	Controller: []string{
+		"providerconfig",
+	},
+	ControllerMap: map[string]string{
+		"providerconfig": ujconfig.PackageNameConfig,
+	},
+}
+
 // GetProvider returns the cluster-scoped provider configuration. In v0 the
 // cluster scope has no managed resources; the structure is preserved so
 // cluster MRs can be added later.
@@ -43,6 +60,7 @@ func GetProvider(_ context.Context, sdkProvider *schema.Provider) (*ujconfig.Pro
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithTerraformProvider(sdkProvider),
 		ujconfig.WithDefaultResourceOptions(ExternalNameConfigurations()),
+		ujconfig.WithBasePackages(harborBasePackages),
 	)
 	pc.ConfigureResources()
 	return pc, nil
@@ -59,6 +77,7 @@ func GetProviderNamespaced(_ context.Context, sdkProvider *schema.Provider) (*uj
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithTerraformProvider(sdkProvider),
 		ujconfig.WithDefaultResourceOptions(ExternalNameConfigurations()),
+		ujconfig.WithBasePackages(harborBasePackages),
 		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
 			ManagedResourceNamespace: "crossplane-system",
 		}),

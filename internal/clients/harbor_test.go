@@ -9,6 +9,10 @@ import (
 	"k8s.io/utils/ptr"
 )
 
+var (
+	testHarborURL = "https://harbor.example.com"
+)
+
 func TestBuildHarborSetup(t *testing.T) {
 	tests := []struct {
 		name           string
@@ -20,10 +24,10 @@ func TestBuildHarborSetup(t *testing.T) {
 	}{
 		{
 			name:      "basic auth",
-			pcSpec:    harborProviderConfig{URL: "https://harbor.example.com", Insecure: false},
+			pcSpec:    harborProviderConfig{URL: testHarborURL, Insecure: false},
 			credsJSON: `{"username":"admin","password":"Harbor12345"}`,
 			wantContains: map[string]any{
-				"url":      "https://harbor.example.com",
+				"url":      testHarborURL,
 				"username": "admin",
 				"password": "Harbor12345",
 				"insecure": false,
@@ -32,40 +36,40 @@ func TestBuildHarborSetup(t *testing.T) {
 		},
 		{
 			name:      "bearer token",
-			pcSpec:    harborProviderConfig{URL: "https://harbor.example.com"},
+			pcSpec:    harborProviderConfig{URL: testHarborURL},
 			credsJSON: `{"bearer_token":"eyJhbGciOi..."}`,
 			wantContains: map[string]any{
-				"url":          "https://harbor.example.com",
+				"url":          testHarborURL,
 				"bearer_token": "eyJhbGciOi...",
 			},
 			mustNotContain: []string{"username", "password"},
 		},
 		{
 			name:      "both set, bearer wins",
-			pcSpec:    harborProviderConfig{URL: "https://harbor.example.com"},
+			pcSpec:    harborProviderConfig{URL: testHarborURL},
 			credsJSON: `{"username":"admin","password":"x","bearer_token":"tok"}`,
 			wantContains: map[string]any{
-				"url":          "https://harbor.example.com",
+				"url":          testHarborURL,
 				"bearer_token": "tok",
 			},
 			mustNotContain: []string{"username", "password"},
 		},
 		{
 			name:      "no credentials -> error",
-			pcSpec:    harborProviderConfig{URL: "https://harbor.example.com"},
+			pcSpec:    harborProviderConfig{URL: testHarborURL},
 			credsJSON: `{}`,
 			wantErr:   true,
 		},
 		{
 			name:      "malformed JSON -> error",
-			pcSpec:    harborProviderConfig{URL: "https://harbor.example.com"},
+			pcSpec:    harborProviderConfig{URL: testHarborURL},
 			credsJSON: `{not json`,
 			wantErr:   true,
 		},
 		{
 			name: "api_version and robot_prefix propagated",
 			pcSpec: harborProviderConfig{
-				URL:         "https://harbor.example.com",
+				URL:         testHarborURL,
 				APIVersion:  ptr.To(2),
 				RobotPrefix: "robot$",
 			},
