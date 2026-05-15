@@ -8,6 +8,22 @@ import (
 
 // A ProviderConfigSpec defines the desired state of a ProviderConfig.
 type ProviderConfigSpec struct {
+	// URL is the Harbor base URL (e.g. https://harbor.example.com).
+	// +kubebuilder:validation:Required
+	URL string `json:"url"`
+
+	// Insecure disables TLS certificate verification.
+	// +optional
+	Insecure bool `json:"insecure,omitempty"`
+
+	// APIVersion of the Harbor REST API. Defaults to 2.
+	// +optional
+	APIVersion *int `json:"apiVersion,omitempty"`
+
+	// RobotPrefix overrides the default "robot$" prefix on robot accounts.
+	// +optional
+	RobotPrefix string `json:"robotPrefix,omitempty"`
+
 	// Credentials required to authenticate to this provider.
 	Credentials ProviderCredentials `json:"credentials"`
 }
