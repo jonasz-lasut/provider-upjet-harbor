@@ -153,7 +153,7 @@ func resolveModern(ctx context.Context, crClient client.Client, mg resource.Mode
 	if err != nil {
 		return nil, errors.Wrap(err, "unknown GVK for ProviderConfig")
 	}
-	pcObj, ok := pcRuntimeObj.(client.Object)
+	pcObj, ok := pcRuntimeObj.(resource.ProviderConfig)
 	if !ok {
 		// This indicates a programming error, types are not properly generated
 		return nil, errors.New("referenced kind is not a client.Object")
