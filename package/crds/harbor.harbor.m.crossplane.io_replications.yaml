@@ -81,7 +81,8 @@ spec:
                       of -1 will ''Flatten All Levels'', 0 means ''No Flattening'',
                       1 ''Flatten 1 Level'', 2 ''Flatten 2 Levels'', 3 ''Flatten 3
                       Levels'' (Default: 0, see Replication Rules for more details)'
-                    type: number
+                    format: int64
+                    type: integer
                   enabled:
                     description: '(Boolean) Specify whether the replication is enabled.
                       (Default: true)'
@@ -123,7 +124,8 @@ spec:
                     type: boolean
                   registryId:
                     description: (Number) The registry ID of the Registry Endpoint.
-                    type: number
+                    format: int64
+                    type: integer
                   schedule:
                     description: '(String) The scheduled time of when the container
                       register will be push / pull. In cron base format. Hourly "0
@@ -137,7 +139,8 @@ spec:
                     type: boolean
                   speed:
                     description: 1 (unlimited).
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               initProvider:
                 description: |-
@@ -175,7 +178,8 @@ spec:
                       of -1 will ''Flatten All Levels'', 0 means ''No Flattening'',
                       1 ''Flatten 1 Level'', 2 ''Flatten 2 Levels'', 3 ''Flatten 3
                       Levels'' (Default: 0, see Replication Rules for more details)'
-                    type: number
+                    format: int64
+                    type: integer
                   enabled:
                     description: '(Boolean) Specify whether the replication is enabled.
                       (Default: true)'
@@ -217,7 +221,8 @@ spec:
                     type: boolean
                   registryId:
                     description: (Number) The registry ID of the Registry Endpoint.
-                    type: number
+                    format: int64
+                    type: integer
                   schedule:
                     description: '(String) The scheduled time of when the container
                       register will be push / pull. In cron base format. Hourly "0
@@ -231,7 +236,8 @@ spec:
                     type: boolean
                   speed:
                     description: 1 (unlimited).
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               managementPolicies:
                 default:
@@ -328,7 +334,8 @@ spec:
                       of -1 will ''Flatten All Levels'', 0 means ''No Flattening'',
                       1 ''Flatten 1 Level'', 2 ''Flatten 2 Levels'', 3 ''Flatten 3
                       Levels'' (Default: 0, see Replication Rules for more details)'
-                    type: number
+                    format: int64
+                    type: integer
                   enabled:
                     description: '(Boolean) Specify whether the replication is enabled.
                       (Default: true)'
@@ -373,10 +380,12 @@ spec:
                     type: boolean
                   registryId:
                     description: (Number) The registry ID of the Registry Endpoint.
-                    type: number
+                    format: int64
+                    type: integer
                   replicationPolicyId:
                     description: (Number)
-                    type: number
+                    format: int64
+                    type: integer
                   schedule:
                     description: '(String) The scheduled time of when the container
                       register will be push / pull. In cron base format. Hourly "0
@@ -390,7 +399,8 @@ spec:
                     type: boolean
                   speed:
                     description: 1 (unlimited).
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               conditions:
                 description: Conditions of the resource.

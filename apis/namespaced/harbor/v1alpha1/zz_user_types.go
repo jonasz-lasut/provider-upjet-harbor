@@ -35,7 +35,7 @@ type UserInitParameters struct {
 	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
 
 	// only password updates. Must be used together with password_wo.
-	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+	PasswordWoVersion *int64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// (String) The username of the internal user.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -62,7 +62,7 @@ type UserObservation struct {
 	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
 
 	// only password updates. Must be used together with password_wo.
-	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+	PasswordWoVersion *int64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// (String) The username of the internal user.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -96,7 +96,7 @@ type UserParameters struct {
 
 	// only password updates. Must be used together with password_wo.
 	// +kubebuilder:validation:Optional
-	PasswordWoVersion *float64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
+	PasswordWoVersion *int64 `json:"passwordWoVersion,omitempty" tf:"password_wo_version,omitempty"`
 
 	// (String) The username of the internal user.
 	// +kubebuilder:validation:Optional

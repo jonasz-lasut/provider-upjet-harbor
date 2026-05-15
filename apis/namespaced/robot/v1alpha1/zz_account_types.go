@@ -62,7 +62,7 @@ type AccountInitParameters struct {
 	Disable *bool `json:"disable,omitempty" tf:"disable,omitempty"`
 
 	// (Number) By default, the robot account will not expire. Set it to the amount of days until the account should expire.
-	Duration *float64 `json:"duration,omitempty" tf:"duration,omitempty"`
+	Duration *int64 `json:"duration,omitempty" tf:"duration,omitempty"`
 
 	// (String) Level of the robot account, currently either system or project.
 	Level *string `json:"level,omitempty" tf:"level,omitempty"`
@@ -80,7 +80,7 @@ type AccountInitParameters struct {
 	SecretWo *string `json:"secretWo,omitempty" tf:"secret_wo,omitempty"`
 
 	// only secret updates. Must be used together with secret_wo.
-	SecretWoVersion *float64 `json:"secretWoVersion,omitempty" tf:"secret_wo_version,omitempty"`
+	SecretWoVersion *int64 `json:"secretWoVersion,omitempty" tf:"secret_wo_version,omitempty"`
 }
 
 type AccountObservation struct {
@@ -92,7 +92,7 @@ type AccountObservation struct {
 	Disable *bool `json:"disable,omitempty" tf:"disable,omitempty"`
 
 	// (Number) By default, the robot account will not expire. Set it to the amount of days until the account should expire.
-	Duration *float64 `json:"duration,omitempty" tf:"duration,omitempty"`
+	Duration *int64 `json:"duration,omitempty" tf:"duration,omitempty"`
 
 	// (String)
 	FullName *string `json:"fullName,omitempty" tf:"full_name,omitempty"`
@@ -116,7 +116,7 @@ type AccountObservation struct {
 	SecretWo *string `json:"secretWo,omitempty" tf:"secret_wo,omitempty"`
 
 	// only secret updates. Must be used together with secret_wo.
-	SecretWoVersion *float64 `json:"secretWoVersion,omitempty" tf:"secret_wo_version,omitempty"`
+	SecretWoVersion *int64 `json:"secretWoVersion,omitempty" tf:"secret_wo_version,omitempty"`
 }
 
 type AccountParameters struct {
@@ -131,7 +131,7 @@ type AccountParameters struct {
 
 	// (Number) By default, the robot account will not expire. Set it to the amount of days until the account should expire.
 	// +kubebuilder:validation:Optional
-	Duration *float64 `json:"duration,omitempty" tf:"duration,omitempty"`
+	Duration *int64 `json:"duration,omitempty" tf:"duration,omitempty"`
 
 	// (String) Level of the robot account, currently either system or project.
 	// +kubebuilder:validation:Optional
@@ -155,7 +155,7 @@ type AccountParameters struct {
 
 	// only secret updates. Must be used together with secret_wo.
 	// +kubebuilder:validation:Optional
-	SecretWoVersion *float64 `json:"secretWoVersion,omitempty" tf:"secret_wo_version,omitempty"`
+	SecretWoVersion *int64 `json:"secretWoVersion,omitempty" tf:"secret_wo_version,omitempty"`
 }
 
 type PermissionsInitParameters struct {

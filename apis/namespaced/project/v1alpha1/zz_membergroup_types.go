@@ -17,7 +17,7 @@ import (
 type MemberGroupInitParameters struct {
 
 	// (Number) The numeric identifier of the group type. Valid values are 1, 2, or 3 :
-	GroupID *float64 `json:"groupId,omitempty" tf:"group_id,omitempty"`
+	GroupID *int64 `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
 	// (String) The name of the group member entity.
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
@@ -38,7 +38,7 @@ type MemberGroupInitParameters struct {
 type MemberGroupObservation struct {
 
 	// (Number) The numeric identifier of the group type. Valid values are 1, 2, or 3 :
-	GroupID *float64 `json:"groupId,omitempty" tf:"group_id,omitempty"`
+	GroupID *int64 `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
 	// (String) The name of the group member entity.
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
@@ -50,7 +50,7 @@ type MemberGroupObservation struct {
 	LdapGroupDn *string `json:"ldapGroupDn,omitempty" tf:"ldap_group_dn,omitempty"`
 
 	// (Number)
-	MemberID *float64 `json:"memberId,omitempty" tf:"member_id,omitempty"`
+	MemberID *int64 `json:"memberId,omitempty" tf:"member_id,omitempty"`
 
 	// (String) The project id of the project that the entity will have access to.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -66,7 +66,7 @@ type MemberGroupParameters struct {
 
 	// (Number) The numeric identifier of the group type. Valid values are 1, 2, or 3 :
 	// +kubebuilder:validation:Optional
-	GroupID *float64 `json:"groupId,omitempty" tf:"group_id,omitempty"`
+	GroupID *int64 `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
 	// (String) The name of the group member entity.
 	// +kubebuilder:validation:Optional

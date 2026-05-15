@@ -20,7 +20,7 @@ type GroupInitParameters struct {
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
 
 	// (Number) The numeric identifier of the group type. Valid values are 1, 2, or 3 :
-	GroupType *float64 `json:"groupType,omitempty" tf:"group_type,omitempty"`
+	GroupType *int64 `json:"groupType,omitempty" tf:"group_type,omitempty"`
 
 	// (String) The distinguished name of the group within AD/LDAP.
 	LdapGroupDn *string `json:"ldapGroupDn,omitempty" tf:"ldap_group_dn,omitempty"`
@@ -32,7 +32,7 @@ type GroupObservation struct {
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
 
 	// (Number) The numeric identifier of the group type. Valid values are 1, 2, or 3 :
-	GroupType *float64 `json:"groupType,omitempty" tf:"group_type,omitempty"`
+	GroupType *int64 `json:"groupType,omitempty" tf:"group_type,omitempty"`
 
 	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -49,7 +49,7 @@ type GroupParameters struct {
 
 	// (Number) The numeric identifier of the group type. Valid values are 1, 2, or 3 :
 	// +kubebuilder:validation:Optional
-	GroupType *float64 `json:"groupType,omitempty" tf:"group_type,omitempty"`
+	GroupType *int64 `json:"groupType,omitempty" tf:"group_type,omitempty"`
 
 	// (String) The distinguished name of the group within AD/LDAP.
 	// +kubebuilder:validation:Optional

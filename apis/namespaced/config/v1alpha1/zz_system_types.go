@@ -94,7 +94,7 @@ type SystemInitParameters struct {
 	RobotNamePrefix *string `json:"robotNamePrefix,omitempty" tf:"robot_name_prefix,omitempty"`
 
 	// (Number) The amount of time in days a robot account will expire.
-	RobotTokenExpiration *float64 `json:"robotTokenExpiration,omitempty" tf:"robot_token_expiration,omitempty"`
+	RobotTokenExpiration *int64 `json:"robotTokenExpiration,omitempty" tf:"robot_token_expiration,omitempty"`
 
 	// (Boolean) Whether or not to skip update pull time for scanner.
 	ScannerSkipUpdatePulltime *bool `json:"scannerSkipUpdatePulltime,omitempty" tf:"scanner_skip_update_pulltime,omitempty"`
@@ -103,7 +103,7 @@ type SystemInitParameters struct {
 	SkipAuditLogDatabase *bool `json:"skipAuditLogDatabase,omitempty" tf:"skip_audit_log_database,omitempty"`
 
 	// 1 (unlimited).
-	StoragePerProject *float64 `json:"storagePerProject,omitempty" tf:"storage_per_project,omitempty"`
+	StoragePerProject *int64 `json:"storagePerProject,omitempty" tf:"storage_per_project,omitempty"`
 }
 
 type SystemObservation struct {
@@ -130,7 +130,7 @@ type SystemObservation struct {
 	RobotNamePrefix *string `json:"robotNamePrefix,omitempty" tf:"robot_name_prefix,omitempty"`
 
 	// (Number) The amount of time in days a robot account will expire.
-	RobotTokenExpiration *float64 `json:"robotTokenExpiration,omitempty" tf:"robot_token_expiration,omitempty"`
+	RobotTokenExpiration *int64 `json:"robotTokenExpiration,omitempty" tf:"robot_token_expiration,omitempty"`
 
 	// (Boolean) Whether or not to skip update pull time for scanner.
 	ScannerSkipUpdatePulltime *bool `json:"scannerSkipUpdatePulltime,omitempty" tf:"scanner_skip_update_pulltime,omitempty"`
@@ -139,7 +139,7 @@ type SystemObservation struct {
 	SkipAuditLogDatabase *bool `json:"skipAuditLogDatabase,omitempty" tf:"skip_audit_log_database,omitempty"`
 
 	// 1 (unlimited).
-	StoragePerProject *float64 `json:"storagePerProject,omitempty" tf:"storage_per_project,omitempty"`
+	StoragePerProject *int64 `json:"storagePerProject,omitempty" tf:"storage_per_project,omitempty"`
 }
 
 type SystemParameters struct {
@@ -170,7 +170,7 @@ type SystemParameters struct {
 
 	// (Number) The amount of time in days a robot account will expire.
 	// +kubebuilder:validation:Optional
-	RobotTokenExpiration *float64 `json:"robotTokenExpiration,omitempty" tf:"robot_token_expiration,omitempty"`
+	RobotTokenExpiration *int64 `json:"robotTokenExpiration,omitempty" tf:"robot_token_expiration,omitempty"`
 
 	// (Boolean) Whether or not to skip update pull time for scanner.
 	// +kubebuilder:validation:Optional
@@ -182,7 +182,7 @@ type SystemParameters struct {
 
 	// 1 (unlimited).
 	// +kubebuilder:validation:Optional
-	StoragePerProject *float64 `json:"storagePerProject,omitempty" tf:"storage_per_project,omitempty"`
+	StoragePerProject *int64 `json:"storagePerProject,omitempty" tf:"storage_per_project,omitempty"`
 }
 
 // SystemSpec defines the desired state of System

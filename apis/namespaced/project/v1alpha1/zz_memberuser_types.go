@@ -32,7 +32,7 @@ type MemberUserObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// (Number) The member id of the member.
-	MemberID *float64 `json:"memberId,omitempty" tf:"member_id,omitempty"`
+	MemberID *int64 `json:"memberId,omitempty" tf:"member_id,omitempty"`
 
 	// (String) The project id of the project that the entity will have access to.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`

@@ -69,7 +69,8 @@ spec:
                   duration:
                     description: (Number) By default, the robot account will not expire.
                       Set it to the amount of days until the account should expire.
-                    type: number
+                    format: int64
+                    type: integer
                   level:
                     description: (String) Level of the robot account, currently either
                       system or project.
@@ -131,7 +132,8 @@ spec:
                     type: string
                   secretWoVersion:
                     description: only secret updates. Must be used together with secret_wo.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               initProvider:
                 description: |-
@@ -157,7 +159,8 @@ spec:
                   duration:
                     description: (Number) By default, the robot account will not expire.
                       Set it to the amount of days until the account should expire.
-                    type: number
+                    format: int64
+                    type: integer
                   level:
                     description: (String) Level of the robot account, currently either
                       system or project.
@@ -219,7 +222,8 @@ spec:
                     type: string
                   secretWoVersion:
                     description: only secret updates. Must be used together with secret_wo.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               managementPolicies:
                 default:
@@ -308,7 +312,8 @@ spec:
                   duration:
                     description: (Number) By default, the robot account will not expire.
                       Set it to the amount of days until the account should expire.
-                    type: number
+                    format: int64
+                    type: integer
                   fullName:
                     description: (String)
                     type: string
@@ -365,7 +370,8 @@ spec:
                     type: string
                   secretWoVersion:
                     description: only secret updates. Must be used together with secret_wo.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               conditions:
                 description: Conditions of the resource.

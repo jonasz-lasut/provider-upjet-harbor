@@ -61,7 +61,8 @@ spec:
                   groupId:
                     description: '(Number) The numeric identifier of the group type.
                       Valid values are 1, 2, or 3 :'
-                    type: number
+                    format: int64
+                    type: integer
                   groupName:
                     description: (String) The name of the group member entity.
                     type: string
@@ -98,7 +99,8 @@ spec:
                   groupId:
                     description: '(Number) The numeric identifier of the group type.
                       Valid values are 1, 2, or 3 :'
-                    type: number
+                    format: int64
+                    type: integer
                   groupName:
                     description: (String) The name of the group member entity.
                     type: string
@@ -198,7 +200,8 @@ spec:
                   groupId:
                     description: '(Number) The numeric identifier of the group type.
                       Valid values are 1, 2, or 3 :'
-                    type: number
+                    format: int64
+                    type: integer
                   groupName:
                     description: (String) The name of the group member entity.
                     type: string
@@ -211,7 +214,8 @@ spec:
                     type: string
                   memberId:
                     description: (Number)
-                    type: number
+                    format: int64
+                    type: integer
                   projectId:
                     description: (String) The project id of the project that the entity
                       will have access to.

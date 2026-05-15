@@ -145,7 +145,7 @@ func (in *AccountInitParameters) DeepCopyInto(out *AccountInitParameters) {
 	}
 	if in.Duration != nil {
 		in, out := &in.Duration, &out.Duration
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Level != nil {
@@ -177,7 +177,7 @@ func (in *AccountInitParameters) DeepCopyInto(out *AccountInitParameters) {
 	}
 	if in.SecretWoVersion != nil {
 		in, out := &in.SecretWoVersion, &out.SecretWoVersion
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -239,7 +239,7 @@ func (in *AccountObservation) DeepCopyInto(out *AccountObservation) {
 	}
 	if in.Duration != nil {
 		in, out := &in.Duration, &out.Duration
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.FullName != nil {
@@ -281,7 +281,7 @@ func (in *AccountObservation) DeepCopyInto(out *AccountObservation) {
 	}
 	if in.SecretWoVersion != nil {
 		in, out := &in.SecretWoVersion, &out.SecretWoVersion
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -311,7 +311,7 @@ func (in *AccountParameters) DeepCopyInto(out *AccountParameters) {
 	}
 	if in.Duration != nil {
 		in, out := &in.Duration, &out.Duration
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Level != nil {
@@ -343,7 +343,7 @@ func (in *AccountParameters) DeepCopyInto(out *AccountParameters) {
 	}
 	if in.SecretWoVersion != nil {
 		in, out := &in.SecretWoVersion, &out.SecretWoVersion
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }

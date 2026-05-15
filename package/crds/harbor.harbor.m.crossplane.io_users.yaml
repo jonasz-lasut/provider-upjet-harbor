@@ -92,7 +92,8 @@ spec:
                   passwordWoVersion:
                     description: only password updates. Must be used together with
                       password_wo.
-                    type: number
+                    format: int64
+                    type: integer
                   username:
                     description: (String) The username of the internal user.
                     type: string
@@ -144,7 +145,8 @@ spec:
                   passwordWoVersion:
                     description: only password updates. Must be used together with
                       password_wo.
-                    type: number
+                    format: int64
+                    type: integer
                   username:
                     description: (String) The username of the internal user.
                     type: string
@@ -249,7 +251,8 @@ spec:
                   passwordWoVersion:
                     description: only password updates. Must be used together with
                       password_wo.
-                    type: number
+                    format: int64
+                    type: integer
                   username:
                     description: (String) The username of the internal user.
                     type: string

@@ -67,7 +67,8 @@ spec:
                     description: (Number) The time for expiration of the allowlist,
                       in the form of seconds since epoch. This is an optional attribute,
                       if it's not set the CVE allowlist does not expire.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               initProvider:
                 description: |-
@@ -91,7 +92,8 @@ spec:
                     description: (Number) The time for expiration of the allowlist,
                       in the form of seconds since epoch. This is an optional attribute,
                       if it's not set the CVE allowlist does not expire.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               managementPolicies:
                 default:
@@ -173,7 +175,8 @@ spec:
                     description: (Number) The time for expiration of the allowlist,
                       in the form of seconds since epoch. This is an optional attribute,
                       if it's not set the CVE allowlist does not expire.
-                    type: number
+                    format: int64
+                    type: integer
                   id:
                     description: (String) The ID of this resource.
                     type: string

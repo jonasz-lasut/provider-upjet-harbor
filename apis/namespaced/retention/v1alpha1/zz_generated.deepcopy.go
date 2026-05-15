@@ -222,22 +222,22 @@ func (in *RuleInitParameters) DeepCopyInto(out *RuleInitParameters) {
 	}
 	if in.MostRecentlyPulled != nil {
 		in, out := &in.MostRecentlyPulled, &out.MostRecentlyPulled
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.MostRecentlyPushed != nil {
 		in, out := &in.MostRecentlyPushed, &out.MostRecentlyPushed
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.NDaysSinceLastPull != nil {
 		in, out := &in.NDaysSinceLastPull, &out.NDaysSinceLastPull
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.NDaysSinceLastPush != nil {
 		in, out := &in.NDaysSinceLastPush, &out.NDaysSinceLastPush
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RepoExcluding != nil {
@@ -292,22 +292,22 @@ func (in *RuleObservation) DeepCopyInto(out *RuleObservation) {
 	}
 	if in.MostRecentlyPulled != nil {
 		in, out := &in.MostRecentlyPulled, &out.MostRecentlyPulled
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.MostRecentlyPushed != nil {
 		in, out := &in.MostRecentlyPushed, &out.MostRecentlyPushed
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.NDaysSinceLastPull != nil {
 		in, out := &in.NDaysSinceLastPull, &out.NDaysSinceLastPull
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.NDaysSinceLastPush != nil {
 		in, out := &in.NDaysSinceLastPush, &out.NDaysSinceLastPush
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RepoExcluding != nil {
@@ -362,22 +362,22 @@ func (in *RuleParameters) DeepCopyInto(out *RuleParameters) {
 	}
 	if in.MostRecentlyPulled != nil {
 		in, out := &in.MostRecentlyPulled, &out.MostRecentlyPulled
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.MostRecentlyPushed != nil {
 		in, out := &in.MostRecentlyPushed, &out.MostRecentlyPushed
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.NDaysSinceLastPull != nil {
 		in, out := &in.NDaysSinceLastPull, &out.NDaysSinceLastPull
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.NDaysSinceLastPush != nil {
 		in, out := &in.NDaysSinceLastPush, &out.NDaysSinceLastPush
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.RepoExcluding != nil {

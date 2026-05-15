@@ -188,7 +188,7 @@ func (in *GroupInitParameters) DeepCopyInto(out *GroupInitParameters) {
 	}
 	if in.GroupType != nil {
 		in, out := &in.GroupType, &out.GroupType
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.LdapGroupDn != nil {
@@ -250,7 +250,7 @@ func (in *GroupObservation) DeepCopyInto(out *GroupObservation) {
 	}
 	if in.GroupType != nil {
 		in, out := &in.GroupType, &out.GroupType
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ID != nil {
@@ -285,7 +285,7 @@ func (in *GroupParameters) DeepCopyInto(out *GroupParameters) {
 	}
 	if in.GroupType != nil {
 		in, out := &in.GroupType, &out.GroupType
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.LdapGroupDn != nil {
@@ -602,7 +602,7 @@ func (in *ProjectInitParameters) DeepCopyInto(out *ProjectInitParameters) {
 	}
 	if in.ProxySpeedKb != nil {
 		in, out := &in.ProxySpeedKb, &out.ProxySpeedKb
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Public != nil {
@@ -612,12 +612,12 @@ func (in *ProjectInitParameters) DeepCopyInto(out *ProjectInitParameters) {
 	}
 	if in.RegistryID != nil {
 		in, out := &in.RegistryID, &out.RegistryID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.StorageQuota != nil {
 		in, out := &in.StorageQuota, &out.StorageQuota
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.VulnerabilityScanner != nil {
@@ -720,12 +720,12 @@ func (in *ProjectObservation) DeepCopyInto(out *ProjectObservation) {
 	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProxySpeedKb != nil {
 		in, out := &in.ProxySpeedKb, &out.ProxySpeedKb
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Public != nil {
@@ -735,12 +735,12 @@ func (in *ProjectObservation) DeepCopyInto(out *ProjectObservation) {
 	}
 	if in.RegistryID != nil {
 		in, out := &in.RegistryID, &out.RegistryID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.StorageQuota != nil {
 		in, out := &in.StorageQuota, &out.StorageQuota
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.VulnerabilityScanner != nil {
@@ -806,7 +806,7 @@ func (in *ProjectParameters) DeepCopyInto(out *ProjectParameters) {
 	}
 	if in.ProxySpeedKb != nil {
 		in, out := &in.ProxySpeedKb, &out.ProxySpeedKb
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Public != nil {
@@ -816,12 +816,12 @@ func (in *ProjectParameters) DeepCopyInto(out *ProjectParameters) {
 	}
 	if in.RegistryID != nil {
 		in, out := &in.RegistryID, &out.RegistryID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.StorageQuota != nil {
 		in, out := &in.StorageQuota, &out.StorageQuota
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.VulnerabilityScanner != nil {
@@ -1030,7 +1030,7 @@ func (in *RegistryObservation) DeepCopyInto(out *RegistryObservation) {
 	}
 	if in.RegistryID != nil {
 		in, out := &in.RegistryID, &out.RegistryID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Status != nil {
@@ -1192,7 +1192,7 @@ func (in *ReplicationInitParameters) DeepCopyInto(out *ReplicationInitParameters
 	}
 	if in.DestNamespaceReplace != nil {
 		in, out := &in.DestNamespaceReplace, &out.DestNamespaceReplace
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Enabled != nil {
@@ -1219,7 +1219,7 @@ func (in *ReplicationInitParameters) DeepCopyInto(out *ReplicationInitParameters
 	}
 	if in.RegistryID != nil {
 		in, out := &in.RegistryID, &out.RegistryID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Schedule != nil {
@@ -1234,7 +1234,7 @@ func (in *ReplicationInitParameters) DeepCopyInto(out *ReplicationInitParameters
 	}
 	if in.Speed != nil {
 		in, out := &in.Speed, &out.Speed
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1311,7 +1311,7 @@ func (in *ReplicationObservation) DeepCopyInto(out *ReplicationObservation) {
 	}
 	if in.DestNamespaceReplace != nil {
 		in, out := &in.DestNamespaceReplace, &out.DestNamespaceReplace
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Enabled != nil {
@@ -1343,12 +1343,12 @@ func (in *ReplicationObservation) DeepCopyInto(out *ReplicationObservation) {
 	}
 	if in.RegistryID != nil {
 		in, out := &in.RegistryID, &out.RegistryID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ReplicationPolicyID != nil {
 		in, out := &in.ReplicationPolicyID, &out.ReplicationPolicyID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Schedule != nil {
@@ -1363,7 +1363,7 @@ func (in *ReplicationObservation) DeepCopyInto(out *ReplicationObservation) {
 	}
 	if in.Speed != nil {
 		in, out := &in.Speed, &out.Speed
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1408,7 +1408,7 @@ func (in *ReplicationParameters) DeepCopyInto(out *ReplicationParameters) {
 	}
 	if in.DestNamespaceReplace != nil {
 		in, out := &in.DestNamespaceReplace, &out.DestNamespaceReplace
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Enabled != nil {
@@ -1435,7 +1435,7 @@ func (in *ReplicationParameters) DeepCopyInto(out *ReplicationParameters) {
 	}
 	if in.RegistryID != nil {
 		in, out := &in.RegistryID, &out.RegistryID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Schedule != nil {
@@ -1450,7 +1450,7 @@ func (in *ReplicationParameters) DeepCopyInto(out *ReplicationParameters) {
 	}
 	if in.Speed != nil {
 		in, out := &in.Speed, &out.Speed
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1721,7 +1721,7 @@ func (in *UserInitParameters) DeepCopyInto(out *UserInitParameters) {
 	}
 	if in.PasswordWoVersion != nil {
 		in, out := &in.PasswordWoVersion, &out.PasswordWoVersion
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Username != nil {
@@ -1808,7 +1808,7 @@ func (in *UserObservation) DeepCopyInto(out *UserObservation) {
 	}
 	if in.PasswordWoVersion != nil {
 		in, out := &in.PasswordWoVersion, &out.PasswordWoVersion
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Username != nil {
@@ -1863,7 +1863,7 @@ func (in *UserParameters) DeepCopyInto(out *UserParameters) {
 	}
 	if in.PasswordWoVersion != nil {
 		in, out := &in.PasswordWoVersion, &out.PasswordWoVersion
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.Username != nil {

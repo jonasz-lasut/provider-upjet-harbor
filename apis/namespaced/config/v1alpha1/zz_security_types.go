@@ -20,7 +20,7 @@ type SecurityInitParameters struct {
 	CveAllowlist []*string `json:"cveAllowlist,omitempty" tf:"cve_allowlist,omitempty"`
 
 	// (Number) The time for expiration of the allowlist, in the form of seconds since epoch. This is an optional attribute, if it's not set the CVE allowlist does not expire.
-	ExpiresAt *float64 `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
+	ExpiresAt *int64 `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
 }
 
 type SecurityObservation struct {
@@ -32,7 +32,7 @@ type SecurityObservation struct {
 	CveAllowlist []*string `json:"cveAllowlist,omitempty" tf:"cve_allowlist,omitempty"`
 
 	// (Number) The time for expiration of the allowlist, in the form of seconds since epoch. This is an optional attribute, if it's not set the CVE allowlist does not expire.
-	ExpiresAt *float64 `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
+	ExpiresAt *int64 `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
 
 	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -49,7 +49,7 @@ type SecurityParameters struct {
 
 	// (Number) The time for expiration of the allowlist, in the form of seconds since epoch. This is an optional attribute, if it's not set the CVE allowlist does not expire.
 	// +kubebuilder:validation:Optional
-	ExpiresAt *float64 `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
+	ExpiresAt *int64 `json:"expiresAt,omitempty" tf:"expires_at,omitempty"`
 }
 
 // SecuritySpec defines the desired state of Security

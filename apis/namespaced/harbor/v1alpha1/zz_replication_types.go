@@ -91,7 +91,7 @@ type ReplicationInitParameters struct {
 	DestNamespace *string `json:"destNamespace,omitempty" tf:"dest_namespace,omitempty"`
 
 	// 1 to 3 are valid values in the harbor API. A value of -1 will 'Flatten All Levels', 0 means 'No Flattening', 1 'Flatten 1 Level', 2 'Flatten 2 Levels', 3 'Flatten 3 Levels' (Default: 0, see Replication Rules for more details)
-	DestNamespaceReplace *float64 `json:"destNamespaceReplace,omitempty" tf:"dest_namespace_replace,omitempty"`
+	DestNamespaceReplace *int64 `json:"destNamespaceReplace,omitempty" tf:"dest_namespace_replace,omitempty"`
 
 	// (Boolean) Specify whether the replication is enabled. (Default: true)
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
@@ -106,7 +106,7 @@ type ReplicationInitParameters struct {
 	Override *bool `json:"override,omitempty" tf:"override,omitempty"`
 
 	// (Number) The registry ID of the Registry Endpoint.
-	RegistryID *float64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
 
 	// (String) The scheduled time of when the container register will be push / pull. In cron base format. Hourly "0 0 * * * *", Daily "0 0 0 * * *", Monthly "0 0 0 * * 0". Can be one of the following: event_based, manual, cron format (Default: manual)
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
@@ -115,7 +115,7 @@ type ReplicationInitParameters struct {
 	SingleActiveReplication *bool `json:"singleActiveReplication,omitempty" tf:"single_active_replication,omitempty"`
 
 	// 1 (unlimited).
-	Speed *float64 `json:"speed,omitempty" tf:"speed,omitempty"`
+	Speed *int64 `json:"speed,omitempty" tf:"speed,omitempty"`
 }
 
 type ReplicationObservation struct {
@@ -136,7 +136,7 @@ type ReplicationObservation struct {
 	DestNamespace *string `json:"destNamespace,omitempty" tf:"dest_namespace,omitempty"`
 
 	// 1 to 3 are valid values in the harbor API. A value of -1 will 'Flatten All Levels', 0 means 'No Flattening', 1 'Flatten 1 Level', 2 'Flatten 2 Levels', 3 'Flatten 3 Levels' (Default: 0, see Replication Rules for more details)
-	DestNamespaceReplace *float64 `json:"destNamespaceReplace,omitempty" tf:"dest_namespace_replace,omitempty"`
+	DestNamespaceReplace *int64 `json:"destNamespaceReplace,omitempty" tf:"dest_namespace_replace,omitempty"`
 
 	// (Boolean) Specify whether the replication is enabled. (Default: true)
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
@@ -154,10 +154,10 @@ type ReplicationObservation struct {
 	Override *bool `json:"override,omitempty" tf:"override,omitempty"`
 
 	// (Number) The registry ID of the Registry Endpoint.
-	RegistryID *float64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
 
 	// (Number)
-	ReplicationPolicyID *float64 `json:"replicationPolicyId,omitempty" tf:"replication_policy_id,omitempty"`
+	ReplicationPolicyID *int64 `json:"replicationPolicyId,omitempty" tf:"replication_policy_id,omitempty"`
 
 	// (String) The scheduled time of when the container register will be push / pull. In cron base format. Hourly "0 0 * * * *", Daily "0 0 0 * * *", Monthly "0 0 0 * * 0". Can be one of the following: event_based, manual, cron format (Default: manual)
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
@@ -166,7 +166,7 @@ type ReplicationObservation struct {
 	SingleActiveReplication *bool `json:"singleActiveReplication,omitempty" tf:"single_active_replication,omitempty"`
 
 	// 1 (unlimited).
-	Speed *float64 `json:"speed,omitempty" tf:"speed,omitempty"`
+	Speed *int64 `json:"speed,omitempty" tf:"speed,omitempty"`
 }
 
 type ReplicationParameters struct {
@@ -193,7 +193,7 @@ type ReplicationParameters struct {
 
 	// 1 to 3 are valid values in the harbor API. A value of -1 will 'Flatten All Levels', 0 means 'No Flattening', 1 'Flatten 1 Level', 2 'Flatten 2 Levels', 3 'Flatten 3 Levels' (Default: 0, see Replication Rules for more details)
 	// +kubebuilder:validation:Optional
-	DestNamespaceReplace *float64 `json:"destNamespaceReplace,omitempty" tf:"dest_namespace_replace,omitempty"`
+	DestNamespaceReplace *int64 `json:"destNamespaceReplace,omitempty" tf:"dest_namespace_replace,omitempty"`
 
 	// (Boolean) Specify whether the replication is enabled. (Default: true)
 	// +kubebuilder:validation:Optional
@@ -213,7 +213,7 @@ type ReplicationParameters struct {
 
 	// (Number) The registry ID of the Registry Endpoint.
 	// +kubebuilder:validation:Optional
-	RegistryID *float64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
 
 	// (String) The scheduled time of when the container register will be push / pull. In cron base format. Hourly "0 0 * * * *", Daily "0 0 0 * * *", Monthly "0 0 0 * * 0". Can be one of the following: event_based, manual, cron format (Default: manual)
 	// +kubebuilder:validation:Optional
@@ -225,7 +225,7 @@ type ReplicationParameters struct {
 
 	// 1 (unlimited).
 	// +kubebuilder:validation:Optional
-	Speed *float64 `json:"speed,omitempty" tf:"speed,omitempty"`
+	Speed *int64 `json:"speed,omitempty" tf:"speed,omitempty"`
 }
 
 // ReplicationSpec defines the desired state of Replication

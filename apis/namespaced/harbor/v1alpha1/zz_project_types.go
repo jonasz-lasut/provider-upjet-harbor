@@ -35,16 +35,16 @@ type ProjectInitParameters struct {
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
 	// 1)
-	ProxySpeedKb *float64 `json:"proxySpeedKb,omitempty" tf:"proxy_speed_kb,omitempty"`
+	ProxySpeedKb *int64 `json:"proxySpeedKb,omitempty" tf:"proxy_speed_kb,omitempty"`
 
 	// (Boolean) The project will be public accessibility.(Default: false)
 	Public *bool `json:"public,omitempty" tf:"public,omitempty"`
 
 	// (Number) To enable project as Proxy Cache.
-	RegistryID *float64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
 
 	// (Number) The storage quota of the project in GB's.
-	StorageQuota *float64 `json:"storageQuota,omitempty" tf:"storage_quota,omitempty"`
+	StorageQuota *int64 `json:"storageQuota,omitempty" tf:"storage_quota,omitempty"`
 
 	// (String) The name of the vulnerability scanner to use for this project, overriding the global default scanner. If not set, the project uses the global default scanner configured via harbor_interrogation_services.
 	VulnerabilityScanner *string `json:"vulnerabilityScanner,omitempty" tf:"vulnerability_scanner,omitempty"`
@@ -77,19 +77,19 @@ type ProjectObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// (Number) The project id of this resource.
-	ProjectID *float64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
+	ProjectID *int64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// 1)
-	ProxySpeedKb *float64 `json:"proxySpeedKb,omitempty" tf:"proxy_speed_kb,omitempty"`
+	ProxySpeedKb *int64 `json:"proxySpeedKb,omitempty" tf:"proxy_speed_kb,omitempty"`
 
 	// (Boolean) The project will be public accessibility.(Default: false)
 	Public *bool `json:"public,omitempty" tf:"public,omitempty"`
 
 	// (Number) To enable project as Proxy Cache.
-	RegistryID *float64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
 
 	// (Number) The storage quota of the project in GB's.
-	StorageQuota *float64 `json:"storageQuota,omitempty" tf:"storage_quota,omitempty"`
+	StorageQuota *int64 `json:"storageQuota,omitempty" tf:"storage_quota,omitempty"`
 
 	// (String) The name of the vulnerability scanner to use for this project, overriding the global default scanner. If not set, the project uses the global default scanner configured via harbor_interrogation_services.
 	VulnerabilityScanner *string `json:"vulnerabilityScanner,omitempty" tf:"vulnerability_scanner,omitempty"`
@@ -126,7 +126,7 @@ type ProjectParameters struct {
 
 	// 1)
 	// +kubebuilder:validation:Optional
-	ProxySpeedKb *float64 `json:"proxySpeedKb,omitempty" tf:"proxy_speed_kb,omitempty"`
+	ProxySpeedKb *int64 `json:"proxySpeedKb,omitempty" tf:"proxy_speed_kb,omitempty"`
 
 	// (Boolean) The project will be public accessibility.(Default: false)
 	// +kubebuilder:validation:Optional
@@ -134,11 +134,11 @@ type ProjectParameters struct {
 
 	// (Number) To enable project as Proxy Cache.
 	// +kubebuilder:validation:Optional
-	RegistryID *float64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
 
 	// (Number) The storage quota of the project in GB's.
 	// +kubebuilder:validation:Optional
-	StorageQuota *float64 `json:"storageQuota,omitempty" tf:"storage_quota,omitempty"`
+	StorageQuota *int64 `json:"storageQuota,omitempty" tf:"storage_quota,omitempty"`
 
 	// (String) The name of the vulnerability scanner to use for this project, overriding the global default scanner. If not set, the project uses the global default scanner configured via harbor_interrogation_services.
 	// +kubebuilder:validation:Optional

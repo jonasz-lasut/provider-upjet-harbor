@@ -23,7 +23,7 @@ type CollectionInitParameters struct {
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
 	// (Number) Number of workers to run the garbage collection, value must be greater than or equal to one. Harbor limits the number of concurrent workers internally, setting this value higher than what Harbor supports will result in an error.
-	Workers *float64 `json:"workers,omitempty" tf:"workers,omitempty"`
+	Workers *int64 `json:"workers,omitempty" tf:"workers,omitempty"`
 }
 
 type CollectionObservation struct {
@@ -38,7 +38,7 @@ type CollectionObservation struct {
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
 	// (Number) Number of workers to run the garbage collection, value must be greater than or equal to one. Harbor limits the number of concurrent workers internally, setting this value higher than what Harbor supports will result in an error.
-	Workers *float64 `json:"workers,omitempty" tf:"workers,omitempty"`
+	Workers *int64 `json:"workers,omitempty" tf:"workers,omitempty"`
 }
 
 type CollectionParameters struct {
@@ -53,7 +53,7 @@ type CollectionParameters struct {
 
 	// (Number) Number of workers to run the garbage collection, value must be greater than or equal to one. Harbor limits the number of concurrent workers internally, setting this value higher than what Harbor supports will result in an error.
 	// +kubebuilder:validation:Optional
-	Workers *float64 `json:"workers,omitempty" tf:"workers,omitempty"`
+	Workers *int64 `json:"workers,omitempty" tf:"workers,omitempty"`
 }
 
 // CollectionSpec defines the desired state of Collection

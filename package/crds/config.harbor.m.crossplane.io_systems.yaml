@@ -104,7 +104,8 @@ spec:
                   robotTokenExpiration:
                     description: (Number) The amount of time in days a robot account
                       will expire.
-                    type: number
+                    format: int64
+                    type: integer
                   scannerSkipUpdatePulltime:
                     description: (Boolean) Whether or not to skip update pull time
                       for scanner.
@@ -114,7 +115,8 @@ spec:
                     type: boolean
                   storagePerProject:
                     description: 1 (unlimited).
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               initProvider:
                 description: |-
@@ -175,7 +177,8 @@ spec:
                   robotTokenExpiration:
                     description: (Number) The amount of time in days a robot account
                       will expire.
-                    type: number
+                    format: int64
+                    type: integer
                   scannerSkipUpdatePulltime:
                     description: (Boolean) Whether or not to skip update pull time
                       for scanner.
@@ -185,7 +188,8 @@ spec:
                     type: boolean
                   storagePerProject:
                     description: 1 (unlimited).
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               managementPolicies:
                 default:
@@ -299,7 +303,8 @@ spec:
                   robotTokenExpiration:
                     description: (Number) The amount of time in days a robot account
                       will expire.
-                    type: number
+                    format: int64
+                    type: integer
                   scannerSkipUpdatePulltime:
                     description: (Boolean) Whether or not to skip update pull time
                       for scanner.
@@ -309,7 +314,8 @@ spec:
                     type: boolean
                   storagePerProject:
                     description: 1 (unlimited).
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               conditions:
                 description: Conditions of the resource.

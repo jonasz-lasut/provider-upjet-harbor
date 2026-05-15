@@ -17,7 +17,7 @@ import (
 type AuditLogInitParameters struct {
 
 	// (Number) To configure how long audit logs should be kept. For example, if you set this to 24 Harbor will only purge audit logs that are 24 or more hours old.
-	AuditRetentionHour *float64 `json:"auditRetentionHour,omitempty" tf:"audit_retention_hour,omitempty"`
+	AuditRetentionHour *int64 `json:"auditRetentionHour,omitempty" tf:"audit_retention_hour,omitempty"`
 
 	// (String) Valid values are create, push, pull, delete, create_artifact, delete_artifact, pull_artifact, other, those values can be comma separated. Harbor will include audit logs for those events in the purge (minimal version Harbor 2.13).
 	IncludeEventTypes *string `json:"includeEventTypes,omitempty" tf:"include_event_types,omitempty"`
@@ -32,7 +32,7 @@ type AuditLogInitParameters struct {
 type AuditLogObservation struct {
 
 	// (Number) To configure how long audit logs should be kept. For example, if you set this to 24 Harbor will only purge audit logs that are 24 or more hours old.
-	AuditRetentionHour *float64 `json:"auditRetentionHour,omitempty" tf:"audit_retention_hour,omitempty"`
+	AuditRetentionHour *int64 `json:"auditRetentionHour,omitempty" tf:"audit_retention_hour,omitempty"`
 
 	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -51,7 +51,7 @@ type AuditLogParameters struct {
 
 	// (Number) To configure how long audit logs should be kept. For example, if you set this to 24 Harbor will only purge audit logs that are 24 or more hours old.
 	// +kubebuilder:validation:Optional
-	AuditRetentionHour *float64 `json:"auditRetentionHour,omitempty" tf:"audit_retention_hour,omitempty"`
+	AuditRetentionHour *int64 `json:"auditRetentionHour,omitempty" tf:"audit_retention_hour,omitempty"`
 
 	// (String) Valid values are create, push, pull, delete, create_artifact, delete_artifact, pull_artifact, other, those values can be comma separated. Harbor will include audit logs for those events in the purge (minimal version Harbor 2.13).
 	// +kubebuilder:validation:Optional

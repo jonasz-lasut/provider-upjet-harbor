@@ -90,17 +90,20 @@ spec:
                     type: boolean
                   proxySpeedKb:
                     description: 1)
-                    type: number
+                    format: int64
+                    type: integer
                   public:
                     description: '(Boolean) The project will be public accessibility.(Default:
                       false)'
                     type: boolean
                   registryId:
                     description: (Number) To enable project as Proxy Cache.
-                    type: number
+                    format: int64
+                    type: integer
                   storageQuota:
                     description: (Number) The storage quota of the project in GB's.
-                    type: number
+                    format: int64
+                    type: integer
                   vulnerabilityScanner:
                     description: (String) The name of the vulnerability scanner to
                       use for this project, overriding the global default scanner.
@@ -157,17 +160,20 @@ spec:
                     type: boolean
                   proxySpeedKb:
                     description: 1)
-                    type: number
+                    format: int64
+                    type: integer
                   public:
                     description: '(Boolean) The project will be public accessibility.(Default:
                       false)'
                     type: boolean
                   registryId:
                     description: (Number) To enable project as Proxy Cache.
-                    type: number
+                    format: int64
+                    type: integer
                   storageQuota:
                     description: (Number) The storage quota of the project in GB's.
-                    type: number
+                    format: int64
+                    type: integer
                   vulnerabilityScanner:
                     description: (String) The name of the vulnerability scanner to
                       use for this project, overriding the global default scanner.
@@ -277,20 +283,24 @@ spec:
                     type: string
                   projectId:
                     description: (Number) The project id of this resource.
-                    type: number
+                    format: int64
+                    type: integer
                   proxySpeedKb:
                     description: 1)
-                    type: number
+                    format: int64
+                    type: integer
                   public:
                     description: '(Boolean) The project will be public accessibility.(Default:
                       false)'
                     type: boolean
                   registryId:
                     description: (Number) To enable project as Proxy Cache.
-                    type: number
+                    format: int64
+                    type: integer
                   storageQuota:
                     description: (Number) The storage quota of the project in GB's.
-                    type: number
+                    format: int64
+                    type: integer
                   vulnerabilityScanner:
                     description: (String) The name of the vulnerability scanner to
                       use for this project, overriding the global default scanner.

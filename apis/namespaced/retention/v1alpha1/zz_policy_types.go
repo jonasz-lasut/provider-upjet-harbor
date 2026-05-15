@@ -65,16 +65,16 @@ type RuleInitParameters struct {
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// (Number) retain the most recently pulled n artifacts.
-	MostRecentlyPulled *float64 `json:"mostRecentlyPulled,omitempty" tf:"most_recently_pulled,omitempty"`
+	MostRecentlyPulled *int64 `json:"mostRecentlyPulled,omitempty" tf:"most_recently_pulled,omitempty"`
 
 	// (Number) retain the most recently pushed n artifacts.
-	MostRecentlyPushed *float64 `json:"mostRecentlyPushed,omitempty" tf:"most_recently_pushed,omitempty"`
+	MostRecentlyPushed *int64 `json:"mostRecentlyPushed,omitempty" tf:"most_recently_pushed,omitempty"`
 
 	// (Number) retains the artifacts pulled within the lasts n days.
-	NDaysSinceLastPull *float64 `json:"nDaysSinceLastPull,omitempty" tf:"n_days_since_last_pull,omitempty"`
+	NDaysSinceLastPull *int64 `json:"nDaysSinceLastPull,omitempty" tf:"n_days_since_last_pull,omitempty"`
 
 	// (Number) retains the artifacts pushed within the lasts n days.
-	NDaysSinceLastPush *float64 `json:"nDaysSinceLastPush,omitempty" tf:"n_days_since_last_push,omitempty"`
+	NDaysSinceLastPush *int64 `json:"nDaysSinceLastPush,omitempty" tf:"n_days_since_last_push,omitempty"`
 
 	// (String) For the repositories excluding.
 	RepoExcluding *string `json:"repoExcluding,omitempty" tf:"repo_excluding,omitempty"`
@@ -101,16 +101,16 @@ type RuleObservation struct {
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// (Number) retain the most recently pulled n artifacts.
-	MostRecentlyPulled *float64 `json:"mostRecentlyPulled,omitempty" tf:"most_recently_pulled,omitempty"`
+	MostRecentlyPulled *int64 `json:"mostRecentlyPulled,omitempty" tf:"most_recently_pulled,omitempty"`
 
 	// (Number) retain the most recently pushed n artifacts.
-	MostRecentlyPushed *float64 `json:"mostRecentlyPushed,omitempty" tf:"most_recently_pushed,omitempty"`
+	MostRecentlyPushed *int64 `json:"mostRecentlyPushed,omitempty" tf:"most_recently_pushed,omitempty"`
 
 	// (Number) retains the artifacts pulled within the lasts n days.
-	NDaysSinceLastPull *float64 `json:"nDaysSinceLastPull,omitempty" tf:"n_days_since_last_pull,omitempty"`
+	NDaysSinceLastPull *int64 `json:"nDaysSinceLastPull,omitempty" tf:"n_days_since_last_pull,omitempty"`
 
 	// (Number) retains the artifacts pushed within the lasts n days.
-	NDaysSinceLastPush *float64 `json:"nDaysSinceLastPush,omitempty" tf:"n_days_since_last_push,omitempty"`
+	NDaysSinceLastPush *int64 `json:"nDaysSinceLastPush,omitempty" tf:"n_days_since_last_push,omitempty"`
 
 	// (String) For the repositories excluding.
 	RepoExcluding *string `json:"repoExcluding,omitempty" tf:"repo_excluding,omitempty"`
@@ -140,19 +140,19 @@ type RuleParameters struct {
 
 	// (Number) retain the most recently pulled n artifacts.
 	// +kubebuilder:validation:Optional
-	MostRecentlyPulled *float64 `json:"mostRecentlyPulled,omitempty" tf:"most_recently_pulled,omitempty"`
+	MostRecentlyPulled *int64 `json:"mostRecentlyPulled,omitempty" tf:"most_recently_pulled,omitempty"`
 
 	// (Number) retain the most recently pushed n artifacts.
 	// +kubebuilder:validation:Optional
-	MostRecentlyPushed *float64 `json:"mostRecentlyPushed,omitempty" tf:"most_recently_pushed,omitempty"`
+	MostRecentlyPushed *int64 `json:"mostRecentlyPushed,omitempty" tf:"most_recently_pushed,omitempty"`
 
 	// (Number) retains the artifacts pulled within the lasts n days.
 	// +kubebuilder:validation:Optional
-	NDaysSinceLastPull *float64 `json:"nDaysSinceLastPull,omitempty" tf:"n_days_since_last_pull,omitempty"`
+	NDaysSinceLastPull *int64 `json:"nDaysSinceLastPull,omitempty" tf:"n_days_since_last_pull,omitempty"`
 
 	// (Number) retains the artifacts pushed within the lasts n days.
 	// +kubebuilder:validation:Optional
-	NDaysSinceLastPush *float64 `json:"nDaysSinceLastPush,omitempty" tf:"n_days_since_last_push,omitempty"`
+	NDaysSinceLastPush *int64 `json:"nDaysSinceLastPush,omitempty" tf:"n_days_since_last_push,omitempty"`
 
 	// (String) For the repositories excluding.
 	// +kubebuilder:validation:Optional

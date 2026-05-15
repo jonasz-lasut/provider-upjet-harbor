@@ -176,7 +176,8 @@ spec:
                     type: string
                   memberId:
                     description: (Number) The member id of the member.
-                    type: number
+                    format: int64
+                    type: integer
                   projectId:
                     description: (String) The project id of the project that the entity
                       will have access to.

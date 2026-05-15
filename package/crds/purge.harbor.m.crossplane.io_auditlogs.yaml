@@ -62,7 +62,8 @@ spec:
                     description: (Number) To configure how long audit logs should
                       be kept. For example, if you set this to 24 Harbor will only
                       purge audit logs that are 24 or more hours old.
-                    type: number
+                    format: int64
+                    type: integer
                   includeEventTypes:
                     description: (String) Valid values are create, push, pull, delete,
                       create_artifact, delete_artifact, pull_artifact, other, those
@@ -98,7 +99,8 @@ spec:
                     description: (Number) To configure how long audit logs should
                       be kept. For example, if you set this to 24 Harbor will only
                       purge audit logs that are 24 or more hours old.
-                    type: number
+                    format: int64
+                    type: integer
                   includeEventTypes:
                     description: (String) Valid values are create, push, pull, delete,
                       create_artifact, delete_artifact, pull_artifact, other, those
@@ -193,7 +195,8 @@ spec:
                     description: (Number) To configure how long audit logs should
                       be kept. For example, if you set this to 24 Harbor will only
                       purge audit logs that are 24 or more hours old.
-                    type: number
+                    format: int64
+                    type: integer
                   id:
                     description: (String) The ID of this resource.
                     type: string

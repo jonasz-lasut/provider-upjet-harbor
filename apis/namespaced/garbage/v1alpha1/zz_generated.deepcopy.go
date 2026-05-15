@@ -54,7 +54,7 @@ func (in *CollectionInitParameters) DeepCopyInto(out *CollectionInitParameters) 
 	}
 	if in.Workers != nil {
 		in, out := &in.Workers, &out.Workers
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -121,7 +121,7 @@ func (in *CollectionObservation) DeepCopyInto(out *CollectionObservation) {
 	}
 	if in.Workers != nil {
 		in, out := &in.Workers, &out.Workers
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -151,7 +151,7 @@ func (in *CollectionParameters) DeepCopyInto(out *CollectionParameters) {
 	}
 	if in.Workers != nil {
 		in, out := &in.Workers, &out.Workers
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }

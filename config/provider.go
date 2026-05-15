@@ -39,6 +39,7 @@ func GetProvider(_ context.Context, sdkProvider *schema.Provider) (*ujconfig.Pro
 		[]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithRootGroup("harbor.crossplane.io"),
 		ujconfig.WithIncludeList([]string{}),
+		ujconfig.WithTerraformPluginSDKIncludeList([]string{}),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithTerraformProvider(sdkProvider),
 		ujconfig.WithDefaultResourceOptions(ExternalNameConfigurations()),
@@ -53,7 +54,8 @@ func GetProviderNamespaced(_ context.Context, sdkProvider *schema.Provider) (*uj
 	pc := ujconfig.NewProvider(
 		[]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithRootGroup("harbor.m.crossplane.io"),
-		ujconfig.WithIncludeList([]string{".*$"}),
+		ujconfig.WithIncludeList([]string{}),
+		ujconfig.WithTerraformPluginSDKIncludeList([]string{".*$"}),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithTerraformProvider(sdkProvider),
 		ujconfig.WithDefaultResourceOptions(ExternalNameConfigurations()),

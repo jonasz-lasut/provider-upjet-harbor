@@ -745,7 +745,7 @@ func (in *SecurityInitParameters) DeepCopyInto(out *SecurityInitParameters) {
 	}
 	if in.ExpiresAt != nil {
 		in, out := &in.ExpiresAt, &out.ExpiresAt
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -813,7 +813,7 @@ func (in *SecurityObservation) DeepCopyInto(out *SecurityObservation) {
 	}
 	if in.ExpiresAt != nil {
 		in, out := &in.ExpiresAt, &out.ExpiresAt
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ID != nil {
@@ -854,7 +854,7 @@ func (in *SecurityParameters) DeepCopyInto(out *SecurityParameters) {
 	}
 	if in.ExpiresAt != nil {
 		in, out := &in.ExpiresAt, &out.ExpiresAt
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -968,7 +968,7 @@ func (in *SystemInitParameters) DeepCopyInto(out *SystemInitParameters) {
 	}
 	if in.RobotTokenExpiration != nil {
 		in, out := &in.RobotTokenExpiration, &out.RobotTokenExpiration
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ScannerSkipUpdatePulltime != nil {
@@ -983,7 +983,7 @@ func (in *SystemInitParameters) DeepCopyInto(out *SystemInitParameters) {
 	}
 	if in.StoragePerProject != nil {
 		in, out := &in.StoragePerProject, &out.StoragePerProject
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1072,7 +1072,7 @@ func (in *SystemObservation) DeepCopyInto(out *SystemObservation) {
 	}
 	if in.RobotTokenExpiration != nil {
 		in, out := &in.RobotTokenExpiration, &out.RobotTokenExpiration
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ScannerSkipUpdatePulltime != nil {
@@ -1087,7 +1087,7 @@ func (in *SystemObservation) DeepCopyInto(out *SystemObservation) {
 	}
 	if in.StoragePerProject != nil {
 		in, out := &in.StoragePerProject, &out.StoragePerProject
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }
@@ -1139,7 +1139,7 @@ func (in *SystemParameters) DeepCopyInto(out *SystemParameters) {
 	}
 	if in.RobotTokenExpiration != nil {
 		in, out := &in.RobotTokenExpiration, &out.RobotTokenExpiration
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ScannerSkipUpdatePulltime != nil {
@@ -1154,7 +1154,7 @@ func (in *SystemParameters) DeepCopyInto(out *SystemParameters) {
 	}
 	if in.StoragePerProject != nil {
 		in, out := &in.StoragePerProject, &out.StoragePerProject
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 }

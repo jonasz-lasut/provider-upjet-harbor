@@ -64,7 +64,8 @@ spec:
                   groupType:
                     description: '(Number) The numeric identifier of the group type.
                       Valid values are 1, 2, or 3 :'
-                    type: number
+                    format: int64
+                    type: integer
                   ldapGroupDn:
                     description: (String) The distinguished name of the group within
                       AD/LDAP.
@@ -89,7 +90,8 @@ spec:
                   groupType:
                     description: '(Number) The numeric identifier of the group type.
                       Valid values are 1, 2, or 3 :'
-                    type: number
+                    format: int64
+                    type: integer
                   ldapGroupDn:
                     description: (String) The distinguished name of the group within
                       AD/LDAP.
@@ -173,7 +175,8 @@ spec:
                   groupType:
                     description: '(Number) The numeric identifier of the group type.
                       Valid values are 1, 2, or 3 :'
-                    type: number
+                    format: int64
+                    type: integer
                   id:
                     description: (String) The ID of this resource.
                     type: string

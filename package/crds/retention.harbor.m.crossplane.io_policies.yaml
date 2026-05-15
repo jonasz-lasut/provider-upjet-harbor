@@ -73,19 +73,23 @@ spec:
                         mostRecentlyPulled:
                           description: (Number) retain the most recently pulled n
                             artifacts.
-                          type: number
+                          format: int64
+                          type: integer
                         mostRecentlyPushed:
                           description: (Number) retain the most recently pushed n
                             artifacts.
-                          type: number
+                          format: int64
+                          type: integer
                         nDaysSinceLastPull:
                           description: (Number) retains the artifacts pulled within
                             the lasts n days.
-                          type: number
+                          format: int64
+                          type: integer
                         nDaysSinceLastPush:
                           description: (Number) retains the artifacts pushed within
                             the lasts n days.
-                          type: number
+                          format: int64
+                          type: integer
                         repoExcluding:
                           description: (String) For the repositories excluding.
                           type: string
@@ -142,19 +146,23 @@ spec:
                         mostRecentlyPulled:
                           description: (Number) retain the most recently pulled n
                             artifacts.
-                          type: number
+                          format: int64
+                          type: integer
                         mostRecentlyPushed:
                           description: (Number) retain the most recently pushed n
                             artifacts.
-                          type: number
+                          format: int64
+                          type: integer
                         nDaysSinceLastPull:
                           description: (Number) retains the artifacts pulled within
                             the lasts n days.
-                          type: number
+                          format: int64
+                          type: integer
                         nDaysSinceLastPush:
                           description: (Number) retains the artifacts pushed within
                             the lasts n days.
-                          type: number
+                          format: int64
+                          type: integer
                         repoExcluding:
                           description: (String) For the repositories excluding.
                           type: string
@@ -273,19 +281,23 @@ spec:
                         mostRecentlyPulled:
                           description: (Number) retain the most recently pulled n
                             artifacts.
-                          type: number
+                          format: int64
+                          type: integer
                         mostRecentlyPushed:
                           description: (Number) retain the most recently pushed n
                             artifacts.
-                          type: number
+                          format: int64
+                          type: integer
                         nDaysSinceLastPull:
                           description: (Number) retains the artifacts pulled within
                             the lasts n days.
-                          type: number
+                          format: int64
+                          type: integer
                         nDaysSinceLastPush:
                           description: (Number) retains the artifacts pushed within
                             the lasts n days.
-                          type: number
+                          format: int64
+                          type: integer
                         repoExcluding:
                           description: (String) For the repositories excluding.
                           type: string

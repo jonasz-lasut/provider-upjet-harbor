@@ -248,7 +248,8 @@ spec:
                     type: string
                   registryId:
                     description: (Number)
-                    type: number
+                    format: int64
+                    type: integer
                   status:
                     description: (String)
                     type: string

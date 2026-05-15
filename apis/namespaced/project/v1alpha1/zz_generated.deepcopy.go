@@ -44,7 +44,7 @@ func (in *MemberGroupInitParameters) DeepCopyInto(out *MemberGroupInitParameters
 	*out = *in
 	if in.GroupID != nil {
 		in, out := &in.GroupID, &out.GroupID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.GroupName != nil {
@@ -121,7 +121,7 @@ func (in *MemberGroupObservation) DeepCopyInto(out *MemberGroupObservation) {
 	*out = *in
 	if in.GroupID != nil {
 		in, out := &in.GroupID, &out.GroupID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.GroupName != nil {
@@ -141,7 +141,7 @@ func (in *MemberGroupObservation) DeepCopyInto(out *MemberGroupObservation) {
 	}
 	if in.MemberID != nil {
 		in, out := &in.MemberID, &out.MemberID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {
@@ -176,7 +176,7 @@ func (in *MemberGroupParameters) DeepCopyInto(out *MemberGroupParameters) {
 	*out = *in
 	if in.GroupID != nil {
 		in, out := &in.GroupID, &out.GroupID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.GroupName != nil {
@@ -350,7 +350,7 @@ func (in *MemberUserObservation) DeepCopyInto(out *MemberUserObservation) {
 	}
 	if in.MemberID != nil {
 		in, out := &in.MemberID, &out.MemberID
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ProjectID != nil {

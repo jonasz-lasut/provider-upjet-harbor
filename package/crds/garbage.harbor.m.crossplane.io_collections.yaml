@@ -71,7 +71,8 @@ spec:
                       value must be greater than or equal to one. Harbor limits the
                       number of concurrent workers internally, setting this value
                       higher than what Harbor supports will result in an error.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               initProvider:
                 description: |-
@@ -99,7 +100,8 @@ spec:
                       value must be greater than or equal to one. Harbor limits the
                       number of concurrent workers internally, setting this value
                       higher than what Harbor supports will result in an error.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               managementPolicies:
                 default:
@@ -185,7 +187,8 @@ spec:
                       value must be greater than or equal to one. Harbor limits the
                       number of concurrent workers internally, setting this value
                       higher than what Harbor supports will result in an error.
-                    type: number
+                    format: int64
+                    type: integer
                 type: object
               conditions:
                 description: Conditions of the resource.

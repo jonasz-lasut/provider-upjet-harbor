@@ -44,7 +44,7 @@ func (in *AuditLogInitParameters) DeepCopyInto(out *AuditLogInitParameters) {
 	*out = *in
 	if in.AuditRetentionHour != nil {
 		in, out := &in.AuditRetentionHour, &out.AuditRetentionHour
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.IncludeEventTypes != nil {
@@ -111,7 +111,7 @@ func (in *AuditLogObservation) DeepCopyInto(out *AuditLogObservation) {
 	*out = *in
 	if in.AuditRetentionHour != nil {
 		in, out := &in.AuditRetentionHour, &out.AuditRetentionHour
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.ID != nil {
@@ -151,7 +151,7 @@ func (in *AuditLogParameters) DeepCopyInto(out *AuditLogParameters) {
 	*out = *in
 	if in.AuditRetentionHour != nil {
 		in, out := &in.AuditRetentionHour, &out.AuditRetentionHour
-		*out = new(float64)
+		*out = new(int64)
 		**out = **in
 	}
 	if in.IncludeEventTypes != nil {
