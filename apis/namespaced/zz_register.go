@@ -20,7 +20,6 @@ import (
 	v1alpha1purge "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/purge/v1alpha1"
 	v1alpha1retention "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/retention/v1alpha1"
 	v1alpha1robot "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/robot/v1alpha1"
-	v1alpha1namespaced "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/v1alpha1"
 	v1beta1 "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/v1beta1"
 )
 
@@ -37,7 +36,6 @@ func init() {
 		v1alpha1purge.SchemeBuilder.AddToScheme,
 		v1alpha1retention.SchemeBuilder.AddToScheme,
 		v1alpha1robot.SchemeBuilder.AddToScheme,
-		v1alpha1namespaced.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,
 	)
 }
