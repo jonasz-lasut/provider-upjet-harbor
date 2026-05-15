@@ -10,6 +10,16 @@ package namespaced
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
+	v1alpha1 "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/config/v1alpha1"
+	v1alpha1garbage "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/garbage/v1alpha1"
+	v1alpha1harbor "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1"
+	v1alpha1immutable "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/immutable/v1alpha1"
+	v1alpha1interrogation "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/interrogation/v1alpha1"
+	v1alpha1preheat "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/preheat/v1alpha1"
+	v1alpha1project "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/project/v1alpha1"
+	v1alpha1purge "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/purge/v1alpha1"
+	v1alpha1retention "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/retention/v1alpha1"
+	v1alpha1robot "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/robot/v1alpha1"
 	v1alpha1namespaced "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/v1alpha1"
 	v1beta1 "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/v1beta1"
 )
@@ -17,6 +27,16 @@ import (
 func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
+		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1garbage.SchemeBuilder.AddToScheme,
+		v1alpha1harbor.SchemeBuilder.AddToScheme,
+		v1alpha1immutable.SchemeBuilder.AddToScheme,
+		v1alpha1interrogation.SchemeBuilder.AddToScheme,
+		v1alpha1preheat.SchemeBuilder.AddToScheme,
+		v1alpha1project.SchemeBuilder.AddToScheme,
+		v1alpha1purge.SchemeBuilder.AddToScheme,
+		v1alpha1retention.SchemeBuilder.AddToScheme,
+		v1alpha1robot.SchemeBuilder.AddToScheme,
 		v1alpha1namespaced.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,
 	)

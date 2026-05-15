@@ -1,0 +1,28 @@
+apiVersion: project.harbor.m.crossplane.io/v1alpha1
+kind: MemberUser
+metadata:
+  annotations:
+    meta.upbound.io/example-id: project/v1alpha1/memberuser
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    projectId: ${harbor_project.main.id}
+    role: projectadmin
+    userName: testing1
+
+---
+
+apiVersion: harbor.harbor.m.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: project/v1alpha1/memberuser
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider: {}

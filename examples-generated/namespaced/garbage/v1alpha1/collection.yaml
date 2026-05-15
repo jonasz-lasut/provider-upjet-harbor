@@ -1,0 +1,14 @@
+apiVersion: garbage.harbor.m.crossplane.io/v1alpha1
+kind: Collection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: garbage/v1alpha1/collection
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    deleteUntagged: true
+    schedule: Daily
+    workers: 1

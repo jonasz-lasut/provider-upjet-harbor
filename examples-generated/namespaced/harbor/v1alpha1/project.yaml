@@ -1,0 +1,17 @@
+apiVersion: harbor.harbor.m.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harbor/v1alpha1/project
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    autoSbomGeneration: true
+    enableContentTrust: true
+    enableContentTrustCosign: false
+    public: false
+    vulnerabilityScanner: Trivy
+    vulnerabilityScanning: true

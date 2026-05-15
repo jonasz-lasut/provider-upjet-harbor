@@ -1,0 +1,29 @@
+apiVersion: harbor.harbor.m.crossplane.io/v1alpha1
+kind: Replication
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harbor/v1alpha1/replication
+  labels:
+    testing.upbound.io/example-name: push
+  name: push
+  namespace: crossplane-system
+spec:
+  forProvider:
+    action: push
+    registryId: ${harbor_registry.main.registry_id}
+
+---
+
+apiVersion: harbor.harbor.m.crossplane.io/v1alpha1
+kind: Registry
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harbor/v1alpha1/replication
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    endpointUrl: https://hub.docker.com
+    providerName: docker-hub

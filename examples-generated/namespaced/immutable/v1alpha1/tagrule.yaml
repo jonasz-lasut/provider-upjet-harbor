@@ -1,0 +1,30 @@
+apiVersion: immutable.harbor.m.crossplane.io/v1alpha1
+kind: TagRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: immutable/v1alpha1/tagrule
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    disabled: true
+    projectId: ${harbor_project.main.id}
+    repoMatching: '**'
+    tagExcluding: latest
+    tagMatching: v2.*
+
+---
+
+apiVersion: harbor.harbor.m.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: immutable/v1alpha1/tagrule
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider: {}
