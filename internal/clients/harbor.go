@@ -156,7 +156,7 @@ func resolveModern(ctx context.Context, crClient client.Client, mg resource.Mode
 	pcObj, ok := pcRuntimeObj.(client.Object)
 	if !ok {
 		// This indicates a programming error, types are not properly generated
-		return nil, errors.New(" is not an Object")
+		return nil, errors.New("referenced kind is not a client.Object")
 	}
 
 	// Namespace will be ignored if the PC is a cluster-scoped type
