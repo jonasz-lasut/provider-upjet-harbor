@@ -90,7 +90,10 @@ func main() {
 		ctrl.SetLogger(zl)
 	}
 
-	log.Debug("Starting", "sync-period", syncPeriod.String(), "poll-interval", pollInterval.String(), "max-reconcile-rate", *maxReconcileRate)
+	// Currently the jitter is 5% of the poll interval (matches azuread).
+	pollJitter := time.Duration(float64(*pollInterval) * 0.05)
+
+	log.Debug("Starting", "sync-period", syncPeriod.String(), "poll-interval", pollInterval.String(), "poll-jitter", pollJitter, "max-reconcile-rate", *maxReconcileRate)
 
 	cfg, err := ctrl.GetConfig()
 	kingpin.FatalIfError(err, "Cannot get API server rest config")
@@ -172,10 +175,12 @@ func main() {
 				MRStateMetrics:          stateMetrics,
 			},
 		},
-		Provider:       clusterProvider,
-		WorkspaceStore: terraform.NewWorkspaceStore(log),
-		SetupFn:        clients.TerraformSetupBuilder(sdkProvider),
-		StartWebhooks:  *certsDir != "",
+		Provider:              clusterProvider,
+		WorkspaceStore:        terraform.NewWorkspaceStore(log),
+		SetupFn:               clients.TerraformSetupBuilder(sdkProvider),
+		StartWebhooks:         *certsDir != "",
+		PollJitter:            pollJitter,
+		OperationTrackerStore: tjcontroller.NewOperationStore(log),
 	}
 
 	namespacedOpts := tjcontroller.Options{
@@ -191,10 +196,12 @@ func main() {
 				MRStateMetrics:          stateMetrics,
 			},
 		},
-		Provider:       namespacedProvider,
-		WorkspaceStore: terraform.NewWorkspaceStore(log),
-		SetupFn:        clients.TerraformSetupBuilder(sdkProvider),
-		StartWebhooks:  *certsDir != "",
+		Provider:              namespacedProvider,
+		WorkspaceStore:        terraform.NewWorkspaceStore(log),
+		SetupFn:               clients.TerraformSetupBuilder(sdkProvider),
+		StartWebhooks:         *certsDir != "",
+		PollJitter:            pollJitter,
+		OperationTrackerStore: tjcontroller.NewOperationStore(log),
 	}
 
 	if *enableManagementPolicies {
