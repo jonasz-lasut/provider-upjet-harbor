@@ -2,15 +2,15 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Bootstrap a Crossplane v2 Upjet-based provider for Harbor on top of `goharbor/terraform-provider-harbor` at tag `v3.11.6`, generating all ~20 upstream resources as namespaced MRs, using the SDK-mode (no-fork) upjet integration pattern.
+**Goal:** Bootstrap a Crossplane v2 Upjet-based provider for Harbor on top of `goharbor/terraform-provider-upjet-harbor` at tag `v3.11.6`, generating all ~20 upstream resources as namespaced MRs, using the SDK-mode (no-fork) upjet integration pattern.
 
-**Architecture:** Scaffold from `crossplane/upjet-provider-template` (which already provides Crossplane v2 dual-scope structure with `apis/cluster/` and `apis/namespaced/`), then convert from the template's default binary-mode upjet integration to SDK-mode (`ujconfig.WithTerraformProvider(sdkProvider)`) by importing `goharbor/.../provider.Provider()` directly as a Go module. ProviderConfig carries URL/insecure/api_version/robot_prefix; credentials secret supports username+password OR bearer_token.
+**Architecture:** Scaffold from `jonasz-lasut/provider-upjet-harbor` (which already provides Crossplane v2 dual-scope structure with `apis/cluster/` and `apis/namespaced/`), then convert from the harbor's default binary-mode upjet integration to SDK-mode (`ujconfig.WithTerraformProvider(sdkProvider)`) by importing `goharbor/.../provider.Provider()` directly as a Go module. ProviderConfig carries URL/insecure/api_version/robot_prefix; credentials secret supports username+password OR bearer_token.
 
 **Tech Stack:**
 - Go (module `github.com/jonasz-lasut/provider-upjet-harbor`)
 - `github.com/crossplane/upjet/v2` (codegen + runtime)
 - `github.com/crossplane/crossplane-runtime/v2`
-- `github.com/goharbor/terraform-provider-harbor` v3.11.6 (Go module import)
+- `github.com/goharbor/terraform-provider-upjet-harbor` v3.11.6 (Go module import)
 - `sigs.k8s.io/controller-runtime`
 - `https_proxy=http://localhost:8888` for any network operation in this environment
 
@@ -26,7 +26,7 @@
 - `docs/superpowers/specs/2026-05-15-provider-upjet-harbor-design.md` — design doc
 - `docs/superpowers/plans/2026-05-15-provider-upjet-harbor.md` — this file
 
-**Created by Task 2 (template import):** standard upjet-provider-template tree — `apis/`, `cmd/`, `config/`, `internal/`, `cluster/`, `examples/`, `hack/`, `package/`, `build/` (submodule), `Makefile`, `go.mod`, `LICENSE`, `README.md`, `.github/`, `.gitignore`, `.gitmodules`, `.golangci.yml`, `CODEOWNERS`, etc.
+**Created by Task 2 (harbor import):** standard provider-upjet-harbor tree — `apis/`, `cmd/`, `config/`, `internal/`, `cluster/`, `examples/`, `hack/`, `package/`, `build/` (submodule), `Makefile`, `go.mod`, `LICENSE`, `README.md`, `.github/`, `.gitignore`, `.gitmodules`, `.golangci.yml`, `CODEOWNERS`, etc.
 
 **Modified in later tasks:**
 - `go.mod`, `go.sum` — add harbor TF provider dep (Task 4)
@@ -125,33 +125,33 @@ Expected: one commit; working tree clean.
 
 ---
 
-## Task 2: Import upjet-provider-template scaffold
+## Task 2: Import provider-upjet-harbor scaffold
 
 **Files:**
-- Imports a full tree from `crossplane/upjet-provider-template@main` (latest, May 2026), preserving our `docs/` and `.gitignore`.
+- Imports a full tree from `jonasz-lasut/provider-upjet-harbor@main` (latest, May 2026), preserving our `docs/` and `.gitignore`.
 - Creates: `/root/code/xp/provider-upjet-harbor/{apis,cmd,config,internal,cluster,examples,hack,package,build,.github,Makefile,go.mod,go.sum,LICENSE,README.md,...}`
 
-- [ ] **Step 1: Shallow clone the template into a temp directory**
+- [ ] **Step 1: Shallow clone the harbor into a temp directory**
 
 Run:
 ```bash
-https_proxy="http://localhost:8888" git clone --depth 1 --branch main https://github.com/crossplane/upjet-provider-template.git /tmp/upjet-provider-template
+https_proxy="http://localhost:8888" git clone --depth 1 --branch main https://github.com/jonasz-lasut/provider-upjet-harbor.git /tmp/provider-upjet-harbor
 ```
 
-Expected: clone succeeds; `ls /tmp/upjet-provider-template` shows the template's top-level files.
+Expected: clone succeeds; `ls /tmp/provider-upjet-harbor` shows the harbor's top-level files.
 
-- [ ] **Step 2: Remove the template's `.git` so we don't pollute history**
+- [ ] **Step 2: Remove the harbor's `.git` so we don't pollute history**
 
 Run:
 ```bash
-rm -rf /tmp/upjet-provider-template/.git
+rm -rf /tmp/provider-upjet-harbor/.git
 ```
 
-- [ ] **Step 3: Copy template contents into target, preserving our `docs/` and `.gitignore`**
+- [ ] **Step 3: Copy harbor contents into target, preserving our `docs/` and `.gitignore`**
 
 Run:
 ```bash
-cd /tmp/upjet-provider-template && cp -r --no-clobber . /root/code/xp/provider-upjet-harbor/ && rsync -a --exclude=docs --exclude=.gitignore ./ /root/code/xp/provider-upjet-harbor/
+cd /tmp/provider-upjet-harbor && cp -r --no-clobber . /root/code/xp/provider-upjet-harbor/ && rsync -a --exclude=docs --exclude=.gitignore ./ /root/code/xp/provider-upjet-harbor/
 ```
 
 The `--no-clobber` first pass copies missing files; the `rsync` second pass overwrites everything except our preserved files. This is belt-and-suspenders to ensure `docs/` survives.
@@ -190,29 +190,29 @@ Expected: shows submodule contents (`makelib/`, `Makefile`, etc.).
 
 Run:
 ```bash
-cd /root/code/xp/provider-upjet-harbor && git add -A && git commit -m "chore: scaffold from crossplane/upjet-provider-template"
+cd /root/code/xp/provider-upjet-harbor && git add -A && git commit -m "chore: scaffold from jonasz-lasut/provider-upjet-harbor"
 ```
 
-Expected: large commit with all the template files.
+Expected: large commit with all the harbor files.
 
 - [ ] **Step 6: Cleanup temp directory**
 
 Run:
 ```bash
-rm -rf /tmp/upjet-provider-template
+rm -rf /tmp/provider-upjet-harbor
 ```
 
 ---
 
-## Task 3: Rename template→harbor via hack/prepare.sh
+## Task 3: Rename harbor→harbor via hack/prepare.sh
 
 **Files:**
-- Modifies in place: `go.mod`, `Makefile`, `config/provider.go`, `internal/clients/template.go` → `internal/clients/harbor.go`, `cluster/images/upjet-provider-template/` → `cluster/images/provider-upjet-harbor/`, and many string replacements across the tree.
+- Modifies in place: `go.mod`, `Makefile`, `config/provider.go`, `internal/clients/harbor.go` → `internal/clients/harbor.go`, `cluster/images/provider-upjet-harbor/` → `cluster/images/provider-upjet-harbor/`, and many string replacements across the tree.
 - Deletes: `apis/cluster/null/`, `apis/namespaced/null/`, `config/cluster/null/`, `config/namespaced/null/`, `examples/cluster/null/`, `examples/namespaced/null/`, `hack/prepare.sh` (manually after use).
 
 - [ ] **Step 1: Run prepare.sh non-interactively**
 
-The template's `hack/prepare.sh` accepts environment variables to skip prompts. Run:
+The harbor's `hack/prepare.sh` accepts environment variables to skip prompts. Run:
 
 ```bash
 cd /root/code/xp/provider-upjet-harbor && \
@@ -225,8 +225,8 @@ cd /root/code/xp/provider-upjet-harbor && \
 
 Expected:
 - Many `git grep -l ... | xargs sed -i.bak ...` lines printed by `set -x`.
-- `internal/clients/template.go` renamed to `internal/clients/harbor.go`.
-- `cluster/images/upjet-provider-template/` renamed to `cluster/images/provider-upjet-harbor/`.
+- `internal/clients/harbor.go` renamed to `internal/clients/harbor.go`.
+- `cluster/images/provider-upjet-harbor/` renamed to `cluster/images/provider-upjet-harbor/`.
 - `apis/cluster/null/`, `apis/namespaced/null/`, `config/cluster/null/`, `config/namespaced/null/`, `examples/cluster/null/`, `examples/namespaced/null/` removed.
 - No errors on exit.
 
@@ -275,7 +275,7 @@ Expected: builds clean (no errors). If it fails for another reason, inspect and 
 
 Run:
 ```bash
-cd /root/code/xp/provider-upjet-harbor && git add -A && git commit -m "chore: rename template -> harbor via prepare.sh"
+cd /root/code/xp/provider-upjet-harbor && git add -A && git commit -m "chore: rename harbor -> harbor via prepare.sh"
 ```
 
 ---
@@ -289,7 +289,7 @@ cd /root/code/xp/provider-upjet-harbor && git add -A && git commit -m "chore: re
 
 Run:
 ```bash
-cd /root/code/xp/provider-upjet-harbor && https_proxy="http://localhost:8888" go get github.com/goharbor/terraform-provider-harbor@v3.11.6
+cd /root/code/xp/provider-upjet-harbor && https_proxy="http://localhost:8888" go get github.com/goharbor/terraform-provider-upjet-harbor@v3.11.6
 ```
 
 Expected: `go get` succeeds; `go.mod` updated.
@@ -307,7 +307,7 @@ Expected: no errors. If you see conflicts (e.g., differing versions of `terrafor
 
 Run:
 ```bash
-cd /root/code/xp/provider-upjet-harbor && go doc github.com/goharbor/terraform-provider-harbor/provider Provider | head -5
+cd /root/code/xp/provider-upjet-harbor && go doc github.com/goharbor/terraform-provider-upjet-harbor/provider Provider | head -5
 ```
 
 Expected: shows `func Provider() *schema.Provider`. If this fails, the version may have moved the function; inspect `vendor/` or the module cache.
@@ -325,7 +325,7 @@ Expected: builds without errors.
 
 Run:
 ```bash
-cd /root/code/xp/provider-upjet-harbor && git add go.mod go.sum && git commit -m "deps: add github.com/goharbor/terraform-provider-harbor v3.11.6"
+cd /root/code/xp/provider-upjet-harbor && git add go.mod go.sum && git commit -m "deps: add github.com/goharbor/terraform-provider-upjet-harbor v3.11.6"
 ```
 
 ---
@@ -420,7 +420,7 @@ cd /root/code/xp/provider-upjet-harbor && git add apis/cluster/v1beta1/ apis/nam
 - Create: `config/namespaced/vuln/config.go`
 - Modify: `config/external_name.go`
 
-- [ ] **Step 1: Inspect the template's external_name.go to understand the structure**
+- [ ] **Step 1: Inspect the harbor's external_name.go to understand the structure**
 
 Run:
 ```bash
@@ -431,7 +431,7 @@ Note the `ExternalNameConfigs` map shape and the `ExternalNameConfigured()` help
 
 - [ ] **Step 2: Create the seven per-group config packages**
 
-For each group below, create `config/namespaced/<group>/config.go` with the following template body (substitute the file's package name accordingly):
+For each group below, create `config/namespaced/<group>/config.go` with the following harbor body (substitute the file's package name accordingly):
 
 ```go
 // SPDX-FileCopyrightText: 2026 jonasz-lasut
@@ -665,7 +665,7 @@ import (
 
 	"github.com/alecthomas/kingpin/v2"
 	"github.com/crossplane/upjet/v2/pkg/pipeline"
-	harborprovider "github.com/goharbor/terraform-provider-harbor/provider"
+	harborprovider "github.com/goharbor/terraform-provider-upjet-harbor/provider"
 
 	"github.com/jonasz-lasut/provider-upjet-harbor/config"
 )
@@ -841,7 +841,7 @@ Expected: compile errors about undefined `harborProviderConfig` and `buildHarbor
 
 - [ ] **Step 3: Add the two new symbols to `internal/clients/harbor.go`**
 
-We'll keep the existing `resolveProviderConfig`, `resolveLegacy`, `resolveModern`, `toSharedPCSpec` functions (they handle ProviderConfig resolution and are template-provided). We add:
+We'll keep the existing `resolveProviderConfig`, `resolveLegacy`, `resolveModern`, `toSharedPCSpec` functions (they handle ProviderConfig resolution and are harbor-provided). We add:
 
 1. A pure helper `buildHarborSetup` that's easy to unit-test (no `client.Client`, no real ProviderConfig).
 2. A small struct `harborProviderConfig` carrying just the fields `buildHarborSetup` needs.
@@ -955,7 +955,7 @@ Open `cmd/provider/main.go`. We need to:
 In the import block, add:
 
 ```go
-harborprovider "github.com/goharbor/terraform-provider-harbor/provider"
+harborprovider "github.com/goharbor/terraform-provider-upjet-harbor/provider"
 ```
 
 Find the line that calls `clients.TerraformSetupBuilder(...)`. Replace it with code like:
@@ -1037,7 +1037,7 @@ import (
 	"os"
 
 	conversiontfjson "github.com/crossplane/upjet/v2/pkg/types/conversion/tfjson"
-	harborprovider "github.com/goharbor/terraform-provider-harbor/provider"
+	harborprovider "github.com/goharbor/terraform-provider-upjet-harbor/provider"
 )
 
 func main() {
@@ -1097,7 +1097,7 @@ cd /root/code/xp/provider-upjet-harbor && git add hack/generate-schema.go config
 
 ---
 
-## Task 11: Provision .work/terraform-provider-harbor and run docs scraper
+## Task 11: Provision .work/terraform-provider-upjet-harbor and run docs scraper
 
 **Files:**
 - Modify: `Makefile` — set TERRAFORM_PROVIDER_* vars; add `fetch-tf-provider-source` target
@@ -1105,7 +1105,7 @@ cd /root/code/xp/provider-upjet-harbor && git add hack/generate-schema.go config
 
 - [ ] **Step 1: Update the Makefile's TERRAFORM_PROVIDER_* variables**
 
-Edit `/root/code/xp/provider-upjet-harbor/Makefile`. Find the existing lines (set during template scaffold):
+Edit `/root/code/xp/provider-upjet-harbor/Makefile`. Find the existing lines (set during harbor scaffold):
 
 ```
 export TERRAFORM_PROVIDER_SOURCE ?= hashicorp/null
@@ -1121,7 +1121,7 @@ Replace with:
 
 ```
 export TERRAFORM_PROVIDER_SOURCE ?= goharbor/harbor
-export TERRAFORM_PROVIDER_REPO ?= https://github.com/goharbor/terraform-provider-harbor
+export TERRAFORM_PROVIDER_REPO ?= https://github.com/goharbor/terraform-provider-upjet-harbor
 export TERRAFORM_PROVIDER_VERSION ?= 3.11.6
 export TERRAFORM_DOCS_PATH ?= docs/resources
 ```
@@ -1135,9 +1135,9 @@ Append to the Makefile (before the final `-include build/makelib/*.mk` lines):
 ```makefile
 .PHONY: fetch-tf-provider-source
 fetch-tf-provider-source:
-	@if [ ! -d .work/terraform-provider-harbor ]; then \
+	@if [ ! -d .work/terraform-provider-upjet-harbor ]; then \
 		mkdir -p .work && \
-		git clone --depth 1 --branch v$(TERRAFORM_PROVIDER_VERSION) $(TERRAFORM_PROVIDER_REPO) .work/terraform-provider-harbor; \
+		git clone --depth 1 --branch v$(TERRAFORM_PROVIDER_VERSION) $(TERRAFORM_PROVIDER_REPO) .work/terraform-provider-upjet-harbor; \
 	fi
 ```
 
@@ -1148,11 +1148,11 @@ Run:
 cd /root/code/xp/provider-upjet-harbor && https_proxy="http://localhost:8888" make fetch-tf-provider-source
 ```
 
-Expected: `.work/terraform-provider-harbor/` populated with the upstream repo at tag v3.11.6.
+Expected: `.work/terraform-provider-upjet-harbor/` populated with the upstream repo at tag v3.11.6.
 
 Verify:
 ```bash
-ls /root/code/xp/provider-upjet-harbor/.work/terraform-provider-harbor/docs/resources/ | head -5
+ls /root/code/xp/provider-upjet-harbor/.work/terraform-provider-upjet-harbor/docs/resources/ | head -5
 ```
 
 Expected: shows resource doc files like `project.md`, `robot_account.md`, etc.
@@ -1164,7 +1164,7 @@ The upjet repo provides a scraper at `github.com/crossplane/upjet/v2/cmd/scraper
 ```bash
 cd /root/code/xp/provider-upjet-harbor && go run github.com/crossplane/upjet/v2/cmd/scraper \
   -n goharbor/harbor \
-  -r .work/terraform-provider-harbor/docs/resources \
+  -r .work/terraform-provider-upjet-harbor/docs/resources \
   -o config/provider-metadata.yaml \
   --prelude-xpath "//text()[contains(., \"subcategory\")]"
 ```
@@ -1367,7 +1367,7 @@ Definition of done for v0 (from the spec):
 ## Out of scope (not in v0)
 
 Per spec section "Non-goals":
-- GitHub Actions / image publishing pipelines — the `.github/workflows/` directory inherited from the template is left in place but unwired and unused.
+- GitHub Actions / image publishing pipelines — the `.github/workflows/` directory inherited from the harbor is left in place but unwired and unused.
 - Hot-reload of credentials.
 - Per-resource integration tests.
 - Cluster-scoped MRs (cluster directory structure is preserved for future addition).

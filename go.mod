@@ -1,4 +1,4 @@
-module github.com/crossplane/upjet-provider-template
+module github.com/jonasz-lasut/provider-upjet-harbor
 
 go 1.25.9
 

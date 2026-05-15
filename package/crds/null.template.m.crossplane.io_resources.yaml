@@ -4,14 +4,14 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.1
-  name: resources.null.template.m.crossplane.io
+  name: resources.null.harbor.m.crossplane.io
 spec:
-  group: null.template.m.crossplane.io
+  group: null.harbor.m.crossplane.io
   names:
     categories:
     - crossplane
     - managed
-    - template
+    - harbor
     kind: Resource
     listKind: ResourceList
     plural: resources

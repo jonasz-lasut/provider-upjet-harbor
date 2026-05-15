@@ -8,7 +8,7 @@
 
 Build a Crossplane v2 Upjet-based provider for [Harbor](https://goharbor.io/),
 generated on top of the upstream
-[`goharbor/terraform-provider-harbor`](https://github.com/goharbor/terraform-provider-harbor)
+[`goharbor/terraform-provider-upjet-harbor`](https://github.com/goharbor/terraform-provider-upjet-harbor)
 at tag `v3.11.6`. The provider reconciles Harbor resources (projects, robot
 accounts, registries, replications, etc.) declaratively via Kubernetes CRDs.
 
@@ -17,7 +17,7 @@ accounts, registries, replications, etc.) declaratively via Kubernetes CRDs.
 - Forking the upstream Terraform provider (its `provider.Provider()` is already
   exported — no `xpprovider` shim is needed).
 - CI/CD pipelines and image publishing in v0. The Makefile/build machinery
-  inherited from the upjet template will be present but not exercised by GitHub
+  inherited from the upjet harbor will be present but not exercised by GitHub
   Actions; the user will run `make` locally.
 - Hot-reload of credentials, per-resource integration tests, or covering
   cluster-scoped MRs in v0 (cluster scaffolding is in place for future use).
@@ -27,14 +27,14 @@ accounts, registries, replications, etc.) declaratively via Kubernetes CRDs.
 | Decision | Value | Rationale |
 |---|---|---|
 | Go module path | `github.com/jonasz-lasut/provider-upjet-harbor` | Personal scope; transferrable later. |
-| Upstream TF provider | `github.com/goharbor/terraform-provider-harbor` at `v3.11.6` | Pinned in `go.mod`; imported as a Go module (no `vendor/` directory). |
+| Upstream TF provider | `github.com/goharbor/terraform-provider-upjet-harbor` at `v3.11.6` | Pinned in `go.mod`; imported as a Go module (no `vendor/` directory). |
 | Upjet integration mode | **SDK-mode (no-fork)** | `provider.Provider()` is publicly importable; avoids spawning child TF binary. |
 | MR scope | Namespaced only (Crossplane v2) | Dual-scope directory layout retained so cluster MRs can be added later. |
 | CRD API group (cluster) | `harbor.crossplane.io` | Scaffolded but unused initially. |
 | CRD API group (namespaced) | `harbor.m.crossplane.io` | Crossplane v2 `.m.` (managed) infix convention. |
 | Resource set | All ~20 upstream resources | `WithIncludeList(".*$")`; refine external-name configs incrementally. |
 | Auth modes | `username`+`password`, `bearer_token` | Skip `session_id` (rarely used outside Harbor's web UI). |
-| Bootstrap approach | Scaffold from `crossplane/upjet-provider-template` | Clean foundation; no azuread baggage. |
+| Bootstrap approach | Scaffold from `jonasz-lasut/provider-upjet-harbor` | Clean foundation; no azuread baggage. |
 | Schema source | Committed `config/schema.json`, regenerated on TF bumps | Same pattern as `provider-upjet-azuread`. |
 
 ## Architecture
@@ -69,7 +69,7 @@ provider-upjet-harbor/
 │   ├── external_name.go               # central ExternalNameConfigs map
 │   ├── provider.go                    # GetProvider + GetProviderNamespaced (SDK-mode signatures)
 │   ├── schema.json                    # generated once, committed
-│   └── provider-metadata.yaml         # docs scraped from .work/terraform-provider-harbor/
+│   └── provider-metadata.yaml         # docs scraped from .work/terraform-provider-upjet-harbor/
 ├── examples/, examples-generated/{cluster,namespaced}/
 ├── hack/
 │   ├── prepare.sh                     # used once during scaffold, then deleted
@@ -77,18 +77,18 @@ provider-upjet-harbor/
 │   ├── boilerplate.yaml.txt
 │   └── generate-schema.go             # NEW: dumps config/schema.json from harborprovider.Provider()
 ├── internal/
-│   ├── apis/                          # scheme registration helpers (from template)
+│   ├── apis/                          # scheme registration helpers (from harbor)
 │   ├── clients/harbor.go              # TerraformSetupBuilder (SDK-mode, basic + bearer)
 │   ├── controller/{cluster,namespaced}/  # generated controllers
-│   ├── features/                      # feature flags (from template)
-│   └── version/                       # version embedding (from template)
+│   ├── features/                      # feature flags (from harbor)
+│   └── version/                       # version embedding (from harbor)
 ├── package/crds/                      # generated CRD manifests
-├── cluster/images/provider-upjet-harbor/  # Dockerfile (from template)
-├── .work/terraform-provider-harbor/   # cloned at v3.11.6 for docs scraping (gitignored)
+├── cluster/images/provider-upjet-harbor/  # Dockerfile (from harbor)
+├── .work/terraform-provider-upjet-harbor/   # cloned at v3.11.6 for docs scraping (gitignored)
 ├── build/                             # git submodule → crossplane/build
 ├── go.mod                             # module github.com/jonasz-lasut/provider-upjet-harbor
 ├── Makefile
-├── LICENSE                            # Apache-2.0 (from template)
+├── LICENSE                            # Apache-2.0 (from harbor)
 └── README.md
 ```
 
@@ -105,7 +105,7 @@ config.GetProvider*(ctx, sdkP, true) ┘                │
                        ▼                               ▼                               ▼
               apis/namespaced/<g>/<v>/  internal/controller/namespaced/  package/crds/, examples-generated/
 
-.work/terraform-provider-harbor/website/docs  ──►  upjet scraper  ──►  config/provider-metadata.yaml
+.work/terraform-provider-upjet-harbor/website/docs  ──►  upjet scraper  ──►  config/provider-metadata.yaml
 ```
 
 ### Data flow — runtime
@@ -170,12 +170,12 @@ upstream resource's ID is composite (refined incrementally as needed).
 ### `config/external_name.go`
 
 Central `var ExternalNameConfigs = map[string]config.ExternalName{...}`. Same
-shape as the template; populated from each `config/namespaced/<group>` package.
+shape as the harbor; populated from each `config/namespaced/<group>` package.
 
 ### `cmd/generator/main.go`
 
 ```go
-import harborprovider "github.com/goharbor/terraform-provider-harbor/provider"
+import harborprovider "github.com/goharbor/terraform-provider-upjet-harbor/provider"
 
 func main() {
     ...
@@ -193,9 +193,9 @@ directly.
 
 Same pattern: imports `harborprovider`, builds the SDK provider once, passes
 to both `GetProvider*` calls, wires `clusterController` + `namespacedController`
-(though cluster has no resources in v0). Keeps from the template:
+(though cluster has no resources in v0). Keeps from the harbor:
 
-- leader election (`crossplane-leader-election-provider-harbor`)
+- leader election (`crossplane-leader-election-provider-upjet-harbor`)
 - webhook server + cert handling
 - SafeStart CRD-gate
 - MR metrics + state metrics
@@ -239,7 +239,7 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
 }
 ```
 
-ProviderConfig spec fields (added to template-generated `apis/{cluster,namespaced}/v1beta1/types.go`):
+ProviderConfig spec fields (added to harbor-generated `apis/{cluster,namespaced}/v1beta1/types.go`):
 
 | Field | Type | Required | Notes |
 |---|---|---|---|
@@ -266,11 +266,11 @@ Committed JSON dump of `harborprovider.Provider()`'s schema (via
 `terraform-json`). Regenerated by a small `hack/generate-schema.go` only when
 bumping the upstream TF version.
 
-### `.work/terraform-provider-harbor/`
+### `.work/terraform-provider-upjet-harbor/`
 
 Cloned at tag `v3.11.6` for the docs scraper. Provisioned by a Makefile target
 `fetch-tf-provider-source` that runs `git clone --branch v3.11.6 --depth 1`
-into `.work/terraform-provider-harbor/` if the directory is absent.
+into `.work/terraform-provider-upjet-harbor/` if the directory is absent.
 Gitignored. Provides `docs/resources/` (Harbor's docs layout) to populate
 `config/provider-metadata.yaml`. The exact docs subpath is verified during
 implementation by inspecting the upstream repo at v3.11.6.
