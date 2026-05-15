@@ -39,6 +39,7 @@ import (
 	apisCluster "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster"
 	apisNamespaced "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced"
 	"github.com/jonasz-lasut/provider-upjet-harbor/config"
+	resolverapis "github.com/jonasz-lasut/provider-upjet-harbor/internal/apis"
 	"github.com/jonasz-lasut/provider-upjet-harbor/internal/clients"
 	controllerCluster "github.com/jonasz-lasut/provider-upjet-harbor/internal/controller/cluster"
 	controllerNamespaced "github.com/jonasz-lasut/provider-upjet-harbor/internal/controller/namespaced"
@@ -145,7 +146,9 @@ func main() {
 		kingpin.FatalIfError(mgr.AddReadyzCheck("webhook", mgr.GetWebhookServer().StartedChecker()), "Cannot add webhook server readyz checker to controller manager")
 	}
 	kingpin.FatalIfError(apisCluster.AddToScheme(mgr.GetScheme()), "Cannot add cluster-scoped Harbor APIs to scheme")
+	kingpin.FatalIfError(resolverapis.BuildScheme(apisCluster.AddToSchemes), "Cannot register the cluster-scoped Harbor APIs with the API resolver's runtime scheme")
 	kingpin.FatalIfError(apisNamespaced.AddToScheme(mgr.GetScheme()), "Cannot add namespaced Harbor APIs to scheme")
+	kingpin.FatalIfError(resolverapis.BuildScheme(apisNamespaced.AddToSchemes), "Cannot register the namespaced Harbor APIs with the API resolver's runtime scheme")
 	kingpin.FatalIfError(apiextensionsv1.AddToScheme(mgr.GetScheme()), "Cannot add api-extensions APIs to scheme")
 	kingpin.FatalIfError(authv1.AddToScheme(mgr.GetScheme()), "Cannot add k8s authorization APIs to scheme")
 
