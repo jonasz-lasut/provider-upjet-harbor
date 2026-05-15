@@ -1,0 +1,13 @@
+// SPDX-FileCopyrightText: 2026 jonasz-lasut
+// SPDX-License-Identifier: Apache-2.0
+
+package robot
+
+import (
+	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
+)
+
+// Configure adds Harbor robot_account resource configuration.
+func Configure(p *ujconfig.Provider) {
+	_ = p
+}

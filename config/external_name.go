@@ -5,19 +5,31 @@ import (
 )
 
 // ExternalNameConfigs contains all external name configurations for this
-// provider.
+// provider. Resources whose Harbor-side identity is the user-supplied "name"
+// use NameAsIdentifier; the rest use IdentifierFromProvider (Harbor assigns
+// the ID on Create). Customize per-resource in config/namespaced/<group>/
+// when the upstream resource's ID handling diverges from these defaults.
 var ExternalNameConfigs = map[string]config.ExternalName{
-	// Import requires using a randomly generated ID from provider: nl-2e21sda
-	"null_resource": idWithStub(),
-}
-
-func idWithStub() config.ExternalName {
-	e := config.IdentifierFromProvider
-	e.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
-		en, _ := config.IDAsExternalName(tfstate)
-		return en, nil
-	}
-	return e
+	"harbor_config_auth":            config.IdentifierFromProvider,
+	"harbor_config_system":          config.IdentifierFromProvider,
+	"harbor_config_security":        config.IdentifierFromProvider,
+	"harbor_project":                config.NameAsIdentifier,
+	"harbor_project_member_group":   config.IdentifierFromProvider,
+	"harbor_project_member_user":    config.IdentifierFromProvider,
+	"harbor_project_webhook":        config.IdentifierFromProvider,
+	"harbor_tasks":                  config.IdentifierFromProvider,
+	"harbor_interrogation_services": config.IdentifierFromProvider,
+	"harbor_robot_account":          config.IdentifierFromProvider,
+	"harbor_user":                   config.NameAsIdentifier,
+	"harbor_group":                  config.NameAsIdentifier,
+	"harbor_registry":               config.NameAsIdentifier,
+	"harbor_replication":            config.NameAsIdentifier,
+	"harbor_retention_policy":       config.IdentifierFromProvider,
+	"harbor_garbage_collection":     config.IdentifierFromProvider,
+	"harbor_purge_audit_log":        config.IdentifierFromProvider,
+	"harbor_label":                  config.NameAsIdentifier,
+	"harbor_preheat_instance":       config.NameAsIdentifier,
+	"harbor_immutable_tag_rule":     config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
