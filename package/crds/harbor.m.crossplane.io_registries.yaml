@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.1
-  name: tasks.harbor.harbor.m.crossplane.io
+  name: registries.harbor.m.crossplane.io
 spec:
-  group: harbor.harbor.m.crossplane.io
+  group: harbor.m.crossplane.io
   names:
     categories:
     - crossplane
     - managed
     - harbor
-    kind: Tasks
-    listKind: TasksList
-    plural: tasks
-    singular: tasks
+    kind: Registry
+    listKind: RegistryList
+    plural: registries
+    singular: registry
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Tasks is the Schema for the Taskss API.
+        description: Registry is the Schema for the Registrys API.
         properties:
           apiVersion:
             description: |-
@@ -54,13 +54,46 @@ spec:
           metadata:
             type: object
           spec:
-            description: TasksSpec defines the desired state of Tasks
+            description: RegistrySpec defines the desired state of Registry
             properties:
               forProvider:
                 properties:
-                  vulnerabilityScanPolicy:
-                    description: (String) The frequency of the vulnerability scanning
-                      is done. Can be to "hourly", "daily" or "weekly"
+                  accessId:
+                    description: (String) The username / access ID for the external
+                      container register.
+                    type: string
+                  accessSecretSecretRef:
+                    description: (String, Sensitive) The password / access key / token
+                      for the external container register.
+                    properties:
+                      key:
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    type: object
+                  caCertificate:
+                    description: |-
+                      encoded CA certificate trusting the registry custom-signed certificate.
+                      (ignored in <2.15.0)
+                    type: string
+                  description:
+                    description: (String) The description of the external container
+                      register.
+                    type: string
+                  endpointUrl:
+                    description: (String) The URL endpoint for the external container
+                      register i.e. "https://hub.docker.com"
+                    type: string
+                  insecure:
+                    description: '(Boolean) Verifies the certificate of the external
+                      container register. (Default: false)'
+                    type: boolean
+                  providerName:
+                    description: (String) The name of the provider.
                     type: string
                 type: object
               initProvider:
@@ -76,9 +109,42 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  vulnerabilityScanPolicy:
-                    description: (String) The frequency of the vulnerability scanning
-                      is done. Can be to "hourly", "daily" or "weekly"
+                  accessId:
+                    description: (String) The username / access ID for the external
+                      container register.
+                    type: string
+                  accessSecretSecretRef:
+                    description: (String, Sensitive) The password / access key / token
+                      for the external container register.
+                    properties:
+                      key:
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    type: object
+                  caCertificate:
+                    description: |-
+                      encoded CA certificate trusting the registry custom-signed certificate.
+                      (ignored in <2.15.0)
+                    type: string
+                  description:
+                    description: (String) The description of the external container
+                      register.
+                    type: string
+                  endpointUrl:
+                    description: (String) The URL endpoint for the external container
+                      register i.e. "https://hub.docker.com"
+                    type: string
+                  insecure:
+                    description: '(Boolean) Verifies the certificate of the external
+                      container register. (Default: false)'
+                    type: boolean
+                  providerName:
+                    description: (String) The name of the provider.
                     type: string
                 type: object
               managementPolicies:
@@ -140,21 +206,52 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.vulnerabilityScanPolicy is a required parameter
+            - message: spec.forProvider.endpointUrl is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.vulnerabilityScanPolicy)
-                || (has(self.initProvider) && has(self.initProvider.vulnerabilityScanPolicy))'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.endpointUrl)
+                || (has(self.initProvider) && has(self.initProvider.endpointUrl))'
+            - message: spec.forProvider.providerName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.providerName)
+                || (has(self.initProvider) && has(self.initProvider.providerName))'
           status:
-            description: TasksStatus defines the observed state of Tasks.
+            description: RegistryStatus defines the observed state of Registry.
             properties:
               atProvider:
                 properties:
+                  accessId:
+                    description: (String) The username / access ID for the external
+                      container register.
+                    type: string
+                  caCertificate:
+                    description: |-
+                      encoded CA certificate trusting the registry custom-signed certificate.
+                      (ignored in <2.15.0)
+                    type: string
+                  description:
+                    description: (String) The description of the external container
+                      register.
+                    type: string
+                  endpointUrl:
+                    description: (String) The URL endpoint for the external container
+                      register i.e. "https://hub.docker.com"
+                    type: string
                   id:
                     description: (String) The ID of this resource.
                     type: string
-                  vulnerabilityScanPolicy:
-                    description: (String) The frequency of the vulnerability scanning
-                      is done. Can be to "hourly", "daily" or "weekly"
+                  insecure:
+                    description: '(Boolean) Verifies the certificate of the external
+                      container register. (Default: false)'
+                    type: boolean
+                  providerName:
+                    description: (String) The name of the provider.
+                    type: string
+                  registryId:
+                    description: (Number)
+                    format: int64
+                    type: integer
+                  status:
+                    description: (String)
                     type: string
                 type: object
               conditions:

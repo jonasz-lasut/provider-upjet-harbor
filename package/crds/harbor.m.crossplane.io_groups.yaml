@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.1
-  name: users.harbor.harbor.m.crossplane.io
+  name: groups.harbor.m.crossplane.io
 spec:
-  group: harbor.harbor.m.crossplane.io
+  group: harbor.m.crossplane.io
   names:
     categories:
     - crossplane
     - managed
     - harbor
-    kind: User
-    listKind: UserList
-    plural: users
-    singular: user
+    kind: Group
+    listKind: GroupList
+    plural: groups
+    singular: group
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: User is the Schema for the Users API.
+        description: Group is the Schema for the Groups API.
         properties:
           apiVersion:
             description: |-
@@ -54,48 +54,21 @@ spec:
           metadata:
             type: object
           spec:
-            description: UserSpec defines the desired state of User
+            description: GroupSpec defines the desired state of Group
             properties:
               forProvider:
                 properties:
-                  admin:
-                    description: '(Boolean) If the user will have admin rights within
-                      Harbor (Default: false)'
-                    type: boolean
-                  comment:
-                    description: (String) Any comments for that are need for the internal
-                      user.
+                  groupName:
+                    description: (String) The name of the group.
                     type: string
-                  email:
-                    description: (String) The email address of the internal user.
-                    type: string
-                  fullName:
-                    description: (String) The Full Name of the internal user.
-                    type: string
-                  passwordSecretRef:
-                    description: (String, Sensitive) The password for the internal
-                      user. Conflicts with password_wo_version.
-                    properties:
-                      key:
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    type: object
-                  passwordWo:
-                    description: only) Write-only alternative for password. Must be
-                      used together with password_wo_version.
-                    type: string
-                  passwordWoVersion:
-                    description: only password updates. Must be used together with
-                      password_wo.
+                  groupType:
+                    description: '(Number) The numeric identifier of the group type.
+                      Valid values are 1, 2, or 3 :'
                     format: int64
                     type: integer
-                  username:
-                    description: (String) The username of the internal user.
+                  ldapGroupDn:
+                    description: (String) The distinguished name of the group within
+                      AD/LDAP.
                     type: string
                 type: object
               initProvider:
@@ -111,44 +84,17 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  admin:
-                    description: '(Boolean) If the user will have admin rights within
-                      Harbor (Default: false)'
-                    type: boolean
-                  comment:
-                    description: (String) Any comments for that are need for the internal
-                      user.
+                  groupName:
+                    description: (String) The name of the group.
                     type: string
-                  email:
-                    description: (String) The email address of the internal user.
-                    type: string
-                  fullName:
-                    description: (String) The Full Name of the internal user.
-                    type: string
-                  passwordSecretRef:
-                    description: (String, Sensitive) The password for the internal
-                      user. Conflicts with password_wo_version.
-                    properties:
-                      key:
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    type: object
-                  passwordWo:
-                    description: only) Write-only alternative for password. Must be
-                      used together with password_wo_version.
-                    type: string
-                  passwordWoVersion:
-                    description: only password updates. Must be used together with
-                      password_wo.
+                  groupType:
+                    description: '(Number) The numeric identifier of the group type.
+                      Valid values are 1, 2, or 3 :'
                     format: int64
                     type: integer
-                  username:
-                    description: (String) The username of the internal user.
+                  ldapGroupDn:
+                    description: (String) The distinguished name of the group within
+                      AD/LDAP.
                     type: string
                 type: object
               managementPolicies:
@@ -210,51 +156,33 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.email is a required parameter
+            - message: spec.forProvider.groupName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.email)
-                || (has(self.initProvider) && has(self.initProvider.email))'
-            - message: spec.forProvider.fullName is a required parameter
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.groupName)
+                || (has(self.initProvider) && has(self.initProvider.groupName))'
+            - message: spec.forProvider.groupType is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.fullName)
-                || (has(self.initProvider) && has(self.initProvider.fullName))'
-            - message: spec.forProvider.username is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.username)
-                || (has(self.initProvider) && has(self.initProvider.username))'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.groupType)
+                || (has(self.initProvider) && has(self.initProvider.groupType))'
           status:
-            description: UserStatus defines the observed state of User.
+            description: GroupStatus defines the observed state of Group.
             properties:
               atProvider:
                 properties:
-                  admin:
-                    description: '(Boolean) If the user will have admin rights within
-                      Harbor (Default: false)'
-                    type: boolean
-                  comment:
-                    description: (String) Any comments for that are need for the internal
-                      user.
+                  groupName:
+                    description: (String) The name of the group.
                     type: string
-                  email:
-                    description: (String) The email address of the internal user.
-                    type: string
-                  fullName:
-                    description: (String) The Full Name of the internal user.
-                    type: string
+                  groupType:
+                    description: '(Number) The numeric identifier of the group type.
+                      Valid values are 1, 2, or 3 :'
+                    format: int64
+                    type: integer
                   id:
                     description: (String) The ID of this resource.
                     type: string
-                  passwordWo:
-                    description: only) Write-only alternative for password. Must be
-                      used together with password_wo_version.
-                    type: string
-                  passwordWoVersion:
-                    description: only password updates. Must be used together with
-                      password_wo.
-                    format: int64
-                    type: integer
-                  username:
-                    description: (String) The username of the internal user.
+                  ldapGroupDn:
+                    description: (String) The distinguished name of the group within
+                      AD/LDAP.
                     type: string
                 type: object
               conditions:

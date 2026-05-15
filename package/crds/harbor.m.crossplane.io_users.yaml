@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.1
-  name: registries.harbor.harbor.m.crossplane.io
+  name: users.harbor.m.crossplane.io
 spec:
-  group: harbor.harbor.m.crossplane.io
+  group: harbor.m.crossplane.io
   names:
     categories:
     - crossplane
     - managed
     - harbor
-    kind: Registry
-    listKind: RegistryList
-    plural: registries
-    singular: registry
+    kind: User
+    listKind: UserList
+    plural: users
+    singular: user
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Registry is the Schema for the Registrys API.
+        description: User is the Schema for the Users API.
         properties:
           apiVersion:
             description: |-
@@ -54,17 +54,27 @@ spec:
           metadata:
             type: object
           spec:
-            description: RegistrySpec defines the desired state of Registry
+            description: UserSpec defines the desired state of User
             properties:
               forProvider:
                 properties:
-                  accessId:
-                    description: (String) The username / access ID for the external
-                      container register.
+                  admin:
+                    description: '(Boolean) If the user will have admin rights within
+                      Harbor (Default: false)'
+                    type: boolean
+                  comment:
+                    description: (String) Any comments for that are need for the internal
+                      user.
                     type: string
-                  accessSecretSecretRef:
-                    description: (String, Sensitive) The password / access key / token
-                      for the external container register.
+                  email:
+                    description: (String) The email address of the internal user.
+                    type: string
+                  fullName:
+                    description: (String) The Full Name of the internal user.
+                    type: string
+                  passwordSecretRef:
+                    description: (String, Sensitive) The password for the internal
+                      user. Conflicts with password_wo_version.
                     properties:
                       key:
                         type: string
@@ -75,25 +85,17 @@ spec:
                     - key
                     - name
                     type: object
-                  caCertificate:
-                    description: |-
-                      encoded CA certificate trusting the registry custom-signed certificate.
-                      (ignored in <2.15.0)
+                  passwordWo:
+                    description: only) Write-only alternative for password. Must be
+                      used together with password_wo_version.
                     type: string
-                  description:
-                    description: (String) The description of the external container
-                      register.
-                    type: string
-                  endpointUrl:
-                    description: (String) The URL endpoint for the external container
-                      register i.e. "https://hub.docker.com"
-                    type: string
-                  insecure:
-                    description: '(Boolean) Verifies the certificate of the external
-                      container register. (Default: false)'
-                    type: boolean
-                  providerName:
-                    description: (String) The name of the provider.
+                  passwordWoVersion:
+                    description: only password updates. Must be used together with
+                      password_wo.
+                    format: int64
+                    type: integer
+                  username:
+                    description: (String) The username of the internal user.
                     type: string
                 type: object
               initProvider:
@@ -109,13 +111,23 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  accessId:
-                    description: (String) The username / access ID for the external
-                      container register.
+                  admin:
+                    description: '(Boolean) If the user will have admin rights within
+                      Harbor (Default: false)'
+                    type: boolean
+                  comment:
+                    description: (String) Any comments for that are need for the internal
+                      user.
                     type: string
-                  accessSecretSecretRef:
-                    description: (String, Sensitive) The password / access key / token
-                      for the external container register.
+                  email:
+                    description: (String) The email address of the internal user.
+                    type: string
+                  fullName:
+                    description: (String) The Full Name of the internal user.
+                    type: string
+                  passwordSecretRef:
+                    description: (String, Sensitive) The password for the internal
+                      user. Conflicts with password_wo_version.
                     properties:
                       key:
                         type: string
@@ -126,25 +138,17 @@ spec:
                     - key
                     - name
                     type: object
-                  caCertificate:
-                    description: |-
-                      encoded CA certificate trusting the registry custom-signed certificate.
-                      (ignored in <2.15.0)
+                  passwordWo:
+                    description: only) Write-only alternative for password. Must be
+                      used together with password_wo_version.
                     type: string
-                  description:
-                    description: (String) The description of the external container
-                      register.
-                    type: string
-                  endpointUrl:
-                    description: (String) The URL endpoint for the external container
-                      register i.e. "https://hub.docker.com"
-                    type: string
-                  insecure:
-                    description: '(Boolean) Verifies the certificate of the external
-                      container register. (Default: false)'
-                    type: boolean
-                  providerName:
-                    description: (String) The name of the provider.
+                  passwordWoVersion:
+                    description: only password updates. Must be used together with
+                      password_wo.
+                    format: int64
+                    type: integer
+                  username:
+                    description: (String) The username of the internal user.
                     type: string
                 type: object
               managementPolicies:
@@ -206,52 +210,51 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.endpointUrl is a required parameter
+            - message: spec.forProvider.email is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.endpointUrl)
-                || (has(self.initProvider) && has(self.initProvider.endpointUrl))'
-            - message: spec.forProvider.providerName is a required parameter
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.email)
+                || (has(self.initProvider) && has(self.initProvider.email))'
+            - message: spec.forProvider.fullName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.providerName)
-                || (has(self.initProvider) && has(self.initProvider.providerName))'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.fullName)
+                || (has(self.initProvider) && has(self.initProvider.fullName))'
+            - message: spec.forProvider.username is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.username)
+                || (has(self.initProvider) && has(self.initProvider.username))'
           status:
-            description: RegistryStatus defines the observed state of Registry.
+            description: UserStatus defines the observed state of User.
             properties:
               atProvider:
                 properties:
-                  accessId:
-                    description: (String) The username / access ID for the external
-                      container register.
+                  admin:
+                    description: '(Boolean) If the user will have admin rights within
+                      Harbor (Default: false)'
+                    type: boolean
+                  comment:
+                    description: (String) Any comments for that are need for the internal
+                      user.
                     type: string
-                  caCertificate:
-                    description: |-
-                      encoded CA certificate trusting the registry custom-signed certificate.
-                      (ignored in <2.15.0)
+                  email:
+                    description: (String) The email address of the internal user.
                     type: string
-                  description:
-                    description: (String) The description of the external container
-                      register.
-                    type: string
-                  endpointUrl:
-                    description: (String) The URL endpoint for the external container
-                      register i.e. "https://hub.docker.com"
+                  fullName:
+                    description: (String) The Full Name of the internal user.
                     type: string
                   id:
                     description: (String) The ID of this resource.
                     type: string
-                  insecure:
-                    description: '(Boolean) Verifies the certificate of the external
-                      container register. (Default: false)'
-                    type: boolean
-                  providerName:
-                    description: (String) The name of the provider.
+                  passwordWo:
+                    description: only) Write-only alternative for password. Must be
+                      used together with password_wo_version.
                     type: string
-                  registryId:
-                    description: (Number)
+                  passwordWoVersion:
+                    description: only password updates. Must be used together with
+                      password_wo.
                     format: int64
                     type: integer
-                  status:
-                    description: (String)
+                  username:
+                    description: (String) The username of the internal user.
                     type: string
                 type: object
               conditions:

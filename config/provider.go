@@ -76,6 +76,16 @@ func GetProviderNamespaced(_ context.Context, sdkProvider *schema.Provider) (*uj
 		configure(pc)
 	}
 
+	// Resources whose auto-derived ShortGroup duplicates the RootGroup's
+	// leading segment (harbor_project, harbor_user, harbor_group, etc.) are
+	// flattened so their CRDs land at harbor.m.crossplane.io rather than the
+	// duplicate-prefixed harbor.harbor.m.crossplane.io.
+	for _, r := range pc.Resources {
+		if r.ShortGroup == "harbor" {
+			r.ShortGroup = ""
+		}
+	}
+
 	pc.ConfigureResources()
 	return pc, nil
 }

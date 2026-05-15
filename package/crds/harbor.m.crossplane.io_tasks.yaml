@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.1
-  name: groups.harbor.harbor.m.crossplane.io
+  name: tasks.harbor.m.crossplane.io
 spec:
-  group: harbor.harbor.m.crossplane.io
+  group: harbor.m.crossplane.io
   names:
     categories:
     - crossplane
     - managed
     - harbor
-    kind: Group
-    listKind: GroupList
-    plural: groups
-    singular: group
+    kind: Tasks
+    listKind: TasksList
+    plural: tasks
+    singular: tasks
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Group is the Schema for the Groups API.
+        description: Tasks is the Schema for the Taskss API.
         properties:
           apiVersion:
             description: |-
@@ -54,21 +54,13 @@ spec:
           metadata:
             type: object
           spec:
-            description: GroupSpec defines the desired state of Group
+            description: TasksSpec defines the desired state of Tasks
             properties:
               forProvider:
                 properties:
-                  groupName:
-                    description: (String) The name of the group.
-                    type: string
-                  groupType:
-                    description: '(Number) The numeric identifier of the group type.
-                      Valid values are 1, 2, or 3 :'
-                    format: int64
-                    type: integer
-                  ldapGroupDn:
-                    description: (String) The distinguished name of the group within
-                      AD/LDAP.
+                  vulnerabilityScanPolicy:
+                    description: (String) The frequency of the vulnerability scanning
+                      is done. Can be to "hourly", "daily" or "weekly"
                     type: string
                 type: object
               initProvider:
@@ -84,17 +76,9 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  groupName:
-                    description: (String) The name of the group.
-                    type: string
-                  groupType:
-                    description: '(Number) The numeric identifier of the group type.
-                      Valid values are 1, 2, or 3 :'
-                    format: int64
-                    type: integer
-                  ldapGroupDn:
-                    description: (String) The distinguished name of the group within
-                      AD/LDAP.
+                  vulnerabilityScanPolicy:
+                    description: (String) The frequency of the vulnerability scanning
+                      is done. Can be to "hourly", "daily" or "weekly"
                     type: string
                 type: object
               managementPolicies:
@@ -156,33 +140,21 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: spec.forProvider.groupName is a required parameter
+            - message: spec.forProvider.vulnerabilityScanPolicy is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.groupName)
-                || (has(self.initProvider) && has(self.initProvider.groupName))'
-            - message: spec.forProvider.groupType is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.groupType)
-                || (has(self.initProvider) && has(self.initProvider.groupType))'
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.vulnerabilityScanPolicy)
+                || (has(self.initProvider) && has(self.initProvider.vulnerabilityScanPolicy))'
           status:
-            description: GroupStatus defines the observed state of Group.
+            description: TasksStatus defines the observed state of Tasks.
             properties:
               atProvider:
                 properties:
-                  groupName:
-                    description: (String) The name of the group.
-                    type: string
-                  groupType:
-                    description: '(Number) The numeric identifier of the group type.
-                      Valid values are 1, 2, or 3 :'
-                    format: int64
-                    type: integer
                   id:
                     description: (String) The ID of this resource.
                     type: string
-                  ldapGroupDn:
-                    description: (String) The distinguished name of the group within
-                      AD/LDAP.
+                  vulnerabilityScanPolicy:
+                    description: (String) The frequency of the vulnerability scanning
+                      is done. Can be to "hourly", "daily" or "weekly"
                     type: string
                 type: object
               conditions:
