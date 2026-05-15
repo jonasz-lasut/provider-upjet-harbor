@@ -8,7 +8,7 @@
 //go:generate rm -rf ../package/crds
 
 // Remove generated files
-//go:generate bash -c "find . -iname 'zz_*' ! -iname 'zz_generated.managed*.go' -delete"
+//go:generate bash -c "find . -iname 'zz_*' ! -iname 'zz_generated.managed*.go' ! -iname 'zz_generated.pc*.go' ! -iname 'zz_generated.pcu*.go' ! -iname 'zz_generated.pculist*.go' -delete"
 //go:generate bash -c "find . -type d -empty -delete"
 //go:generate bash -c "find ../internal/controller -iname 'zz_*' -delete"
 //go:generate bash -c "find ../internal/controller -type d -empty -delete"
