@@ -10,6 +10,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/crossplane/upjet/v2/pkg/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	clusterv1beta1 "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster/v1beta1"
 	namespacedv1beta1 "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/v1beta1"
@@ -22,40 +23,80 @@ const (
 	errTrackUsage           = "cannot track ProviderConfig usage"
 	errExtractCredentials   = "cannot extract credentials"
 	errUnmarshalCredentials = "cannot unmarshal harbor credentials as JSON"
+	errNoCredentials        = "no harbor credentials provided (need username+password or bearer_token)"
 )
 
-// TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
-// returns Terraform provider setup configuration
-func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn {
-	return func(ctx context.Context, client client.Client, mg resource.Managed) (terraform.Setup, error) {
-		ps := terraform.Setup{
-			Version: version,
-			Requirement: terraform.ProviderRequirement{
-				Source:  providerSource,
-				Version: providerVersion,
-			},
-		}
+// harborProviderConfig is the minimal slice of ProviderConfigSpec that
+// buildHarborSetup needs. Extracted as its own struct so unit tests don't
+// depend on the full v1beta1 ProviderConfigSpec / Kubernetes client wiring.
+type harborProviderConfig struct {
+	URL         string
+	Insecure    bool
+	APIVersion  *int
+	RobotPrefix string
+}
 
-		pcSpec, err := resolveProviderConfig(ctx, client, mg)
+// buildHarborSetup translates a parsed ProviderConfig + raw credentials
+// secret payload into a terraform.Setup. Pure function — no Kubernetes,
+// no SDK provider — so tests can exercise the credential-selection logic
+// directly.
+func buildHarborSetup(cfg harborProviderConfig, credsData []byte) (terraform.Setup, error) {
+	ps := terraform.Setup{}
+	creds := map[string]string{}
+	if err := json.Unmarshal(credsData, &creds); err != nil {
+		return ps, errors.Wrap(err, errUnmarshalCredentials)
+	}
+
+	ps.Configuration = map[string]any{
+		"url":      cfg.URL,
+		"insecure": cfg.Insecure,
+	}
+	if cfg.APIVersion != nil {
+		ps.Configuration["api_version"] = *cfg.APIVersion
+	}
+	if cfg.RobotPrefix != "" {
+		ps.Configuration["robot_prefix"] = cfg.RobotPrefix
+	}
+
+	switch {
+	case creds["bearer_token"] != "":
+		ps.Configuration["bearer_token"] = creds["bearer_token"]
+	case creds["username"] != "" && creds["password"] != "":
+		ps.Configuration["username"] = creds["username"]
+		ps.Configuration["password"] = creds["password"]
+	default:
+		return ps, errors.New(errNoCredentials)
+	}
+	return ps, nil
+}
+
+// TerraformSetupBuilder returns a terraform.SetupFn for the Harbor provider,
+// using SDK-mode. The tfProvider argument is the in-process SDK provider
+// instance; upjet's controller uses it via WithTerraformProvider (configured
+// in config/provider.go), so this function only needs to translate the
+// ProviderConfig + secret into the dynamic Configuration map.
+func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
+	_ = tfProvider // accepted for parity with the SDK-mode call site; closure has no per-call use
+	return func(ctx context.Context, c client.Client, mg resource.Managed) (terraform.Setup, error) {
+		ps := terraform.Setup{}
+
+		pcSpec, err := resolveProviderConfig(ctx, c, mg)
 		if err != nil {
-			return terraform.Setup{}, errors.Wrap(err, "cannot resolve provider config")
+			return ps, errors.Wrap(err, "cannot resolve provider config")
 		}
 
-		data, err := resource.CommonCredentialExtractor(ctx, pcSpec.Credentials.Source, client, pcSpec.Credentials.CommonCredentialSelectors)
+		data, err := resource.CommonCredentialExtractor(ctx, pcSpec.Credentials.Source, c, pcSpec.Credentials.CommonCredentialSelectors)
 		if err != nil {
 			return ps, errors.Wrap(err, errExtractCredentials)
 		}
-		creds := map[string]string{}
-		if err := json.Unmarshal(data, &creds); err != nil {
-			return ps, errors.Wrap(err, errUnmarshalCredentials)
-		}
 
-		// Set credentials in Terraform provider configuration.
-		/*ps.Configuration = map[string]any{
-			"username": creds["username"],
-			"password": creds["password"],
-		}*/
-		return ps, nil
+		cfg := harborProviderConfig{
+			URL:         pcSpec.URL,
+			Insecure:    pcSpec.Insecure,
+			APIVersion:  pcSpec.APIVersion,
+			RobotPrefix: pcSpec.RobotPrefix,
+		}
+		return buildHarborSetup(cfg, data)
 	}
 }
 
