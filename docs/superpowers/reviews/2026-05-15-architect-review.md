@@ -332,3 +332,92 @@ generator-controlled.
 - `go test ./...` succeeds (`internal/clients` passes; rest are empty `?`).
 - Network: routed via the supplied `https_proxy="http://localhost:8888"`.
   `GOPROXY=direct` used for `go mod tidy` to bypass the partial Artifactory mirror.
+
+---
+
+## Resolution
+
+**Date landed:** 2026-05-15
+
+All 10 implementation tasks (T1–T10) plus the T11 follow-up commit landed on the same
+calendar day.  Final verification (T11) confirmed a clean build, test, vet, and binary
+output.
+
+### Commits per finding
+
+| Finding | Commit | Subject |
+|---------|--------|---------|
+| L3 | `f5d58ee` | fix(clients): replace stray-space error message in resolveModern |
+| L4 | `56a002b` | fix(clients): assert resource.ProviderConfig in resolveModern |
+| B3 | `10608c8` | fix(controller): disambiguate ProviderConfigUsage watch by Kind |
+| B4 | `5cb0ff7` | feat(cmd): add health-probe-bind-addr flag and webhook readyz check |
+| B6 | `ca85efc` | feat(cmd): wire PollJitter and OperationTrackerStore on controller opts |
+| B2 | `eafd045` | feat(cmd): register upjet conversion webhooks on provider start |
+| B5 | `cf79915` | feat(apis,cmd): add resolver scheme registry and BuildScheme wiring |
+| L2 | `604b744` | fix(apis): mark v1beta1 as storage version on PC types and regen CRDs |
+| L5 | `9a19451` | chore(apis): remove empty v1alpha1 placeholder packages |
+| B1 | `c6c2a95` | feat(config,controller): switch to SDK-mode (no-fork) and slim Dockerfile |
+| B1 (follow-up) | `78a1c5f` | fix(image): drop terraformrc.hcl copy and stale TERRAFORM_* build args |
+| L5 (follow-up) | `e8b3fa8` | chore(apis): re-prune v1alpha1 placeholder imports after make generate |
+
+### Verification results
+
+**Step 1 — `go build ./...`:** EXIT 0, no errors.
+
+**Step 2 — `go test -count=1 ./...`:** EXIT 0. `internal/clients` reports `ok`; all
+other packages report `? ... [no test files]`.
+
+**Step 3 — `go vet ./...`:** EXIT 0, no findings.
+
+**Step 4 — Binary builds:**
+- `/tmp/provider-bin`: ELF 64-bit LSB executable, x86-64
+- `/tmp/generator-bin`: ELF 64-bit LSB executable, x86-64
+
+### Step 5 — `make generate` idempotency
+
+`make generate` is **not fully idempotent** at this HEAD due to two interacting issues:
+
+1. **L5 re-emission (documented):** The upjet generator re-emits
+   `apis/cluster/v1alpha1` and `apis/namespaced/v1alpha1` placeholder imports in
+   `apis/cluster/zz_register.go` and `apis/namespaced/zz_register.go`.  These
+   packages were intentionally deleted in T9 (L5 fix).
+
+2. **Secondary effect (new):** The `apis/generate.go` cleanup glob
+   `find . -iname 'zz_*' ! -iname 'zz_generated.managed*.go' -delete`
+   deletes `zz_generated.pc*.go` / `zz_generated.pcu*.go` / `zz_generated.pculist*.go`
+   before angryjet can regenerate them.  Because issue (1) causes `controller-gen`
+   to fail (broken v1alpha1 imports → compile error), angryjet never runs, leaving
+   the deleted files unrestored.
+
+**Remediation applied in commit `e8b3fa8`:**
+- Removed the re-emitted v1alpha1 import lines from `zz_register.go` (identical
+  to the T9 prune).
+- Ran `angryjet generate-methodsets` directly to restore the six deleted `zz_generated.pc*.go`
+  files (content matched HEAD byte-for-byte).
+- Updated the cleanup glob in `apis/generate.go` to also exclude
+  `zz_generated.pc*.go`, `zz_generated.pcu*.go`, and `zz_generated.pculist*.go`
+  from deletion, preventing the secondary effect from recurring.
+
+After the remediation, `go build ./...` confirmed EXIT 0 and `git status` reported a
+clean working tree (untracked plan file only).
+
+**Root cause note:** Full idempotency requires patching the upjet generator (or its
+harbor configuration) to not emit v1alpha1 entries for groups where the placeholder
+package has been deleted.  That is generator-level work beyond the scope of these
+fixes and is tracked as a known limitation.
+
+### Findings NOT addressed and rationale
+
+| Finding | Action | Rationale |
+|---------|--------|-----------|
+| L1 | No action | Duplicate `+kubebuilder:resource:scope` markers match the azuread template convention; controller-gen accepts it and last-marker wins. No functional risk. |
+| L6 | No action | Informational only.  The generator regenerates `zz_register.go` correctly from the present group layout; the "manually edited" comment in the original review was already obsolete after T9. |
+| All Cosmetics | No action | Intentional v0 acceptance: SPDX header mix, `_ = tfProvider` comment, no `examples-generated/cluster/`, namespace default, logger name. |
+
+### Summary
+
+All 6 behavioral gaps (B1–B6) closed; 4 of 6 latent bugs (L2–L5) fixed; L1 and L6
+documented as no-action.  `make generate` remains non-idempotent due to the upjet
+generator re-emitting deleted v1alpha1 placeholder imports (a known limitation
+documented above); a protective fix was added to `apis/generate.go` to prevent the
+secondary `zz_generated.pc*.go` deletion side-effect.
