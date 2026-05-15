@@ -64,7 +64,7 @@ type RegistryObservation struct {
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 
 	// (Number)
-	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+	RegistryID *string `json:"registryId,omitempty" tf:"registry_id,omitempty"`
 
 	// (String)
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`

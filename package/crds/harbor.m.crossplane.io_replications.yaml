@@ -124,8 +124,7 @@ spec:
                     type: boolean
                   registryId:
                     description: (Number) The registry ID of the Registry Endpoint.
-                    format: int64
-                    type: integer
+                    type: string
                   registryIdRef:
                     description: Reference to a Registry in harbor to populate registryId.
                     properties:
@@ -301,8 +300,7 @@ spec:
                     type: boolean
                   registryId:
                     description: (Number) The registry ID of the Registry Endpoint.
-                    format: int64
-                    type: integer
+                    type: string
                   registryIdRef:
                     description: Reference to a Registry in harbor to populate registryId.
                     properties:
@@ -536,8 +534,7 @@ spec:
                     type: boolean
                   registryId:
                     description: (Number) The registry ID of the Registry Endpoint.
-                    format: int64
-                    type: integer
+                    type: string
                   replicationPolicyId:
                     description: (Number)
                     format: int64

@@ -108,7 +108,7 @@ type ReplicationInitParameters struct {
 	// (Number) The registry ID of the Registry Endpoint.
 	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Registry
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("registry_id",true)
-	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+	RegistryID *string `json:"registryId,omitempty" tf:"registry_id,omitempty"`
 
 	// Reference to a Registry in harbor to populate registryId.
 	// +kubebuilder:validation:Optional
@@ -164,7 +164,7 @@ type ReplicationObservation struct {
 	Override *bool `json:"override,omitempty" tf:"override,omitempty"`
 
 	// (Number) The registry ID of the Registry Endpoint.
-	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+	RegistryID *string `json:"registryId,omitempty" tf:"registry_id,omitempty"`
 
 	// (Number)
 	ReplicationPolicyID *int64 `json:"replicationPolicyId,omitempty" tf:"replication_policy_id,omitempty"`
@@ -225,7 +225,7 @@ type ReplicationParameters struct {
 	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Registry
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("registry_id",true)
 	// +kubebuilder:validation:Optional
-	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+	RegistryID *string `json:"registryId,omitempty" tf:"registry_id,omitempty"`
 
 	// Reference to a Registry in harbor to populate registryId.
 	// +kubebuilder:validation:Optional

@@ -1030,7 +1030,7 @@ func (in *RegistryObservation) DeepCopyInto(out *RegistryObservation) {
 	}
 	if in.RegistryID != nil {
 		in, out := &in.RegistryID, &out.RegistryID
-		*out = new(int64)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Status != nil {
@@ -1219,7 +1219,7 @@ func (in *ReplicationInitParameters) DeepCopyInto(out *ReplicationInitParameters
 	}
 	if in.RegistryID != nil {
 		in, out := &in.RegistryID, &out.RegistryID
-		*out = new(int64)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RegistryIDRef != nil {
@@ -1353,7 +1353,7 @@ func (in *ReplicationObservation) DeepCopyInto(out *ReplicationObservation) {
 	}
 	if in.RegistryID != nil {
 		in, out := &in.RegistryID, &out.RegistryID
-		*out = new(int64)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ReplicationPolicyID != nil {
@@ -1445,7 +1445,7 @@ func (in *ReplicationParameters) DeepCopyInto(out *ReplicationParameters) {
 	}
 	if in.RegistryID != nil {
 		in, out := &in.RegistryID, &out.RegistryID
-		*out = new(int64)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RegistryIDRef != nil {
