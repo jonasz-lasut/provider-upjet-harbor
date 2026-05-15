@@ -22,7 +22,9 @@ spec:
     - TAG_RETENTION
     name: test_webhook
     notifyType: http
-    projectId: ${harbor_project.main.id}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
 
 ---
 

@@ -9,6 +9,7 @@
 package v1alpha1
 
 import (
+	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -51,6 +52,16 @@ func (in *TagRuleInitParameters) DeepCopyInto(out *TagRuleInitParameters) {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoExcluding != nil {
 		in, out := &in.RepoExcluding, &out.RepoExcluding
@@ -178,6 +189,16 @@ func (in *TagRuleParameters) DeepCopyInto(out *TagRuleParameters) {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoExcluding != nil {
 		in, out := &in.RepoExcluding, &out.RepoExcluding

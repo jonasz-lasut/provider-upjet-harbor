@@ -20,7 +20,17 @@ type TagRuleInitParameters struct {
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// (String) The project id of which you would like to apply this policy.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",true)
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in harbor to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in harbor to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) For the repositories excluding.
 	RepoExcluding *string `json:"repoExcluding,omitempty" tf:"repo_excluding,omitempty"`
@@ -66,8 +76,18 @@ type TagRuleParameters struct {
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// (String) The project id of which you would like to apply this policy.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",true)
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in harbor to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in harbor to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) For the repositories excluding.
 	// +kubebuilder:validation:Optional
@@ -122,9 +142,8 @@ type TagRuleStatus struct {
 type TagRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
-	Spec   TagRuleSpec   `json:"spec"`
-	Status TagRuleStatus `json:"status,omitempty"`
+	Spec              TagRuleSpec   `json:"spec"`
+	Status            TagRuleStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

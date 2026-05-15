@@ -41,7 +41,17 @@ type WebhookInitParameters struct {
 	PayloadFormat *string `json:"payloadFormat,omitempty" tf:"payload_format,omitempty"`
 
 	// (String) The project id of the harbor that webhook related to.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",true)
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in harbor to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in harbor to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Boolean) checks the for validate SSL certificate.
 	SkipCertVerify *bool `json:"skipCertVerify,omitempty" tf:"skip_cert_verify,omitempty"`
@@ -118,8 +128,18 @@ type WebhookParameters struct {
 	PayloadFormat *string `json:"payloadFormat,omitempty" tf:"payload_format,omitempty"`
 
 	// (String) The project id of the harbor that webhook related to.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",true)
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in harbor to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in harbor to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Boolean) checks the for validate SSL certificate.
 	// +kubebuilder:validation:Optional
@@ -166,7 +186,6 @@ type Webhook struct {
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.eventsTypes) || (has(self.initProvider) && has(self.initProvider.eventsTypes))",message="spec.forProvider.eventsTypes is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.notifyType) || (has(self.initProvider) && has(self.initProvider.notifyType))",message="spec.forProvider.notifyType is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
 	Spec   WebhookSpec   `json:"spec"`
 	Status WebhookStatus `json:"status,omitempty"`
 }

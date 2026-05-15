@@ -10,7 +10,9 @@ metadata:
 spec:
   forProvider:
     action: push
-    registryId: ${harbor_registry.main.registry_id}
+    registryIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
 
 ---
 

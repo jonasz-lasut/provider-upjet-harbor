@@ -23,7 +23,17 @@ type PolicyInitParameters struct {
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
 	// (String) The project id of which you would like to apply this policy.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",true)
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	// Reference to a Project in harbor to populate scope.
+	// +kubebuilder:validation:Optional
+	ScopeRef *v1.NamespacedReference `json:"scopeRef,omitempty" tf:"-"`
+
+	// Selector for a Project in harbor to populate scope.
+	// +kubebuilder:validation:Optional
+	ScopeSelector *v1.NamespacedSelector `json:"scopeSelector,omitempty" tf:"-"`
 }
 
 type PolicyObservation struct {
@@ -52,8 +62,18 @@ type PolicyParameters struct {
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
 
 	// (String) The project id of which you would like to apply this policy.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",true)
 	// +kubebuilder:validation:Optional
 	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+
+	// Reference to a Project in harbor to populate scope.
+	// +kubebuilder:validation:Optional
+	ScopeRef *v1.NamespacedReference `json:"scopeRef,omitempty" tf:"-"`
+
+	// Selector for a Project in harbor to populate scope.
+	// +kubebuilder:validation:Optional
+	ScopeSelector *v1.NamespacedSelector `json:"scopeSelector,omitempty" tf:"-"`
 }
 
 type RuleInitParameters struct {
@@ -212,7 +232,6 @@ type Policy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.rule) || (has(self.initProvider) && has(self.initProvider.rule))",message="spec.forProvider.rule is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.scope) || (has(self.initProvider) && has(self.initProvider.scope))",message="spec.forProvider.scope is a required parameter"
 	Spec   PolicySpec   `json:"spec"`
 	Status PolicyStatus `json:"status,omitempty"`
 }

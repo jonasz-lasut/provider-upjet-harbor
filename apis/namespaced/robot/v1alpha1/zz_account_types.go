@@ -167,7 +167,17 @@ type PermissionsInitParameters struct {
 	Kind *string `json:"kind,omitempty" tf:"kind,omitempty"`
 
 	// (String) namespace is the name of your project. For kind system permissions, always use / as namespace. Use * to match all projects.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// Reference to a Project in harbor to populate namespace.
+	// +kubebuilder:validation:Optional
+	NamespaceRef *v1.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
+
+	// Selector for a Project in harbor to populate namespace.
+	// +kubebuilder:validation:Optional
+	NamespaceSelector *v1.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 type PermissionsObservation struct {
@@ -193,8 +203,18 @@ type PermissionsParameters struct {
 	Kind *string `json:"kind" tf:"kind,omitempty"`
 
 	// (String) namespace is the name of your project. For kind system permissions, always use / as namespace. Use * to match all projects.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
-	Namespace *string `json:"namespace" tf:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
+
+	// Reference to a Project in harbor to populate namespace.
+	// +kubebuilder:validation:Optional
+	NamespaceRef *v1.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
+
+	// Selector for a Project in harbor to populate namespace.
+	// +kubebuilder:validation:Optional
+	NamespaceSelector *v1.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 // AccountSpec defines the desired state of Account

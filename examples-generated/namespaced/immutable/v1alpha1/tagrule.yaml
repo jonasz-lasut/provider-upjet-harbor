@@ -10,7 +10,9 @@ metadata:
 spec:
   forProvider:
     disabled: true
-    projectId: ${harbor_project.main.id}
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
     repoMatching: '**'
     tagExcluding: latest
     tagMatching: v2.*

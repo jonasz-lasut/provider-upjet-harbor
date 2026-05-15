@@ -10,8 +10,31 @@ import (
 // Configure adds Harbor project-related resource configurations (project,
 // members, webhook, label, immutable_tag_rule, preheat_instance).
 func Configure(p *ujconfig.Provider) {
-	// v0: rely on the default external-name behavior set in
-	// config/external_name.go. Per-resource customizations
-	// (reference injectors, composite IDs) go here incrementally.
-	_ = p
+	p.AddResourceConfigurator("harbor_immutable_tag_rule", func(r *ujconfig.Resource) {
+		r.References["project_id"] = ujconfig.Reference{
+			TerraformName: "harbor_project",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",true)`,
+		}
+	})
+
+	p.AddResourceConfigurator("harbor_project_member_group", func(r *ujconfig.Resource) {
+		r.References["project_id"] = ujconfig.Reference{
+			TerraformName: "harbor_project",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",true)`,
+		}
+	})
+
+	p.AddResourceConfigurator("harbor_project_member_user", func(r *ujconfig.Resource) {
+		r.References["project_id"] = ujconfig.Reference{
+			TerraformName: "harbor_project",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",true)`,
+		}
+	})
+
+	p.AddResourceConfigurator("harbor_project_webhook", func(r *ujconfig.Resource) {
+		r.References["project_id"] = ujconfig.Reference{
+			TerraformName: "harbor_project",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",true)`,
+		}
+	})
 }

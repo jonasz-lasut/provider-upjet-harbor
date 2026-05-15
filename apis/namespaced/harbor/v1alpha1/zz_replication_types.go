@@ -106,7 +106,17 @@ type ReplicationInitParameters struct {
 	Override *bool `json:"override,omitempty" tf:"override,omitempty"`
 
 	// (Number) The registry ID of the Registry Endpoint.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Registry
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("registry_id",true)
 	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+
+	// Reference to a Registry in harbor to populate registryId.
+	// +kubebuilder:validation:Optional
+	RegistryIDRef *v1.NamespacedReference `json:"registryIdRef,omitempty" tf:"-"`
+
+	// Selector for a Registry in harbor to populate registryId.
+	// +kubebuilder:validation:Optional
+	RegistryIDSelector *v1.NamespacedSelector `json:"registryIdSelector,omitempty" tf:"-"`
 
 	// (String) The scheduled time of when the container register will be push / pull. In cron base format. Hourly "0 0 * * * *", Daily "0 0 0 * * *", Monthly "0 0 0 * * 0". Can be one of the following: event_based, manual, cron format (Default: manual)
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
@@ -212,8 +222,18 @@ type ReplicationParameters struct {
 	Override *bool `json:"override,omitempty" tf:"override,omitempty"`
 
 	// (Number) The registry ID of the Registry Endpoint.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Registry
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("registry_id",true)
 	// +kubebuilder:validation:Optional
 	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+
+	// Reference to a Registry in harbor to populate registryId.
+	// +kubebuilder:validation:Optional
+	RegistryIDRef *v1.NamespacedReference `json:"registryIdRef,omitempty" tf:"-"`
+
+	// Selector for a Registry in harbor to populate registryId.
+	// +kubebuilder:validation:Optional
+	RegistryIDSelector *v1.NamespacedSelector `json:"registryIdSelector,omitempty" tf:"-"`
 
 	// (String) The scheduled time of when the container register will be push / pull. In cron base format. Hourly "0 0 * * * *", Daily "0 0 0 * * *", Monthly "0 0 0 * * 0". Can be one of the following: event_based, manual, cron format (Default: manual)
 	// +kubebuilder:validation:Optional
@@ -265,7 +285,6 @@ type Replication struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.action) || (has(self.initProvider) && has(self.initProvider.action))",message="spec.forProvider.action is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.registryId) || (has(self.initProvider) && has(self.initProvider.registryId))",message="spec.forProvider.registryId is a required parameter"
 	Spec   ReplicationSpec   `json:"spec"`
 	Status ReplicationStatus `json:"status,omitempty"`
 }

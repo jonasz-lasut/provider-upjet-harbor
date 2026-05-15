@@ -9,6 +9,7 @@
 package v1alpha1
 
 import (
+	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -58,6 +59,16 @@ func (in *PolicyInitParameters) DeepCopyInto(out *PolicyInitParameters) {
 		in, out := &in.Scope, &out.Scope
 		*out = new(string)
 		**out = **in
+	}
+	if in.ScopeRef != nil {
+		in, out := &in.ScopeRef, &out.ScopeRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ScopeSelector != nil {
+		in, out := &in.ScopeSelector, &out.ScopeSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -159,6 +170,16 @@ func (in *PolicyParameters) DeepCopyInto(out *PolicyParameters) {
 		in, out := &in.Scope, &out.Scope
 		*out = new(string)
 		**out = **in
+	}
+	if in.ScopeRef != nil {
+		in, out := &in.ScopeRef, &out.ScopeRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ScopeSelector != nil {
+		in, out := &in.ScopeSelector, &out.ScopeSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 

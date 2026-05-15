@@ -9,6 +9,7 @@
 package v1alpha1
 
 import (
+	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -61,6 +62,16 @@ func (in *MemberGroupInitParameters) DeepCopyInto(out *MemberGroupInitParameters
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Role != nil {
 		in, out := &in.Role, &out.Role
@@ -194,6 +205,16 @@ func (in *MemberGroupParameters) DeepCopyInto(out *MemberGroupParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Role != nil {
 		in, out := &in.Role, &out.Role
 		*out = new(string)
@@ -285,6 +306,16 @@ func (in *MemberUserInitParameters) DeepCopyInto(out *MemberUserInitParameters) 
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Role != nil {
 		in, out := &in.Role, &out.Role
@@ -387,6 +418,16 @@ func (in *MemberUserParameters) DeepCopyInto(out *MemberUserParameters) {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Role != nil {
 		in, out := &in.Role, &out.Role
@@ -525,6 +566,16 @@ func (in *WebhookInitParameters) DeepCopyInto(out *WebhookInitParameters) {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SkipCertVerify != nil {
 		in, out := &in.SkipCertVerify, &out.SkipCertVerify
@@ -704,6 +755,16 @@ func (in *WebhookParameters) DeepCopyInto(out *WebhookParameters) {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ProjectIDRef != nil {
+		in, out := &in.ProjectIDRef, &out.ProjectIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ProjectIDSelector != nil {
+		in, out := &in.ProjectIDSelector, &out.ProjectIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SkipCertVerify != nil {
 		in, out := &in.SkipCertVerify, &out.SkipCertVerify

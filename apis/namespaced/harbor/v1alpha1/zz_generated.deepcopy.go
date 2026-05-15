@@ -1222,6 +1222,16 @@ func (in *ReplicationInitParameters) DeepCopyInto(out *ReplicationInitParameters
 		*out = new(int64)
 		**out = **in
 	}
+	if in.RegistryIDRef != nil {
+		in, out := &in.RegistryIDRef, &out.RegistryIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RegistryIDSelector != nil {
+		in, out := &in.RegistryIDSelector, &out.RegistryIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Schedule != nil {
 		in, out := &in.Schedule, &out.Schedule
 		*out = new(string)
@@ -1437,6 +1447,16 @@ func (in *ReplicationParameters) DeepCopyInto(out *ReplicationParameters) {
 		in, out := &in.RegistryID, &out.RegistryID
 		*out = new(int64)
 		**out = **in
+	}
+	if in.RegistryIDRef != nil {
+		in, out := &in.RegistryIDRef, &out.RegistryIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RegistryIDSelector != nil {
+		in, out := &in.RegistryIDSelector, &out.RegistryIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Schedule != nil {
 		in, out := &in.Schedule, &out.Schedule
