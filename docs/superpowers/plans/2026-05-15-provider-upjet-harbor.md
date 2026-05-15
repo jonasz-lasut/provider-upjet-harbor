@@ -730,6 +730,8 @@ package clients
 
 import (
 	"testing"
+
+	"k8s.io/utils/ptr"
 )
 
 func TestBuildHarborSetup(t *testing.T) {
@@ -789,7 +791,7 @@ func TestBuildHarborSetup(t *testing.T) {
 			name:   "api_version and robot_prefix propagated",
 			pcSpec: harborProviderConfig{
 				URL:         "https://harbor.example.com",
-				APIVersion:  intPtr(2),
+				APIVersion:  ptr.To(2),
 				RobotPrefix: "robot$",
 			},
 			credsJSON: `{"username":"u","password":"p"}`,
@@ -824,8 +826,6 @@ func TestBuildHarborSetup(t *testing.T) {
 		})
 	}
 }
-
-func intPtr(i int) *int { return &i }
 ```
 
 This test references two symbols (`harborProviderConfig` and `buildHarborSetup`) that don't exist yet — that's expected.
