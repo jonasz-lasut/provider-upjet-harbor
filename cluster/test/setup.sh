@@ -11,20 +11,24 @@ ${KUBECTL} wait provider.pkg --all --for condition=Healthy --timeout 5m
 echo "Waiting for all pods to come online..."
 ${KUBECTL} -n crossplane-system wait --for=condition=Available deployment --all --timeout=5m
 
-echo "Creating a default provider config..."
-cat <<EOF | ${KUBECTL} apply -f -
-apiVersion: harbor.crossplane.io/v1beta1
-kind: ProviderConfig
-metadata:
-  name: default
-spec:
-  credentials:
-    source: Secret
-    secretRef:
-      name: provider-secret
-      namespace: crossplane-system
-      key: credentials
-EOF
+echo "Installing Harbor via Helm..."
+${HELM} repo add harbor https://helm.goharbor.io
+${HELM} repo update
+${HELM} upgrade --install harbor harbor/harbor \
+  --namespace harbor \
+  --create-namespace \
+  --set expose.type=clusterIP \
+  --set expose.tls.enabled=false \
+  --set externalURL=http://harbor.harbor.svc.cluster.local \
+  --set harborAdminPassword=Harbor12345 \
+  --set persistence.enabled=false \
+  --wait \
+  --atomic
+
+echo "Creating Harbor provider credentials secret..."
+${KUBECTL} -n crossplane-system create secret generic harbor-credentials \
+  --from-literal=credentials='{"username":"admin","password":"Harbor12345"}' \
+  --dry-run=client -o yaml | ${KUBECTL} apply -f -
 
 echo "Creating a default cluster provider config (v2-style)..."
 cat <<EOF | ${KUBECTL} apply -f -
@@ -33,10 +37,11 @@ kind: ClusterProviderConfig
 metadata:
   name: default
 spec:
+  url: http://harbor.harbor.svc.cluster.local
   credentials:
     source: Secret
     secretRef:
-      name: provider-secret
+      name: harbor-credentials
       namespace: crossplane-system
       key: credentials
 EOF

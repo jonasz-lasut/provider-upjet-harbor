@@ -33,4 +33,5 @@ metadata:
   name: main
   namespace: crossplane-system
 spec:
-  forProvider: {}
+  forProvider:
+    name: acctest

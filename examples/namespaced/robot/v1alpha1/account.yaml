@@ -14,29 +14,19 @@ spec:
     name: example-system
     permissions:
     - access:
-      - action: create
-        resource: label
+        - action: create
+          resource: label
       kind: system
-      namespaceSelector:
-        matchLabels:
-          testing.upbound.io/example-name: example
+      namespace: "*"
     - access:
-      - action: push
-        resource: repository
+        - action: push
+          resource: repository
+        - action: pull
+          resource: repository
       kind: project
       namespaceSelector:
         matchLabels:
           testing.upbound.io/example-name: main
-    - access:
-      - action: pull
-        resource: repository
-      kind: project
-      namespaceSelector:
-        matchLabels:
-          testing.upbound.io/example-name: example
-    secretSecretRef:
-      key: attribute.password.result
-      name: example-
 
 ---
 

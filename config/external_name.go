@@ -13,7 +13,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"harbor_config_auth":            config.IdentifierFromProvider,
 	"harbor_config_system":          config.IdentifierFromProvider,
 	"harbor_config_security":        config.IdentifierFromProvider,
-	"harbor_project":                config.NameAsIdentifier,
+	"harbor_project":                config.IdentifierFromProvider,
 	"harbor_project_member_group":   config.IdentifierFromProvider,
 	"harbor_project_member_user":    config.IdentifierFromProvider,
 	"harbor_project_webhook":        config.IdentifierFromProvider,

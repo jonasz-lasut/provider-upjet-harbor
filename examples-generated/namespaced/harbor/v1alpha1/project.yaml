@@ -12,6 +12,7 @@ spec:
     autoSbomGeneration: true
     enableContentTrust: true
     enableContentTrustCosign: false
+    name: main
     public: false
     vulnerabilityScanner: Trivy
     vulnerabilityScanning: true

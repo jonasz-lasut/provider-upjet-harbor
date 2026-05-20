@@ -7,6 +7,8 @@ import (
 	"testing"
 
 	"k8s.io/utils/ptr"
+
+	namespacedv1beta1 "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/v1beta1"
 )
 
 var (
@@ -16,7 +18,7 @@ var (
 func TestBuildHarborSetup(t *testing.T) {
 	tests := []struct {
 		name           string
-		pcSpec         harborProviderConfig
+		pcSpec         namespacedv1beta1.ProviderConfigSpec
 		credsJSON      string
 		wantErr        bool
 		wantContains   map[string]any
@@ -24,7 +26,7 @@ func TestBuildHarborSetup(t *testing.T) {
 	}{
 		{
 			name:      "basic auth",
-			pcSpec:    harborProviderConfig{URL: testHarborURL, Insecure: false},
+			pcSpec:    namespacedv1beta1.ProviderConfigSpec{URL: ptr.To(testHarborURL), Insecure: ptr.To(false)},
 			credsJSON: `{"username":"admin","password":"Harbor12345"}`,
 			wantContains: map[string]any{
 				"url":      testHarborURL,
@@ -36,7 +38,7 @@ func TestBuildHarborSetup(t *testing.T) {
 		},
 		{
 			name:      "bearer token",
-			pcSpec:    harborProviderConfig{URL: testHarborURL},
+			pcSpec:    namespacedv1beta1.ProviderConfigSpec{URL: ptr.To(testHarborURL)},
 			credsJSON: `{"bearer_token":"eyJhbGciOi..."}`,
 			wantContains: map[string]any{
 				"url":          testHarborURL,
@@ -46,7 +48,7 @@ func TestBuildHarborSetup(t *testing.T) {
 		},
 		{
 			name:      "both set, bearer wins",
-			pcSpec:    harborProviderConfig{URL: testHarborURL},
+			pcSpec:    namespacedv1beta1.ProviderConfigSpec{URL: ptr.To(testHarborURL)},
 			credsJSON: `{"username":"admin","password":"x","bearer_token":"tok"}`,
 			wantContains: map[string]any{
 				"url":          testHarborURL,
@@ -56,22 +58,22 @@ func TestBuildHarborSetup(t *testing.T) {
 		},
 		{
 			name:      "no credentials -> error",
-			pcSpec:    harborProviderConfig{URL: testHarborURL},
+			pcSpec:    namespacedv1beta1.ProviderConfigSpec{URL: ptr.To(testHarborURL)},
 			credsJSON: `{}`,
 			wantErr:   true,
 		},
 		{
 			name:      "malformed JSON -> error",
-			pcSpec:    harborProviderConfig{URL: testHarborURL},
+			pcSpec:    namespacedv1beta1.ProviderConfigSpec{URL: ptr.To(testHarborURL)},
 			credsJSON: `{not json`,
 			wantErr:   true,
 		},
 		{
 			name: "api_version and robot_prefix propagated",
-			pcSpec: harborProviderConfig{
-				URL:         testHarborURL,
+			pcSpec: namespacedv1beta1.ProviderConfigSpec{
+				URL:         ptr.To(testHarborURL),
 				APIVersion:  ptr.To(2),
-				RobotPrefix: "robot$",
+				RobotPrefix: ptr.To("robot$"),
 			},
 			credsJSON: `{"username":"u","password":"p"}`,
 			wantContains: map[string]any{

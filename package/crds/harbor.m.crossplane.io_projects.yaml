@@ -88,6 +88,10 @@ spec:
                       should be deleted from the project so that the project can be
                       destroyed without error. These repositories are not recoverable.
                     type: boolean
+                  name:
+                    description: (String) The name of the project that will be created
+                      in harbor.
+                    type: string
                   proxySpeedKb:
                     description: 1)
                     format: int64
@@ -158,6 +162,10 @@ spec:
                       should be deleted from the project so that the project can be
                       destroyed without error. These repositories are not recoverable.
                     type: boolean
+                  name:
+                    description: (String) The name of the project that will be created
+                      in harbor.
+                    type: string
                   proxySpeedKb:
                     description: 1)
                     format: int64
@@ -243,6 +251,11 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
           status:
             description: ProjectStatus defines the observed state of Project.
             properties:
@@ -280,6 +293,10 @@ spec:
                     type: boolean
                   id:
                     description: (String) The ID of this resource.
+                    type: string
+                  name:
+                    description: (String) The name of the project that will be created
+                      in harbor.
                     type: string
                   projectId:
                     description: (Number) The project id of this resource.

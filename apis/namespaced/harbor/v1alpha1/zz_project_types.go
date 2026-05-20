@@ -34,6 +34,9 @@ type ProjectInitParameters struct {
 	// (Boolean) A boolean that indicates all repositories should be deleted from the project so that the project can be destroyed without error. These repositories are not recoverable.
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
 
+	// (String) The name of the project that will be created in harbor.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// 1)
 	ProxySpeedKb *int64 `json:"proxySpeedKb,omitempty" tf:"proxy_speed_kb,omitempty"`
 
@@ -75,6 +78,9 @@ type ProjectObservation struct {
 
 	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (String) The name of the project that will be created in harbor.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (Number) The project id of this resource.
 	ProjectID *int64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -123,6 +129,10 @@ type ProjectParameters struct {
 	// (Boolean) A boolean that indicates all repositories should be deleted from the project so that the project can be destroyed without error. These repositories are not recoverable.
 	// +kubebuilder:validation:Optional
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
+
+	// (String) The name of the project that will be created in harbor.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// 1)
 	// +kubebuilder:validation:Optional
@@ -185,8 +195,9 @@ type ProjectStatus struct {
 type Project struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProjectSpec   `json:"spec"`
-	Status            ProjectStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	Spec   ProjectSpec   `json:"spec"`
+	Status ProjectStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

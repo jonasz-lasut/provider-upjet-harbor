@@ -600,6 +600,11 @@ func (in *ProjectInitParameters) DeepCopyInto(out *ProjectInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.ProxySpeedKb != nil {
 		in, out := &in.ProxySpeedKb, &out.ProxySpeedKb
 		*out = new(int64)
@@ -718,6 +723,11 @@ func (in *ProjectObservation) DeepCopyInto(out *ProjectObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(int64)
@@ -802,6 +812,11 @@ func (in *ProjectParameters) DeepCopyInto(out *ProjectParameters) {
 	if in.ForceDestroy != nil {
 		in, out := &in.ForceDestroy, &out.ForceDestroy
 		*out = new(bool)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProxySpeedKb != nil {

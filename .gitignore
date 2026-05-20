@@ -9,3 +9,6 @@ cover.out
 # IDE folders
 .vscode/
 .idea/
+
+# superpowers
+docs/superpowers/**
