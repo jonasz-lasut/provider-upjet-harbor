@@ -65,6 +65,9 @@ spec:
                   description:
                     description: (String) The Description of the label within harbor
                     type: string
+                  name:
+                    description: (String) The of name of the label within harbor.
+                    type: string
                   projectId:
                     description: (String) The id of the project with harbor.
                     type: string
@@ -88,6 +91,9 @@ spec:
                     type: string
                   description:
                     description: (String) The Description of the label within harbor
+                    type: string
+                  name:
+                    description: (String) The of name of the label within harbor.
                     type: string
                   projectId:
                     description: (String) The id of the project with harbor.
@@ -151,6 +157,11 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
           status:
             description: LabelStatus defines the observed state of Label.
             properties:
@@ -165,6 +176,9 @@ spec:
                     type: string
                   id:
                     description: (String) The ID of this resource.
+                    type: string
+                  name:
+                    description: (String) The of name of the label within harbor.
                     type: string
                   projectId:
                     description: (String) The id of the project with harbor.

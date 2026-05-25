@@ -36,12 +36,10 @@ import (
 	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
-	apisCluster "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster"
 	apisNamespaced "github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced"
 	"github.com/jonasz-lasut/provider-upjet-harbor/config"
 	resolverapis "github.com/jonasz-lasut/provider-upjet-harbor/internal/apis"
 	"github.com/jonasz-lasut/provider-upjet-harbor/internal/clients"
-	controllerCluster "github.com/jonasz-lasut/provider-upjet-harbor/internal/controller/cluster"
 	controllerNamespaced "github.com/jonasz-lasut/provider-upjet-harbor/internal/controller/namespaced"
 	"github.com/jonasz-lasut/provider-upjet-harbor/internal/features"
 	"github.com/jonasz-lasut/provider-upjet-harbor/internal/version"
@@ -145,8 +143,6 @@ func main() {
 	if len(*certsDir) > 0 {
 		kingpin.FatalIfError(mgr.AddReadyzCheck("webhook", mgr.GetWebhookServer().StartedChecker()), "Cannot add webhook server readyz checker to controller manager")
 	}
-	kingpin.FatalIfError(apisCluster.AddToScheme(mgr.GetScheme()), "Cannot add cluster-scoped Harbor APIs to scheme")
-	kingpin.FatalIfError(resolverapis.BuildScheme(apisCluster.AddToSchemes), "Cannot register the cluster-scoped Harbor APIs with the API resolver's runtime scheme")
 	kingpin.FatalIfError(apisNamespaced.AddToScheme(mgr.GetScheme()), "Cannot add namespaced Harbor APIs to scheme")
 	kingpin.FatalIfError(resolverapis.BuildScheme(apisNamespaced.AddToSchemes), "Cannot register the namespaced Harbor APIs with the API resolver's runtime scheme")
 	kingpin.FatalIfError(apiextensionsv1.AddToScheme(mgr.GetScheme()), "Cannot add api-extensions APIs to scheme")
@@ -242,11 +238,9 @@ func main() {
 			Gate:                    crdGate,
 			MaxConcurrentReconciles: 1,
 		}), "Cannot setup CRD gate")
-		kingpin.FatalIfError(controllerCluster.SetupGated(mgr, clusterOpts), "Cannot setup cluster-scoped Harbor controllers")
 		kingpin.FatalIfError(controllerNamespaced.SetupGated(mgr, namespacedOpts), "Cannot setup namespaced Harbor controllers")
 	} else {
 		log.Info("Provider has missing RBAC permissions for watching CRDs, controller SafeStart capability will be disabled")
-		kingpin.FatalIfError(controllerCluster.Setup(mgr, clusterOpts), "Cannot setup cluster-scoped Harbor controllers")
 		kingpin.FatalIfError(controllerNamespaced.Setup(mgr, namespacedOpts), "Cannot setup namespaced Harbor controllers")
 	}
 

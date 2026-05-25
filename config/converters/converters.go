@@ -50,7 +50,7 @@ func OverrideIntFieldAsString(r *ujconfig.Resource, field string) {
 //     so that Terraform receives the numeric value it expects.
 //   - FromTerraform (TF → K8s): TF state carries a float64 (JSON number);
 //     format it as a decimal string so that the CRD field stays *string.
-func (c intFieldAsString) Convert(params map[string]any, _ *ujconfig.Resource, mode ujconfig.Mode) (map[string]any, error) { //nolint:gocyclo // easier to follow as a unit
+func (c intFieldAsString) Convert(params map[string]any, _ *ujconfig.Resource, mode ujconfig.Mode) (map[string]any, error) { //nolint:gocyclo // Easier to unit test
 	v, ok := params[c.field]
 	if !ok || v == nil {
 		return params, nil

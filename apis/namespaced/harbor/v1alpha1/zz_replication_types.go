@@ -102,13 +102,16 @@ type ReplicationInitParameters struct {
 	// (Block Set) (see below for nested schema)
 	Filters []FiltersInitParameters `json:"filters,omitempty" tf:"filters,omitempty"`
 
+	// (String) The name of the replication.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (Boolean) Specify whether to override the resources at the destination if a resources with the same name exist. (Default: true)
 	Override *bool `json:"override,omitempty" tf:"override,omitempty"`
 
 	// (Number) The registry ID of the Registry Endpoint.
 	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Registry
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("registry_id",true)
-	RegistryID *string `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
 
 	// Reference to a Registry in harbor to populate registryId.
 	// +kubebuilder:validation:Optional
@@ -160,11 +163,14 @@ type ReplicationObservation struct {
 	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// (String) The name of the replication.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (Boolean) Specify whether to override the resources at the destination if a resources with the same name exist. (Default: true)
 	Override *bool `json:"override,omitempty" tf:"override,omitempty"`
 
 	// (Number) The registry ID of the Registry Endpoint.
-	RegistryID *string `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
 
 	// (Number)
 	ReplicationPolicyID *int64 `json:"replicationPolicyId,omitempty" tf:"replication_policy_id,omitempty"`
@@ -217,6 +223,10 @@ type ReplicationParameters struct {
 	// +kubebuilder:validation:Optional
 	Filters []FiltersParameters `json:"filters,omitempty" tf:"filters,omitempty"`
 
+	// (String) The name of the replication.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (Boolean) Specify whether to override the resources at the destination if a resources with the same name exist. (Default: true)
 	// +kubebuilder:validation:Optional
 	Override *bool `json:"override,omitempty" tf:"override,omitempty"`
@@ -225,7 +235,7 @@ type ReplicationParameters struct {
 	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Registry
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("registry_id",true)
 	// +kubebuilder:validation:Optional
-	RegistryID *string `json:"registryId,omitempty" tf:"registry_id,omitempty"`
+	RegistryID *int64 `json:"registryId,omitempty" tf:"registry_id,omitempty"`
 
 	// Reference to a Registry in harbor to populate registryId.
 	// +kubebuilder:validation:Optional
@@ -285,6 +295,7 @@ type Replication struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.action) || (has(self.initProvider) && has(self.initProvider.action))",message="spec.forProvider.action is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	Spec   ReplicationSpec   `json:"spec"`
 	Status ReplicationStatus `json:"status,omitempty"`
 }

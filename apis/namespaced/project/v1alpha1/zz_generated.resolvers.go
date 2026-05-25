@@ -23,6 +23,23 @@ func (mg *MemberGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.GroupName),
+		Extract:      resource.ExtractParamPath("group_name", true),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.GroupNameRef,
+		Selector:     mg.Spec.ForProvider.GroupNameSelector,
+		To: reference.To{
+			List:    &v1alpha1.GroupList{},
+			Managed: &v1alpha1.Group{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.GroupName")
+	}
+	mg.Spec.ForProvider.GroupName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.GroupNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectID),
 		Extract:      resource.ExtractParamPath("id", true),
 		Namespace:    mg.GetNamespace(),
@@ -38,6 +55,23 @@ func (mg *MemberGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 	}
 	mg.Spec.ForProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.GroupName),
+		Extract:      resource.ExtractParamPath("group_name", true),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.GroupNameRef,
+		Selector:     mg.Spec.InitProvider.GroupNameSelector,
+		To: reference.To{
+			List:    &v1alpha1.GroupList{},
+			Managed: &v1alpha1.Group{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.GroupName")
+	}
+	mg.Spec.InitProvider.GroupName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.GroupNameRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
@@ -84,6 +118,23 @@ func (mg *MemberUser) ResolveReferences(ctx context.Context, c client.Reader) er
 	mg.Spec.ForProvider.ProjectIDRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.UserName),
+		Extract:      resource.ExtractParamPath("username", true),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.UserNameRef,
+		Selector:     mg.Spec.ForProvider.UserNameSelector,
+		To: reference.To{
+			List:    &v1alpha1.UserList{},
+			Managed: &v1alpha1.User{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.UserName")
+	}
+	mg.Spec.ForProvider.UserName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.UserNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectID),
 		Extract:      resource.ExtractParamPath("id", true),
 		Namespace:    mg.GetNamespace(),
@@ -99,6 +150,23 @@ func (mg *MemberUser) ResolveReferences(ctx context.Context, c client.Reader) er
 	}
 	mg.Spec.InitProvider.ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ProjectIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.UserName),
+		Extract:      resource.ExtractParamPath("username", true),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.UserNameRef,
+		Selector:     mg.Spec.InitProvider.UserNameSelector,
+		To: reference.To{
+			List:    &v1alpha1.UserList{},
+			Managed: &v1alpha1.User{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.UserName")
+	}
+	mg.Spec.InitProvider.UserName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.UserNameRef = rsp.ResolvedReference
 
 	return nil
 }

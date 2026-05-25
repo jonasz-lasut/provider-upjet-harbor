@@ -3,10 +3,13 @@ package clients
 import (
 	"context"
 	"encoding/json"
+	"strings"
 
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	harborclient "github.com/goharbor/terraform-provider-harbor/client"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
+	"k8s.io/utils/ptr"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/crossplane/upjet/v2/pkg/terraform"
@@ -26,21 +29,11 @@ const (
 	errNoCredentials        = "no harbor credentials provided (need username+password or bearer_token)"
 )
 
-// harborProviderConfig is the minimal slice of ProviderConfigSpec that
-// buildHarborSetup needs. Extracted as its own struct so unit tests don't
-// depend on the full v1beta1 ProviderConfigSpec / Kubernetes client wiring.
-type harborProviderConfig struct {
-	URL         string
-	Insecure    bool
-	APIVersion  *int
-	RobotPrefix string
-}
-
 // buildHarborSetup translates a parsed ProviderConfig + raw credentials
 // secret payload into a terraform.Setup. Pure function — no Kubernetes,
 // no SDK provider — so tests can exercise the credential-selection logic
 // directly.
-func buildHarborSetup(cfg harborProviderConfig, credsData []byte) (terraform.Setup, error) {
+func buildHarborSetup(cfg namespacedv1beta1.ProviderConfigSpec, credsData []byte) (terraform.Setup, error) {
 	ps := terraform.Setup{}
 	creds := map[string]string{}
 	if err := json.Unmarshal(credsData, &creds); err != nil {
@@ -48,14 +41,14 @@ func buildHarborSetup(cfg harborProviderConfig, credsData []byte) (terraform.Set
 	}
 
 	ps.Configuration = map[string]any{
-		"url":      cfg.URL,
-		"insecure": cfg.Insecure,
+		"url":      ptr.Deref(cfg.URL, ""),
+		"insecure": ptr.Deref(cfg.Insecure, false),
 	}
 	if cfg.APIVersion != nil {
 		ps.Configuration["api_version"] = *cfg.APIVersion
 	}
-	if cfg.RobotPrefix != "" {
-		ps.Configuration["robot_prefix"] = cfg.RobotPrefix
+	if robotPrefix := ptr.Deref(cfg.RobotPrefix, ""); robotPrefix != "" {
+		ps.Configuration["robot_prefix"] = robotPrefix
 	}
 
 	switch {
@@ -67,7 +60,33 @@ func buildHarborSetup(cfg harborProviderConfig, credsData []byte) (terraform.Set
 	default:
 		return ps, errors.New(errNoCredentials)
 	}
+
+	// Mirrors providerConfigure in terraform-provider-harbor: the configured
+	// *client.Client is what Terraform resource CRUD functions receive as meta.
+	baseURL := strings.TrimRight(ptr.Deref(cfg.URL, ""), "/")
+	ps.Meta = harborclient.NewClient(
+		baseURL+harborAPIPath(ptr.Deref(cfg.APIVersion, 2)),
+		creds["username"],
+		creds["password"],
+		"",
+		creds["bearer_token"],
+		ptr.Deref(cfg.Insecure, false),
+		ptr.Deref(cfg.RobotPrefix, ""),
+	)
 	return ps, nil
+}
+
+// harborAPIPath mirrors the path logic in terraform-provider-harbor's
+// providerConfigure. Default (api_version=2) maps to /api/v2.0.
+func harborAPIPath(apiVersion int) string {
+	switch apiVersion {
+	case 1:
+		return "/api"
+	case 2:
+		return "/api/v2.0"
+	default:
+		return ""
+	}
 }
 
 // TerraformSetupBuilder returns a terraform.SetupFn for the Harbor provider,
@@ -75,8 +94,7 @@ func buildHarborSetup(cfg harborProviderConfig, credsData []byte) (terraform.Set
 // instance; upjet's controller uses it via WithTerraformProvider (configured
 // in config/provider.go), so this function only needs to translate the
 // ProviderConfig + secret into the dynamic Configuration map.
-func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
-	_ = tfProvider // accepted for parity with the SDK-mode call site; closure has no per-call use
+func TerraformSetupBuilder(_ *schema.Provider) terraform.SetupFn {
 	return func(ctx context.Context, c client.Client, mg resource.Managed) (terraform.Setup, error) {
 		ps := terraform.Setup{}
 
@@ -90,13 +108,7 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
 			return ps, errors.Wrap(err, errExtractCredentials)
 		}
 
-		cfg := harborProviderConfig{
-			URL:         pcSpec.URL,
-			Insecure:    pcSpec.Insecure,
-			APIVersion:  pcSpec.APIVersion,
-			RobotPrefix: pcSpec.RobotPrefix,
-		}
-		return buildHarborSetup(cfg, data)
+		return buildHarborSetup(*pcSpec, data)
 	}
 }
 

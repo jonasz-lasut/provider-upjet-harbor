@@ -1,0 +1,15 @@
+apiVersion: purge.harbor.m.crossplane.io/v1alpha1
+kind: AuditLog
+metadata:
+  annotations:
+    meta.upbound.io/example-id: purge/v1alpha1/auditlog
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    auditRetentionHour: 24
+    includeOperations: create,pull
+    includeEventTypes: pull_artifact
+    schedule: Daily

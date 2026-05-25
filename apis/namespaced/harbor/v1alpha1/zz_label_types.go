@@ -22,6 +22,9 @@ type LabelInitParameters struct {
 	// (String) The Description of the label within harbor
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// (String) The of name of the label within harbor.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (String) The id of the project with harbor.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
@@ -36,6 +39,9 @@ type LabelObservation struct {
 
 	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (String) The of name of the label within harbor.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String) The id of the project with harbor.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -53,6 +59,10 @@ type LabelParameters struct {
 	// (String) The Description of the label within harbor
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (String) The of name of the label within harbor.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String) The id of the project with harbor.
 	// +kubebuilder:validation:Optional
@@ -95,8 +105,9 @@ type LabelStatus struct {
 type Label struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              LabelSpec   `json:"spec"`
-	Status            LabelStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	Spec   LabelSpec   `json:"spec"`
+	Status LabelStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

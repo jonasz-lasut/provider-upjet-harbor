@@ -13,7 +13,9 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: main
     role: projectadmin
-    userName: testing1
+    userNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
 
 ---
 
@@ -27,4 +29,5 @@ metadata:
   name: main
   namespace: crossplane-system
 spec:
-  forProvider: {}
+  forProvider:
+    name: main

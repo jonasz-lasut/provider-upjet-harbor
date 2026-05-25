@@ -35,6 +35,9 @@ type RegistryInitParameters struct {
 	// (Boolean) Verifies the certificate of the external container register. (Default: false)
 	Insecure *bool `json:"insecure,omitempty" tf:"insecure,omitempty"`
 
+	// (String) The name of the register.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (String) The name of the provider.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
 }
@@ -59,6 +62,9 @@ type RegistryObservation struct {
 
 	// (Boolean) Verifies the certificate of the external container register. (Default: false)
 	Insecure *bool `json:"insecure,omitempty" tf:"insecure,omitempty"`
+
+	// (String) The name of the register.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String) The name of the provider.
 	ProviderName *string `json:"providerName,omitempty" tf:"provider_name,omitempty"`
@@ -96,6 +102,10 @@ type RegistryParameters struct {
 	// (Boolean) Verifies the certificate of the external container register. (Default: false)
 	// +kubebuilder:validation:Optional
 	Insecure *bool `json:"insecure,omitempty" tf:"insecure,omitempty"`
+
+	// (String) The name of the register.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String) The name of the provider.
 	// +kubebuilder:validation:Optional
@@ -139,6 +149,7 @@ type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.endpointUrl) || (has(self.initProvider) && has(self.initProvider.endpointUrl))",message="spec.forProvider.endpointUrl is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.providerName) || (has(self.initProvider) && has(self.initProvider.providerName))",message="spec.forProvider.providerName is a required parameter"
 	Spec   RegistrySpec   `json:"spec"`
 	Status RegistryStatus `json:"status,omitempty"`
