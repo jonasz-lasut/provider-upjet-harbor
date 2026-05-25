@@ -117,6 +117,9 @@ spec:
                           type: string
                       type: object
                     type: array
+                  name:
+                    description: (String) The name of the replication.
+                    type: string
                   override:
                     description: '(Boolean) Specify whether to override the resources
                       at the destination if a resources with the same name exist.
@@ -124,7 +127,8 @@ spec:
                     type: boolean
                   registryId:
                     description: (Number) The registry ID of the Registry Endpoint.
-                    type: string
+                    format: int64
+                    type: integer
                   registryIdRef:
                     description: Reference to a Registry in harbor to populate registryId.
                     properties:
@@ -293,6 +297,9 @@ spec:
                           type: string
                       type: object
                     type: array
+                  name:
+                    description: (String) The name of the replication.
+                    type: string
                   override:
                     description: '(Boolean) Specify whether to override the resources
                       at the destination if a resources with the same name exist.
@@ -300,7 +307,8 @@ spec:
                     type: boolean
                   registryId:
                     description: (Number) The registry ID of the Registry Endpoint.
-                    type: string
+                    format: int64
+                    type: integer
                   registryIdRef:
                     description: Reference to a Registry in harbor to populate registryId.
                     properties:
@@ -460,6 +468,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.action)
                 || (has(self.initProvider) && has(self.initProvider.action))'
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
           status:
             description: ReplicationStatus defines the observed state of Replication.
             properties:
@@ -527,6 +539,9 @@ spec:
                   id:
                     description: (String) The ID of this resource.
                     type: string
+                  name:
+                    description: (String) The name of the replication.
+                    type: string
                   override:
                     description: '(Boolean) Specify whether to override the resources
                       at the destination if a resources with the same name exist.
@@ -534,7 +549,8 @@ spec:
                     type: boolean
                   registryId:
                     description: (Number) The registry ID of the Registry Endpoint.
-                    type: string
+                    format: int64
+                    type: integer
                   replicationPolicyId:
                     description: (Number)
                     format: int64

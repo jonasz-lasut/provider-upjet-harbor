@@ -92,6 +92,9 @@ spec:
                     description: '(Boolean) Verifies the certificate of the external
                       container register. (Default: false)'
                     type: boolean
+                  name:
+                    description: (String) The name of the register.
+                    type: string
                   providerName:
                     description: (String) The name of the provider.
                     type: string
@@ -143,6 +146,9 @@ spec:
                     description: '(Boolean) Verifies the certificate of the external
                       container register. (Default: false)'
                     type: boolean
+                  name:
+                    description: (String) The name of the register.
+                    type: string
                   providerName:
                     description: (String) The name of the provider.
                     type: string
@@ -210,6 +216,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.endpointUrl)
                 || (has(self.initProvider) && has(self.initProvider.endpointUrl))'
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
             - message: spec.forProvider.providerName is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.providerName)
@@ -243,6 +253,9 @@ spec:
                     description: '(Boolean) Verifies the certificate of the external
                       container register. (Default: false)'
                     type: boolean
+                  name:
+                    description: (String) The name of the register.
+                    type: string
                   providerName:
                     description: (String) The name of the provider.
                     type: string

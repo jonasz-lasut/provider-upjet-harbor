@@ -10,6 +10,7 @@ metadata:
 spec:
   forProvider:
     action: push
+    name: test_push
     registryIdSelector:
       matchLabels:
         testing.upbound.io/example-name: main
@@ -28,4 +29,5 @@ metadata:
 spec:
   forProvider:
     endpointUrl: https://hub.docker.com
+    name: test_docker_harbor
     providerName: docker-hub

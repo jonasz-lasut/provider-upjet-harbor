@@ -11,13 +11,16 @@ import (
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/harborconfig"
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/identity"
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/maintenance"
+	namespacedconfig "github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/config"
+	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/garbage"
+	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/harbor"
+	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/immutable"
+	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/interrogation"
+	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/preheat"
 	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/project"
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/registry"
+	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/purge"
+	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/retention"
 	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/robot"
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/vuln"
 )
 
 const (
@@ -84,13 +87,16 @@ func GetProviderNamespaced(_ context.Context, sdkProvider *schema.Provider) (*uj
 	)
 
 	for _, configure := range []func(p *ujconfig.Provider){
+		namespacedconfig.Configure,
+		garbage.Configure,
+		harbor.Configure,
+		immutable.Configure,
+		interrogation.Configure,
+		preheat.Configure,
 		project.Configure,
+		purge.Configure,
+		retention.Configure,
 		robot.Configure,
-		identity.Configure,
-		registry.Configure,
-		maintenance.Configure,
-		harborconfig.Configure,
-		vuln.Configure,
 	} {
 		configure(pc)
 	}

@@ -26,6 +26,20 @@
 // Generate crossplane-runtime methodsets (resource.Claim, etc)
 //go:generate go run -tags generate github.com/crossplane/crossplane-tools/cmd/angryjet generate-methodsets --header-file=../hack/boilerplate.go.txt ./...
 
+// Patch generated resolvers for *int64 reference fields. angryjet only emits
+// reference.{From,To}PtrValue (string) and {From,To}FloatPtrValue (float64);
+// it has no IsIntPointer branch, so resolvers for *int64 fields don't compile.
+// Replication.registryId is *int64 because its Terraform schema is TypeInt and
+// the upstream provider asserts d.Get("registry_id").(int) in client/replication.go.
+// Flipping the SDK schema to TypeString causes upjet's HCL pre-processor to
+// panic ("interface {} is int64, not string") because TerraformConversions
+// produces an int64 value but the schema-driven type assertion expects a string.
+// So we keep the *int64 field and rewrite the resolver to use the int helpers
+// from crossplane-runtime. The dot is left as a regex wildcard because the
+// surrounding text uniquely identifies these four lines. This must run after
+// angryjet regenerates the file.
+//go:generate bash -c "sed -i.bak -e 's|reference.FromPtrValue(mg.Spec.ForProvider.RegistryID)|reference.FromIntPtrValue(mg.Spec.ForProvider.RegistryID)|g' -e 's|reference.FromPtrValue(mg.Spec.InitProvider.RegistryID)|reference.FromIntPtrValue(mg.Spec.InitProvider.RegistryID)|g' -e 's|mg.Spec.ForProvider.RegistryID = reference.ToPtrValue(rsp.ResolvedValue)|mg.Spec.ForProvider.RegistryID = reference.ToIntPtrValue(rsp.ResolvedValue)|g' -e 's|mg.Spec.InitProvider.RegistryID = reference.ToPtrValue(rsp.ResolvedValue)|mg.Spec.InitProvider.RegistryID = reference.ToIntPtrValue(rsp.ResolvedValue)|g' namespaced/harbor/v1alpha1/zz_generated.resolvers.go && rm -f namespaced/harbor/v1alpha1/zz_generated.resolvers.go.bak"
+
 package apis
 
 import (

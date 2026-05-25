@@ -34,6 +34,9 @@ type InstanceInitParameters struct {
 	// (Boolean) Whether to allow insecure connections to the preheat instance. Defaults to false.
 	Insecure *bool `json:"insecure,omitempty" tf:"insecure,omitempty"`
 
+	// (String) The name of the preheat instance.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (String, Sensitive) The password for the preheat instance. Required if auth_mode is "BASIC". Defaults to an empty string.
 	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
@@ -70,6 +73,9 @@ type InstanceObservation struct {
 	// (Boolean) Whether to allow insecure connections to the preheat instance. Defaults to false.
 	Insecure *bool `json:"insecure,omitempty" tf:"insecure,omitempty"`
 
+	// (String) The name of the preheat instance.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (String) The username for the preheat instance. Required if auth_mode is "BASIC". Defaults to an empty string.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 
@@ -102,6 +108,10 @@ type InstanceParameters struct {
 	// (Boolean) Whether to allow insecure connections to the preheat instance. Defaults to false.
 	// +kubebuilder:validation:Optional
 	Insecure *bool `json:"insecure,omitempty" tf:"insecure,omitempty"`
+
+	// (String) The name of the preheat instance.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String, Sensitive) The password for the preheat instance. Required if auth_mode is "BASIC". Defaults to an empty string.
 	// +kubebuilder:validation:Optional
@@ -157,6 +167,7 @@ type Instance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.endpoint) || (has(self.initProvider) && has(self.initProvider.endpoint))",message="spec.forProvider.endpoint is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.vendor) || (has(self.initProvider) && has(self.initProvider.vendor))",message="spec.forProvider.vendor is a required parameter"
 	Spec   InstanceSpec   `json:"spec"`
 	Status InstanceStatus `json:"status,omitempty"`

@@ -7,20 +7,17 @@ import (
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 )
 
-// Configure adds Harbor project-related resource configurations (project,
-// members, webhook, label, immutable_tag_rule, preheat_instance).
+// Configure adds Harbor project-scoped resource configurations
+// (project_member_group, project_member_user, project_webhook).
 func Configure(p *ujconfig.Provider) {
-	p.AddResourceConfigurator("harbor_immutable_tag_rule", func(r *ujconfig.Resource) {
-		r.References["project_id"] = ujconfig.Reference{
-			TerraformName: "harbor_project",
-			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",true)`,
-		}
-	})
-
 	p.AddResourceConfigurator("harbor_project_member_group", func(r *ujconfig.Resource) {
 		r.References["project_id"] = ujconfig.Reference{
 			TerraformName: "harbor_project",
 			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",true)`,
+		}
+		r.References["group_name"] = ujconfig.Reference{
+			TerraformName: "harbor_group",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("group_name",true)`,
 		}
 	})
 
@@ -28,6 +25,10 @@ func Configure(p *ujconfig.Provider) {
 		r.References["project_id"] = ujconfig.Reference{
 			TerraformName: "harbor_project",
 			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",true)`,
+		}
+		r.References["user_name"] = ujconfig.Reference{
+			TerraformName: "harbor_user",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("username",true)`,
 		}
 	})
 

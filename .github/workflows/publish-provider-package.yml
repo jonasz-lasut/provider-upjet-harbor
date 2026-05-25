@@ -16,7 +16,7 @@ jobs:
   publish-provider-package:
     uses: crossplane-contrib/provider-workflows/.github/workflows/publish-provider.yml@451c4dc6ad3691b0a702a997a0ac24e8bbc8bbaa # main
     with:
-      repository: provider-azuread
+      repository: provider-harbor
       version: ${{ github.event.inputs.version }}
       go-version: ${{ github.event.inputs.go-version }}
       mirror: false

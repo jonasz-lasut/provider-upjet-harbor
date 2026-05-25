@@ -1,0 +1,42 @@
+apiVersion: project.harbor.m.crossplane.io/v1alpha1
+kind: Webhook
+metadata:
+  annotations:
+    meta.upbound.io/example-id: project/v1alpha1/webhook
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    address: https://webhook.domain.com
+    eventsTypes:
+    - DELETE_ARTIFACT
+    - PULL_ARTIFACT
+    - PUSH_ARTIFACT
+    - QUOTA_EXCEED
+    - QUOTA_WARNING
+    - REPLICATION
+    - SCANNING_FAILED
+    - SCANNING_COMPLETED
+    - TAG_RETENTION
+    name: test_webhook
+    notifyType: http
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+
+---
+
+apiVersion: harbor.m.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: project/v1alpha1/webhook
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: test-project

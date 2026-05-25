@@ -20,7 +20,17 @@ type MemberGroupInitParameters struct {
 	GroupID *int64 `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
 	// (String) The name of the group member entity.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Group
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("group_name",true)
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
+
+	// Reference to a Group in harbor to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameRef *v1.NamespacedReference `json:"groupNameRef,omitempty" tf:"-"`
+
+	// Selector for a Group in harbor to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameSelector *v1.NamespacedSelector `json:"groupNameSelector,omitempty" tf:"-"`
 
 	// (String) The distinguished name of the group within AD/LDAP.
 	LdapGroupDn *string `json:"ldapGroupDn,omitempty" tf:"ldap_group_dn,omitempty"`
@@ -79,8 +89,18 @@ type MemberGroupParameters struct {
 	GroupID *int64 `json:"groupId,omitempty" tf:"group_id,omitempty"`
 
 	// (String) The name of the group member entity.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.Group
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("group_name",true)
 	// +kubebuilder:validation:Optional
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
+
+	// Reference to a Group in harbor to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameRef *v1.NamespacedReference `json:"groupNameRef,omitempty" tf:"-"`
+
+	// Selector for a Group in harbor to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameSelector *v1.NamespacedSelector `json:"groupNameSelector,omitempty" tf:"-"`
 
 	// (String) The distinguished name of the group within AD/LDAP.
 	// +kubebuilder:validation:Optional

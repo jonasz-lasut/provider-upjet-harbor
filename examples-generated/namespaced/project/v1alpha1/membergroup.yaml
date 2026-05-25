@@ -9,7 +9,9 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    groupName: testing1
+    groupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     projectIdSelector:
       matchLabels:
         testing.upbound.io/example-name: main

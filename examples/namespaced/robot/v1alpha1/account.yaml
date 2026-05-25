@@ -4,6 +4,33 @@ metadata:
   annotations:
     meta.upbound.io/example-id: robot/v1alpha1/account
   labels:
+    testing.upbound.io/example-name: project
+  name: project
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: project level robot account
+    level: project
+    name: example-project
+    permissions:
+    - access:
+        - action: push
+          resource: repository
+        - action: pull
+          resource: repository
+      kind: project
+      namespaceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: main
+
+---
+
+apiVersion: robot.harbor.m.crossplane.io/v1alpha1
+kind: Account
+metadata:
+  annotations:
+    meta.upbound.io/example-id: robot/v1alpha1/account
+  labels:
     testing.upbound.io/example-name: system
   name: system
   namespace: crossplane-system
@@ -17,7 +44,7 @@ spec:
         - action: create
           resource: label
       kind: system
-      namespace: "*"
+      namespace: "/"
     - access:
         - action: push
           resource: repository

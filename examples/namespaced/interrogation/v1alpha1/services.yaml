@@ -1,0 +1,13 @@
+apiVersion: interrogation.harbor.m.crossplane.io/v1alpha1
+kind: Services
+metadata:
+  annotations:
+    meta.upbound.io/example-id: interrogation/v1alpha1/services
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    defaultScanner: Clair
+    vulnerabilityScanPolicy: Daily

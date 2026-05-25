@@ -22,7 +22,7 @@ func (mg *Replication) ResolveReferences(ctx context.Context, c client.Reader) e
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RegistryID),
+		CurrentValue: reference.FromIntPtrValue(mg.Spec.ForProvider.RegistryID),
 		Extract:      resource.ExtractParamPath("registry_id", true),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.RegistryIDRef,
@@ -35,11 +35,11 @@ func (mg *Replication) ResolveReferences(ctx context.Context, c client.Reader) e
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.RegistryID")
 	}
-	mg.Spec.ForProvider.RegistryID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.RegistryID = reference.ToIntPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RegistryIDRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RegistryID),
+		CurrentValue: reference.FromIntPtrValue(mg.Spec.InitProvider.RegistryID),
 		Extract:      resource.ExtractParamPath("registry_id", true),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.RegistryIDRef,
@@ -52,7 +52,7 @@ func (mg *Replication) ResolveReferences(ctx context.Context, c client.Reader) e
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.RegistryID")
 	}
-	mg.Spec.InitProvider.RegistryID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RegistryID = reference.ToIntPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.RegistryIDRef = rsp.ResolvedReference
 
 	return nil

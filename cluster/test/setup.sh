@@ -23,7 +23,8 @@ ${HELM} upgrade --install harbor harbor/harbor \
   --set harborAdminPassword=Harbor12345 \
   --set persistence.enabled=false \
   --wait \
-  --atomic
+  --atomic \
+  --timeout "10m0s"
 
 echo "Creating Harbor provider credentials secret..."
 ${KUBECTL} -n crossplane-system create secret generic harbor-credentials \

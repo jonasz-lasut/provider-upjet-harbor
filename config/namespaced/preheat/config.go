@@ -1,14 +1,13 @@
 // SPDX-FileCopyrightText: 2026 jonasz-lasut
 // SPDX-License-Identifier: Apache-2.0
 
-package vuln
+package preheat
 
 import (
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 )
 
-// Configure adds Harbor vulnerability-related resource configurations
-// (interrogation_services).
+// Configure adds Harbor preheat_instance resource configuration.
 func Configure(p *ujconfig.Provider) {
 	_ = p
 }

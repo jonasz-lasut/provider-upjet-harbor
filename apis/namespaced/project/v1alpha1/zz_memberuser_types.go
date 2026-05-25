@@ -33,7 +33,17 @@ type MemberUserInitParameters struct {
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
 	// (String) The name of the member entity.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.User
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("username",true)
 	UserName *string `json:"userName,omitempty" tf:"user_name,omitempty"`
+
+	// Reference to a User in harbor to populate userName.
+	// +kubebuilder:validation:Optional
+	UserNameRef *v1.NamespacedReference `json:"userNameRef,omitempty" tf:"-"`
+
+	// Selector for a User in harbor to populate userName.
+	// +kubebuilder:validation:Optional
+	UserNameSelector *v1.NamespacedSelector `json:"userNameSelector,omitempty" tf:"-"`
 }
 
 type MemberUserObservation struct {
@@ -75,8 +85,18 @@ type MemberUserParameters struct {
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
 	// (String) The name of the member entity.
+	// +crossplane:generate:reference:type=github.com/jonasz-lasut/provider-upjet-harbor/apis/namespaced/harbor/v1alpha1.User
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("username",true)
 	// +kubebuilder:validation:Optional
 	UserName *string `json:"userName,omitempty" tf:"user_name,omitempty"`
+
+	// Reference to a User in harbor to populate userName.
+	// +kubebuilder:validation:Optional
+	UserNameRef *v1.NamespacedReference `json:"userNameRef,omitempty" tf:"-"`
+
+	// Selector for a User in harbor to populate userName.
+	// +kubebuilder:validation:Optional
+	UserNameSelector *v1.NamespacedSelector `json:"userNameSelector,omitempty" tf:"-"`
 }
 
 // MemberUserSpec defines the desired state of MemberUser
@@ -116,7 +136,6 @@ type MemberUser struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role) || (has(self.initProvider) && has(self.initProvider.role))",message="spec.forProvider.role is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userName) || (has(self.initProvider) && has(self.initProvider.userName))",message="spec.forProvider.userName is a required parameter"
 	Spec   MemberUserSpec   `json:"spec"`
 	Status MemberUserStatus `json:"status,omitempty"`
 }
