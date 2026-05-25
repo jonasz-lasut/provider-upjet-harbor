@@ -1,0 +1,432 @@
+# Full end-to-end example that exercises every managed resource kind
+# exposed by provider-upjet-harbor (namespaced API group) exactly once.
+#
+# Usage assumes a working ProviderConfig named "default" already exists
+#
+# Cross-resource references rely on the testing.upbound.io/example-name
+# label, so the single Project/Group/User/Registry below act as the
+# selector targets for downstream resources.
+
+---
+# -------------------------------------------------------------------
+# Core building blocks referenced by downstream resources
+# -------------------------------------------------------------------
+
+apiVersion: harbor.m.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: storage-group
+  namespace: crossplane-system
+spec:
+  forProvider:
+    groupName: storage-group
+    groupType: 2
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: user-secret
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  password: "Password1"
+
+---
+apiVersion: harbor.m.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    email: john@smith.com
+    fullName: John Smith
+    username: testing1
+    passwordSecretRef:
+      key: password
+      name: user-secret
+
+---
+apiVersion: harbor.m.crossplane.io/v1alpha1
+kind: Registry
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    endpointUrl: https://hub.docker.com
+    name: test_docker_harbor
+    providerName: docker-hub
+
+---
+apiVersion: harbor.m.crossplane.io/v1alpha1
+kind: Label
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    color: '#FF0000'
+    description: Description to for acceptance test
+    name: accTest
+
+---
+apiVersion: harbor.m.crossplane.io/v1alpha1
+kind: Replication
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: push
+  name: push
+  namespace: crossplane-system
+spec:
+  forProvider:
+    action: push
+    name: test_push
+    registryIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+
+---
+apiVersion: harbor.m.crossplane.io/v1alpha1
+kind: Tasks
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    vulnerabilityScanPolicy: daily
+
+---
+# -------------------------------------------------------------------
+# Harbor system configuration
+# -------------------------------------------------------------------
+apiVersion: v1
+kind: Secret
+metadata:
+  name: oidc-secret
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  client-secret: "client-secret"
+
+---
+# Has to be tested separately
+# the auth mode cannot be modified as new users have been inserted into database
+
+# apiVersion: config.harbor.m.crossplane.io/v1alpha1
+# kind: Auth
+# metadata:
+#   annotations:
+#     meta.upbound.io/example-id: e2e-full
+#   labels:
+#     testing.upbound.io/example-name: oidc
+#   name: oidc
+#   namespace: crossplane-system
+# spec:
+#   forProvider:
+#     authMode: oidc_auth
+#     oidcAdminGroup: administrators
+#     oidcAutoOnboard: true
+#     oidcClientId: OIDC Client ID goes here
+#     oidcClientSecretSecretRef:
+#       key: client-secret
+#       name: oidc-secret
+#     oidcEndpoint: https://login.microsoftonline.com/00000000-0000-0000-0000-000000000000/v2.0
+#     oidcName: azure
+#     oidcScope: openid,email
+#     oidcUserClaim: name
+#     oidcVerifyCert: true
+#     primaryAuthMode: true
+
+---
+apiVersion: config.harbor.m.crossplane.io/v1alpha1
+kind: Security
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    cveAllowlist:
+    - CVE-456
+    - CVE-123
+    expiresAt: 1701167767
+
+---
+apiVersion: config.harbor.m.crossplane.io/v1alpha1
+kind: System
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    notificationEnable: true
+    projectCreationRestriction: adminonly
+    robotNamePrefix: harbor@
+    robotTokenExpiration: 30
+    storagePerProject: 100
+
+---
+# -------------------------------------------------------------------
+# Background jobs and scanning
+# -------------------------------------------------------------------
+apiVersion: garbage.harbor.m.crossplane.io/v1alpha1
+kind: Collection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    deleteUntagged: true
+    schedule: Daily
+    workers: 1
+
+---
+apiVersion: purge.harbor.m.crossplane.io/v1alpha1
+kind: AuditLog
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    auditRetentionHour: 24
+    includeOperations: create,pull
+    includeEventTypes: pull_artifact
+    schedule: Daily
+
+---
+apiVersion: interrogation.harbor.m.crossplane.io/v1alpha1
+kind: Services
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    defaultScanner: Clair
+    vulnerabilityScanPolicy: Daily
+
+---
+apiVersion: preheat.harbor.m.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    endpoint: http://example.com
+    name: example-preheat-instance
+    vendor: dragonfly
+
+---
+# -------------------------------------------------------------------
+# Project-scoped policies and members
+# -------------------------------------------------------------------
+apiVersion: immutable.harbor.m.crossplane.io/v1alpha1
+kind: TagRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    disabled: true
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+    repoMatching: '**'
+    tagMatching: v2.*
+
+---
+apiVersion: retention.harbor.m.crossplane.io/v1alpha1
+kind: Policy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    rule:
+    - nDaysSinceLastPull: 5
+      repoMatching: '**'
+      tagMatching: latest
+    - nDaysSinceLastPush: 10
+      repoMatching: '**'
+      tagMatching: '{latest,snapshot}'
+    schedule: Daily
+    scopeSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+
+---
+apiVersion: project.harbor.m.crossplane.io/v1alpha1
+kind: MemberGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    groupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+    role: projectadmin
+    type: internal
+
+---
+apiVersion: project.harbor.m.crossplane.io/v1alpha1
+kind: MemberUser
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+    role: projectadmin
+    userNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+
+---
+apiVersion: project.harbor.m.crossplane.io/v1alpha1
+kind: Webhook
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    address: https://webhook.domain.com
+    eventsTypes:
+    - DELETE_ARTIFACT
+    - PULL_ARTIFACT
+    - PUSH_ARTIFACT
+    - QUOTA_EXCEED
+    - QUOTA_WARNING
+    - REPLICATION
+    - SCANNING_FAILED
+    - SCANNING_COMPLETED
+    - TAG_RETENTION
+    name: test_webhook
+    notifyType: http
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+
+---
+apiVersion: robot.harbor.m.crossplane.io/v1alpha1
+kind: Account
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: system
+  name: system
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: system level robot account
+    level: system
+    name: example-system
+    permissions:
+    - access:
+        - action: create
+          resource: label
+      kind: system
+      namespace: "/"
+    - access:
+        - action: push
+          resource: repository
+        - action: pull
+          resource: repository
+      kind: project
+      namespaceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: main
+
+---
+
+apiVersion: harbor.m.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: e2e-full
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: main
+    autoSbomGeneration: true
+    enableContentTrust: true
+    enableContentTrustCosign: false
+    public: false
+    vulnerabilityScanner: Trivy
+    vulnerabilityScanning: true
