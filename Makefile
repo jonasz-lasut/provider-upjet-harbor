@@ -12,7 +12,7 @@ TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAF
 
 export TERRAFORM_PROVIDER_SOURCE ?= goharbor/harbor
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/goharbor/terraform-provider-harbor
-export TERRAFORM_PROVIDER_VERSION ?= 3.11.6
+export TERRAFORM_PROVIDER_VERSION ?= 3.12.0
 export TERRAFORM_DOCS_PATH ?= docs/resources
 
 

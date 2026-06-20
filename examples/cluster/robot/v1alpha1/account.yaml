@@ -1,0 +1,68 @@
+apiVersion: robot.harbor.crossplane.io/v1alpha1
+kind: Account
+metadata:
+  annotations:
+    meta.upbound.io/example-id: robot/v1alpha1/account
+  labels:
+    testing.upbound.io/example-name: project
+  name: project
+spec:
+  forProvider:
+    description: project level robot account
+    level: project
+    name: example-project
+    permissions:
+    - access:
+        - action: push
+          resource: repository
+        - action: pull
+          resource: repository
+      kind: project
+      namespaceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: main
+
+---
+
+apiVersion: robot.harbor.crossplane.io/v1alpha1
+kind: Account
+metadata:
+  annotations:
+    meta.upbound.io/example-id: robot/v1alpha1/account
+  labels:
+    testing.upbound.io/example-name: system
+  name: system
+spec:
+  forProvider:
+    description: system level robot account
+    level: system
+    name: example-system
+    permissions:
+    - access:
+        - action: create
+          resource: label
+      kind: system
+      namespace: "/"
+    - access:
+        - action: push
+          resource: repository
+        - action: pull
+          resource: repository
+      kind: project
+      namespaceSelector:
+        matchLabels:
+          testing.upbound.io/example-name: main
+
+---
+
+apiVersion: harbor.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: robot/v1alpha1/account
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+spec:
+  forProvider:
+    name: main

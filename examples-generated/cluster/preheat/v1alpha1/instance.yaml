@@ -1,0 +1,13 @@
+apiVersion: preheat.harbor.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: preheat/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    endpoint: http://example.com
+    name: example-preheat-instance
+    vendor: dragonfly

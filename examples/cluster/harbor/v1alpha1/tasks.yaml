@@ -1,0 +1,11 @@
+apiVersion: harbor.crossplane.io/v1alpha1
+kind: Tasks
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harbor/v1alpha1/tasks
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+spec:
+  forProvider:
+    vulnerabilityScanPolicy: daily

@@ -140,7 +140,7 @@ spec:
                     description: (String) The client id for the oidc server.
                     type: string
                   oidcClientSecretSecretRef:
-                    description: (String, Sensitive) The client secert for the oidc
+                    description: (String, Sensitive) The client secret for the oidc
                       server.
                     properties:
                       key:
@@ -281,7 +281,7 @@ spec:
                     description: (String) The client id for the oidc server.
                     type: string
                   oidcClientSecretSecretRef:
-                    description: (String, Sensitive) The client secert for the oidc
+                    description: (String, Sensitive) The client secret for the oidc
                       server.
                     properties:
                       key:

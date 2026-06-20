@@ -2,8 +2,6 @@
 set -aeuo pipefail
 
 echo "Running setup.sh"
-echo "Creating cloud credential secret..."
-${KUBECTL} -n crossplane-system create secret generic provider-secret --from-literal=credentials="${UPTEST_CLOUD_CREDENTIALS}" --dry-run=client -o yaml | ${KUBECTL} apply -f -
 
 echo "Waiting until provider is healthy..."
 ${KUBECTL} wait provider.pkg --all --for condition=Healthy --timeout 5m
@@ -30,6 +28,22 @@ echo "Creating Harbor provider credentials secret..."
 ${KUBECTL} -n crossplane-system create secret generic harbor-credentials \
   --from-literal=credentials='{"username":"admin","password":"Harbor12345"}' \
   --dry-run=client -o yaml | ${KUBECTL} apply -f -
+
+echo "Creating a default cluster provider config"
+cat <<EOF | ${KUBECTL} apply -f -
+apiVersion: harbor.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  url: http://harbor.harbor.svc.cluster.local
+  credentials:
+    source: Secret
+    secretRef:
+      name: harbor-credentials
+      namespace: crossplane-system
+      key: credentials
+EOF
 
 echo "Creating a default cluster provider config (v2-style)..."
 cat <<EOF | ${KUBECTL} apply -f -

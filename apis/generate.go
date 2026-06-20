@@ -37,8 +37,9 @@
 // So we keep the *int64 field and rewrite the resolver to use the int helpers
 // from crossplane-runtime. The dot is left as a regex wildcard because the
 // surrounding text uniquely identifies these four lines. This must run after
-// angryjet regenerates the file.
-//go:generate bash -c "sed -i.bak -e 's|reference.FromPtrValue(mg.Spec.ForProvider.RegistryID)|reference.FromIntPtrValue(mg.Spec.ForProvider.RegistryID)|g' -e 's|reference.FromPtrValue(mg.Spec.InitProvider.RegistryID)|reference.FromIntPtrValue(mg.Spec.InitProvider.RegistryID)|g' -e 's|mg.Spec.ForProvider.RegistryID = reference.ToPtrValue(rsp.ResolvedValue)|mg.Spec.ForProvider.RegistryID = reference.ToIntPtrValue(rsp.ResolvedValue)|g' -e 's|mg.Spec.InitProvider.RegistryID = reference.ToPtrValue(rsp.ResolvedValue)|mg.Spec.InitProvider.RegistryID = reference.ToIntPtrValue(rsp.ResolvedValue)|g' namespaced/harbor/v1alpha1/zz_generated.resolvers.go && rm -f namespaced/harbor/v1alpha1/zz_generated.resolvers.go.bak"
+// angryjet regenerates the file, and for both the cluster- and namespaced-scoped
+// copies of the harbor group's resolvers.
+//go:generate bash -c "sed -i.bak -e 's|reference.FromPtrValue(mg.Spec.ForProvider.RegistryID)|reference.FromIntPtrValue(mg.Spec.ForProvider.RegistryID)|g' -e 's|reference.FromPtrValue(mg.Spec.InitProvider.RegistryID)|reference.FromIntPtrValue(mg.Spec.InitProvider.RegistryID)|g' -e 's|mg.Spec.ForProvider.RegistryID = reference.ToPtrValue(rsp.ResolvedValue)|mg.Spec.ForProvider.RegistryID = reference.ToIntPtrValue(rsp.ResolvedValue)|g' -e 's|mg.Spec.InitProvider.RegistryID = reference.ToPtrValue(rsp.ResolvedValue)|mg.Spec.InitProvider.RegistryID = reference.ToIntPtrValue(rsp.ResolvedValue)|g' cluster/harbor/v1alpha1/zz_generated.resolvers.go namespaced/harbor/v1alpha1/zz_generated.resolvers.go && rm -f cluster/harbor/v1alpha1/zz_generated.resolvers.go.bak namespaced/harbor/v1alpha1/zz_generated.resolvers.go.bak"
 
 package apis
 

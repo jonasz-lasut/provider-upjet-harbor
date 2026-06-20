@@ -11,16 +11,7 @@ import (
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	namespacedconfig "github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/config"
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/garbage"
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/harbor"
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/immutable"
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/interrogation"
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/preheat"
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/project"
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/purge"
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/retention"
-	"github.com/jonasz-lasut/provider-upjet-harbor/config/namespaced/robot"
+	"github.com/jonasz-lasut/provider-upjet-harbor/config/cluster"
 )
 
 const (
@@ -51,66 +42,39 @@ var harborBasePackages = ujconfig.BasePackages{
 	},
 }
 
-// GetProvider returns the cluster-scoped provider configuration. In v0 the
-// cluster scope has no managed resources; the structure is preserved so
-// cluster MRs can be added later.
+// GetProvider returns the cluster-scoped provider configuration. It mirrors
+// GetProviderNamespaced: the same upstream Harbor resources are included, but
+// the CRDs land under the cluster-scoped root group (harbor.crossplane.io).
 func GetProvider(_ context.Context, sdkProvider *schema.Provider) (*ujconfig.Provider, error) {
 	pc := ujconfig.NewProvider(
 		[]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithRootGroup("harbor.crossplane.io"),
-		ujconfig.WithIncludeList([]string{}),
-		ujconfig.WithTerraformPluginSDKIncludeList([]string{}),
-		ujconfig.WithFeaturesPackage("internal/features"),
-		ujconfig.WithTerraformProvider(sdkProvider),
-		ujconfig.WithDefaultResourceOptions(ExternalNameConfigurations()),
-		ujconfig.WithBasePackages(harborBasePackages),
-	)
-	pc.ConfigureResources()
-	return pc, nil
-}
-
-// GetProviderNamespaced returns the namespaced provider configuration with
-// all upstream Harbor resources included.
-func GetProviderNamespaced(_ context.Context, sdkProvider *schema.Provider) (*ujconfig.Provider, error) {
-	pc := ujconfig.NewProvider(
-		[]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithRootGroup("harbor.m.crossplane.io"),
 		ujconfig.WithIncludeList([]string{}),
 		ujconfig.WithTerraformPluginSDKIncludeList([]string{".*$"}),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithTerraformProvider(sdkProvider),
 		ujconfig.WithDefaultResourceOptions(ExternalNameConfigurations()),
 		ujconfig.WithBasePackages(harborBasePackages),
-		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
-			ManagedResourceNamespace: "crossplane-system",
-		}),
 	)
 
-	for _, configure := range []func(p *ujconfig.Provider){
-		namespacedconfig.Configure,
-		garbage.Configure,
-		harbor.Configure,
-		immutable.Configure,
-		interrogation.Configure,
-		preheat.Configure,
-		project.Configure,
-		purge.Configure,
-		retention.Configure,
-		robot.Configure,
-	} {
+	for _, configure := range cluster.ProviderConfiguration {
 		configure(pc)
 	}
 
-	// Resources whose auto-derived ShortGroup duplicates the RootGroup's
-	// leading segment (harbor_project, harbor_user, harbor_group, etc.) are
-	// flattened so their CRDs land at harbor.m.crossplane.io rather than the
-	// duplicate-prefixed harbor.harbor.m.crossplane.io.
+	flattenHarborShortGroup(pc)
+
+	pc.ConfigureResources()
+	return pc, nil
+}
+
+// flattenHarborShortGroup flattens resources whose auto-derived ShortGroup
+// duplicates the RootGroup's leading segment (harbor_project, harbor_user,
+// harbor_group, etc.) so their CRDs land at the root group rather than the
+// duplicate-prefixed harbor.harbor.* group.
+func flattenHarborShortGroup(pc *ujconfig.Provider) {
 	for _, r := range pc.Resources {
 		if r.ShortGroup == "harbor" {
 			r.ShortGroup = ""
 		}
 	}
-
-	pc.ConfigureResources()
-	return pc, nil
 }

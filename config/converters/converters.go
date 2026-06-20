@@ -4,10 +4,13 @@
 package converters
 
 import (
+	"context"
 	"fmt"
+	"path"
 	"strconv"
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
 )
@@ -42,6 +45,38 @@ func OverrideIntFieldAsString(r *ujconfig.Resource, field string) {
 		return
 	}
 	s.Type = schema.TypeString
+}
+
+// WrapReadDeriveStringID swaps a Terraform resource's legacy Read for a
+// ReadContext that, after the original Read, re-derives the named string
+// attribute from the trailing path segment of the resource Id (e.g.
+// "/registries/<id>"). It exists because upstream's Read calls d.Set(field,
+// int) while our schema override makes the field TypeString, and
+// terraform-plugin-sdk silently drops the int→string Set.
+//
+// It is idempotent. The cluster and namespaced provider scopes are built from
+// a single sdkProvider (see cmd/provider/main.go), so they share one
+// *schema.Resource and this runs twice against the same object. The guard
+// installs the wrapper exactly once; without it, the second pass would capture
+// an already-nil legacy Read and the wrapper would dereference a nil func on
+// Observe.
+func WrapReadDeriveStringID(res *schema.Resource, field string) {
+	origRead := res.Read //nolint:staticcheck // upstream installs the legacy Read; consume it here
+	if origRead == nil {
+		// Already wrapped by the other provider scope; leave it in place.
+		return
+	}
+	res.Read = nil //nolint:staticcheck // replaced by the ReadContext wrapper below
+	res.ReadContext = func(_ context.Context, d *schema.ResourceData, m any) diag.Diagnostics {
+		if err := origRead(d, m); err != nil {
+			return diag.FromErr(err)
+		}
+		id := path.Base(d.Id())
+		if _, perr := strconv.ParseInt(id, 10, 64); perr == nil {
+			_ = d.Set(field, id)
+		}
+		return nil
+	}
 }
 
 // Convert implements ujconfig.TerraformConversion.

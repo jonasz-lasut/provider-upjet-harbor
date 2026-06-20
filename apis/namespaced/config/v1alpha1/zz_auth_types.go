@@ -73,7 +73,7 @@ type AuthInitParameters struct {
 	// (String) The client id for the oidc server.
 	OidcClientID *string `json:"oidcClientId,omitempty" tf:"oidc_client_id,omitempty"`
 
-	// (String, Sensitive) The client secert for the oidc server.
+	// (String, Sensitive) The client secret for the oidc server.
 	OidcClientSecretSecretRef *v1.LocalSecretKeySelector `json:"oidcClientSecretSecretRef,omitempty" tf:"-"`
 
 	// complaint server.
@@ -269,7 +269,7 @@ type AuthParameters struct {
 	// +kubebuilder:validation:Optional
 	OidcClientID *string `json:"oidcClientId,omitempty" tf:"oidc_client_id,omitempty"`
 
-	// (String, Sensitive) The client secert for the oidc server.
+	// (String, Sensitive) The client secret for the oidc server.
 	// +kubebuilder:validation:Optional
 	OidcClientSecretSecretRef *v1.LocalSecretKeySelector `json:"oidcClientSecretSecretRef,omitempty" tf:"-"`
 
