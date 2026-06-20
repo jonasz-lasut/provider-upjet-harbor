@@ -1,0 +1,66 @@
+apiVersion: project.harbor.crossplane.io/v1alpha1
+kind: MemberUser
+metadata:
+  annotations:
+    meta.upbound.io/example-id: project/v1alpha1/memberuser
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+spec:
+  forProvider:
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+    role: projectadmin
+    userNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+
+---
+
+apiVersion: harbor.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: project/v1alpha1/memberuser
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+spec:
+  forProvider:
+    email: john@smith.com
+    fullName: John Smith
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: crossplane-system
+    username: testing1
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: project/v1alpha1/memberuser
+  labels:
+    testing.upbound.io/example-name: main
+  name: example-secret
+  namespace: crossplane-system
+stringData:
+  example-key: "Password1"
+type: Opaque
+
+---
+
+apiVersion: harbor.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: project/v1alpha1/memberuser
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+spec:
+  forProvider:
+    name: main

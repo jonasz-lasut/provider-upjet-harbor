@@ -10,12 +10,32 @@ package cluster
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
+	v1alpha1 "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster/config/v1alpha1"
+	v1alpha1garbage "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster/garbage/v1alpha1"
+	v1alpha1harbor "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster/harbor/v1alpha1"
+	v1alpha1immutable "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster/immutable/v1alpha1"
+	v1alpha1interrogation "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster/interrogation/v1alpha1"
+	v1alpha1preheat "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster/preheat/v1alpha1"
+	v1alpha1project "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster/project/v1alpha1"
+	v1alpha1purge "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster/purge/v1alpha1"
+	v1alpha1retention "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster/retention/v1alpha1"
+	v1alpha1robot "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster/robot/v1alpha1"
 	v1beta1 "github.com/jonasz-lasut/provider-upjet-harbor/apis/cluster/v1beta1"
 )
 
 func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
+		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1garbage.SchemeBuilder.AddToScheme,
+		v1alpha1harbor.SchemeBuilder.AddToScheme,
+		v1alpha1immutable.SchemeBuilder.AddToScheme,
+		v1alpha1interrogation.SchemeBuilder.AddToScheme,
+		v1alpha1preheat.SchemeBuilder.AddToScheme,
+		v1alpha1project.SchemeBuilder.AddToScheme,
+		v1alpha1purge.SchemeBuilder.AddToScheme,
+		v1alpha1retention.SchemeBuilder.AddToScheme,
+		v1alpha1robot.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,
 	)
 }

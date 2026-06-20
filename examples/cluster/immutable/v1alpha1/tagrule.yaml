@@ -1,0 +1,30 @@
+apiVersion: immutable.harbor.crossplane.io/v1alpha1
+kind: TagRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: immutable/v1alpha1/tagrule
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+spec:
+  forProvider:
+    disabled: true
+    projectIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: main
+    repoMatching: '**'
+    tagMatching: v2.*
+
+---
+
+apiVersion: harbor.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: immutable/v1alpha1/tagrule
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+spec:
+  forProvider:
+    name: acctest

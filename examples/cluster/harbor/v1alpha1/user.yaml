@@ -1,0 +1,32 @@
+apiVersion: harbor.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harbor/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+spec:
+  forProvider:
+    email: john@smith.com
+    fullName: John Smith
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: crossplane-system
+    username: testing1
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    meta.upbound.io/example-id: harbor/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: main
+  name: example-secret
+  namespace: crossplane-system
+stringData:
+  example-key: "Password1"
+type: Opaque

@@ -20,6 +20,22 @@ resources:
                   "oidc_verify_cert": true,
                   "primary_auth_mode": true
                 }
+            - name: oidc
+              manifest: |-
+                {
+                  "auth_mode": "oidc_auth",
+                  "oidc_admin_group": "administrators",
+                  "oidc_auto_onboard": true,
+                  "oidc_client_id": "OIDC Client ID goes here",
+                  "oidc_client_secret_wo": "OIDC Client Secret goes here",
+                  "oidc_client_secret_wo_version": 1,
+                  "oidc_endpoint": "https://login.microsoftonline.com/{GUID goes here}/v2.0",
+                  "oidc_name": "azure",
+                  "oidc_scope": "openid,email",
+                  "oidc_user_claim": "name",
+                  "oidc_verify_cert": true,
+                  "primary_auth_mode": true
+                }
             - name: ldap
               manifest: |-
                 {
@@ -53,7 +69,9 @@ resources:
             oidc_admin_group: (String) All members of this group get Harbor admin permissions.
             oidc_auto_onboard: (Boolean) Default is "false", set to "true" if you want to skip the user onboarding screen, so user cannot change its username
             oidc_client_id: (String) The client id for the oidc server.
-            oidc_client_secret: (String, Sensitive) The client secert for the oidc server.
+            oidc_client_secret: (String, Sensitive) The client secret for the oidc server.
+            oidc_client_secret_wo: (String, Write-only) Write-only alternative for oidc_client_secret. Must be used together with oidc_client_secret_wo_version.
+            oidc_client_secret_wo_version: (Number) Rotation trigger for write-only OIDC client secret updates. Must be used together with oidc_client_secret_wo.
             oidc_endpoint: (String) The URL of an OIDC-complaint server.
             oidc_group_filter: (String) The OIDC group filter to filter which groups could be onboarded to Harbor.
             oidc_groups_claim: (String) The name of the claim in the token whose values is the list of group names.
@@ -320,6 +338,7 @@ resources:
             id: (String) The ID of this resource.
             name: (String) The name of the project that will be created in harbor.
             project_id: (Number) The project id of this resource.
+            proxy_cache_local_on_not_found: '(Boolean) When enabled, serve images from the local cache when they have been removed from the upstream registry. (Default: false) Requires Harbor v2.15.1 or above.'
             proxy_speed_kb: '(Number) Proxy max speed KB (Default: -1)'
             public: '(Boolean) The project will be public accessibility.(Default: false)'
             registry_id: (Number) To enable project as Proxy Cache.
