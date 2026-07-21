@@ -35,7 +35,7 @@ jobs:
   publish-provider-package:
     uses: crossplane-contrib/provider-workflows/.github/workflows/publish-provider-non-family.yml@451c4dc6ad3691b0a702a997a0ac24e8bbc8bbaa # main
     with:
-      repository: provider-harbor
+      repository: provider-upjet-harbor
       version: ${{ github.event.inputs.version }}
       go-version: ${{ github.event.inputs.go-version }}
       mirror: true
@@ -64,7 +64,7 @@ jobs:
         env:
           UP_TOKEN: ${{ secrets.XPKG_TOKEN }}
         run: |
-          curl -fsSLo /tmp/up --create-dirs 'https://cli.upbound.io/${{ env.UP_VERSION }}/bin/linux_amd64/up' && \
+          curl -fsSLo /tmp/up --create-dirs 'https://cli.upbound.io/stable/${{ env.UP_VERSION }}/bin/linux_amd64/up' && \
           chmod +x /tmp/up && \
           /tmp/up login
 
