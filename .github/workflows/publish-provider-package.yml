@@ -64,7 +64,7 @@ jobs:
         env:
           UP_TOKEN: ${{ secrets.XPKG_TOKEN }}
         run: |
-          curl -fsSLo /tmp/up --create-dirs 'https://cli.upbound.io/${{ env.UP_VERSION }}/bin/linux_amd64/up' && \
+          curl -fsSLo /tmp/up --create-dirs 'https://cli.upbound.io/stable/${{ env.UP_VERSION }}/bin/linux_amd64/up' && \
           chmod +x /tmp/up && \
           /tmp/up login
 
