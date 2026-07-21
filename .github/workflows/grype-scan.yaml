@@ -46,7 +46,7 @@ jobs:
 
       - name: Scan Latest Release Image
         run: |
-          ${{ steps.grype-install.outputs.cmd }} ghcr.io/jonasz-lasut/provider-anthropic:${{ steps.release.outputs.tag }} \
+          ${{ steps.grype-install.outputs.cmd }} ghcr.io/jonasz-lasut/provider-upjet-harbor:${{ steps.release.outputs.tag }} \
             -o table \
             -o sarif=grype-results.sarif
 
