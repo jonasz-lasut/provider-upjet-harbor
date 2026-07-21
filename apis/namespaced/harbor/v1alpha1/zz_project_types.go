@@ -37,6 +37,9 @@ type ProjectInitParameters struct {
 	// (String) The name of the project that will be created in harbor.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (Boolean) When enabled, serve images from the local cache when they have been removed from the upstream registry. (Default: false) Requires Harbor v2.15.1 or above.
+	ProxyCacheLocalOnNotFound *bool `json:"proxyCacheLocalOnNotFound,omitempty" tf:"proxy_cache_local_on_not_found,omitempty"`
+
 	// 1)
 	ProxySpeedKb *int64 `json:"proxySpeedKb,omitempty" tf:"proxy_speed_kb,omitempty"`
 
@@ -84,6 +87,9 @@ type ProjectObservation struct {
 
 	// (Number) The project id of this resource.
 	ProjectID *int64 `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// (Boolean) When enabled, serve images from the local cache when they have been removed from the upstream registry. (Default: false) Requires Harbor v2.15.1 or above.
+	ProxyCacheLocalOnNotFound *bool `json:"proxyCacheLocalOnNotFound,omitempty" tf:"proxy_cache_local_on_not_found,omitempty"`
 
 	// 1)
 	ProxySpeedKb *int64 `json:"proxySpeedKb,omitempty" tf:"proxy_speed_kb,omitempty"`
@@ -133,6 +139,10 @@ type ProjectParameters struct {
 	// (String) The name of the project that will be created in harbor.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// (Boolean) When enabled, serve images from the local cache when they have been removed from the upstream registry. (Default: false) Requires Harbor v2.15.1 or above.
+	// +kubebuilder:validation:Optional
+	ProxyCacheLocalOnNotFound *bool `json:"proxyCacheLocalOnNotFound,omitempty" tf:"proxy_cache_local_on_not_found,omitempty"`
 
 	// 1)
 	// +kubebuilder:validation:Optional
