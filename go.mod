@@ -1,6 +1,6 @@
 module github.com/jonasz-lasut/provider-upjet-harbor
 
-go 1.26.4
+go 1.26.5
 
 tool golang.org/x/tools/cmd/goimports
 
@@ -10,8 +10,8 @@ require (
 	github.com/crossplane/crossplane-runtime/v2 v2.2.1
 	github.com/crossplane/crossplane-tools v0.0.0-20251017183449-dd4517244339
 	github.com/crossplane/upjet/v2 v2.2.1-0.20260414070754-c6d5213346ac
-	github.com/goharbor/terraform-provider-harbor v1.4.1-0.20260422075905-609e99677021
-	github.com/hashicorp/terraform-plugin-sdk/v2 v2.40.0
+	github.com/goharbor/terraform-provider-harbor v1.4.1-0.20260706120801-3b4527340103
+	github.com/hashicorp/terraform-plugin-sdk/v2 v2.40.1
 	github.com/pkg/errors v0.9.1
 	google.golang.org/grpc v1.79.3
 	k8s.io/api v0.35.3
@@ -69,7 +69,7 @@ require (
 	github.com/hashicorp/go-hclog v1.6.3 // indirect
 	github.com/hashicorp/go-plugin v1.7.0 // indirect
 	github.com/hashicorp/go-uuid v1.0.3 // indirect
-	github.com/hashicorp/go-version v1.8.0 // indirect
+	github.com/hashicorp/go-version v1.9.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.24.0 // indirect
 	github.com/hashicorp/logutils v1.0.0 // indirect
 	github.com/hashicorp/terraform-json v0.27.2 // indirect
@@ -109,8 +109,8 @@ require (
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/xhit/go-str2duration/v2 v2.1.0 // indirect
-	github.com/yuin/goldmark v1.4.13 // indirect
-	github.com/zclconf/go-cty v1.17.0 // indirect
+	github.com/yuin/goldmark v1.8.4 // indirect
+	github.com/zclconf/go-cty v1.18.1 // indirect
 	github.com/zclconf/go-cty-yaml v1.0.3 // indirect
 	go.opentelemetry.io/otel v1.41.0 // indirect
 	go.opentelemetry.io/otel/trace v1.41.0 // indirect

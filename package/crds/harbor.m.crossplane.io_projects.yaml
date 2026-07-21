@@ -92,6 +92,11 @@ spec:
                     description: (String) The name of the project that will be created
                       in harbor.
                     type: string
+                  proxyCacheLocalOnNotFound:
+                    description: '(Boolean) When enabled, serve images from the local
+                      cache when they have been removed from the upstream registry.
+                      (Default: false) Requires Harbor v2.15.1 or above.'
+                    type: boolean
                   proxySpeedKb:
                     description: 1)
                     format: int64
@@ -166,6 +171,11 @@ spec:
                     description: (String) The name of the project that will be created
                       in harbor.
                     type: string
+                  proxyCacheLocalOnNotFound:
+                    description: '(Boolean) When enabled, serve images from the local
+                      cache when they have been removed from the upstream registry.
+                      (Default: false) Requires Harbor v2.15.1 or above.'
+                    type: boolean
                   proxySpeedKb:
                     description: 1)
                     format: int64
@@ -302,6 +312,11 @@ spec:
                     description: (Number) The project id of this resource.
                     format: int64
                     type: integer
+                  proxyCacheLocalOnNotFound:
+                    description: '(Boolean) When enabled, serve images from the local
+                      cache when they have been removed from the upstream registry.
+                      (Default: false) Requires Harbor v2.15.1 or above.'
+                    type: boolean
                   proxySpeedKb:
                     description: 1)
                     format: int64

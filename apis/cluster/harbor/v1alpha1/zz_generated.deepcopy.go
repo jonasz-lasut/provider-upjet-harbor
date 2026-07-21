@@ -620,6 +620,11 @@ func (in *ProjectInitParameters) DeepCopyInto(out *ProjectInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProxyCacheLocalOnNotFound != nil {
+		in, out := &in.ProxyCacheLocalOnNotFound, &out.ProxyCacheLocalOnNotFound
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ProxySpeedKb != nil {
 		in, out := &in.ProxySpeedKb, &out.ProxySpeedKb
 		*out = new(int64)
@@ -748,6 +753,11 @@ func (in *ProjectObservation) DeepCopyInto(out *ProjectObservation) {
 		*out = new(int64)
 		**out = **in
 	}
+	if in.ProxyCacheLocalOnNotFound != nil {
+		in, out := &in.ProxyCacheLocalOnNotFound, &out.ProxyCacheLocalOnNotFound
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ProxySpeedKb != nil {
 		in, out := &in.ProxySpeedKb, &out.ProxySpeedKb
 		*out = new(int64)
@@ -832,6 +842,11 @@ func (in *ProjectParameters) DeepCopyInto(out *ProjectParameters) {
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
+		**out = **in
+	}
+	if in.ProxyCacheLocalOnNotFound != nil {
+		in, out := &in.ProxyCacheLocalOnNotFound, &out.ProxyCacheLocalOnNotFound
+		*out = new(bool)
 		**out = **in
 	}
 	if in.ProxySpeedKb != nil {

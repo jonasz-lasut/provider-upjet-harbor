@@ -72,6 +72,7 @@ func buildHarborSetup(cfg namespacedv1beta1.ProviderConfigSpec, credsData []byte
 		creds["bearer_token"],
 		ptr.Deref(cfg.Insecure, false),
 		ptr.Deref(cfg.RobotPrefix, ""),
+		nil,
 	)
 	return ps, nil
 }
