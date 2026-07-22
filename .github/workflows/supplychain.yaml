@@ -12,18 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Supply chain and xpkg extensions
+name: Supply Chain and Xpkg Extensions
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version string to use while publishing the package (e.g. v1.0.0-alpha.1)"
+        description: "Version string to use while attesting and signing the package (e.g. v1.0.0-alpha.1)"
         required: true
-      go-version:
-        description: 'Go version to use if building needs to be done'
-        default: '1.26.5'
-        required: false
 
 permissions:
   contents: read
