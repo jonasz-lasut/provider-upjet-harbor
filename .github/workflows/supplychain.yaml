@@ -94,30 +94,6 @@ jobs:
           username: ${{ secrets.XPKG_ACCESS_ID }}
           password: ${{ secrets.XPKG_TOKEN }}
 
-      - name: Sign Upbound Mirror Image
-        run: cosign sign --yes ${{ env.MIRROR_IMAGE }}:${{ github.event.inputs.version }}
-
-      - name: Generate Upbound Mirror SBOM
-        run: ${{ steps.syft-install.outputs.cmd }} ${{ env.MIRROR_IMAGE }}:${{ github.event.inputs.version }} -o spdx-json=mirror-sbom.spdx.json
-
-      - name: Attest SBOM to Upbound Mirror Image
-        run: cosign attest --yes --predicate mirror-sbom.spdx.json --type spdxjson ${{ env.MIRROR_IMAGE }}:${{ github.event.inputs.version }}
-
-      - name: Resolve Upbound Mirror Image Digest
-        id: mirror-digest
-        run: |
-          DIGEST=$(docker buildx imagetools inspect ${{ env.MIRROR_IMAGE }}:${{ github.event.inputs.version }} | awk '/^Digest:/{print $2}')
-          echo "digest=${DIGEST}" >> "$GITHUB_OUTPUT"
-
-      - name: Attest SLSA Provenance to Upbound Mirror Image
-        uses: actions/attest@f7c74d28b9d84cb8768d0b8ca14a4bac6ef463e6 # v4.2.0
-        with:
-          subject-name: ${{ env.MIRROR_IMAGE }}
-          subject-digest: ${{ steps.mirror-digest.outputs.digest }}
-          push-to-registry: true
-          create-storage-record: false
-
-    # XPKG extensions
       - name: Up Login
         env:
           UP_TOKEN: ${{ secrets.UP_TOKEN }}
@@ -125,6 +101,9 @@ jobs:
           curl -fsSLo /tmp/up --create-dirs 'https://cli.upbound.io/stable/${{ env.UP_VERSION }}/bin/linux_amd64/up' && \
           chmod +x /tmp/up && \
           /tmp/up login
+
+      - name: Generate Upbound Mirror SBOM
+        run: ${{ steps.syft-install.outputs.cmd }} ${{ env.MIRROR_IMAGE }}:${{ github.event.inputs.version }} -o spdx-json=mirror-sbom.spdx.json
 
       - name: Generate release notes
         env:
@@ -151,3 +130,23 @@ jobs:
           fi
 
           /tmp/up alpha xpkg append xpkg.upbound.io/jonasz-lasut/provider-upjet-harbor:${{ inputs.version }} --extensions-root $extensions_dir
+
+      - name: Sign Upbound Mirror Image
+        run: cosign sign --yes ${{ env.MIRROR_IMAGE }}:${{ github.event.inputs.version }}
+
+      - name: Attest SBOM to Upbound Mirror Image
+        run: cosign attest --yes --predicate mirror-sbom.spdx.json --type spdxjson ${{ env.MIRROR_IMAGE }}:${{ github.event.inputs.version }}
+
+      - name: Resolve Upbound Mirror Image Digest
+        id: mirror-digest
+        run: |
+          DIGEST=$(docker buildx imagetools inspect ${{ env.MIRROR_IMAGE }}:${{ github.event.inputs.version }} | awk '/^Digest:/{print $2}')
+          echo "digest=${DIGEST}" >> "$GITHUB_OUTPUT"
+
+      - name: Attest SLSA Provenance to Upbound Mirror Image
+        uses: actions/attest@f7c74d28b9d84cb8768d0b8ca14a4bac6ef463e6 # v4.2.0
+        with:
+          subject-name: ${{ env.MIRROR_IMAGE }}
+          subject-digest: ${{ steps.mirror-digest.outputs.digest }}
+          push-to-registry: true
+          create-storage-record: false
