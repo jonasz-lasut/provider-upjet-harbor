@@ -45,6 +45,12 @@ see the upstream [Upjet generating-a-provider guide](https://github.com/crosspla
 For information about monitoring the Upjet runtime, see the
 [Upjet Monitoring Guide](https://github.com/crossplane/upjet/blob/main/docs/monitoring.md).
 
+## Supply Chain Security
+
+Released images are signed and attested (SBOM, SLSA provenance) via keyless
+cosign signing. See [docs/SUPPLYCHAIN.md](docs/SUPPLYCHAIN.md) for
+verification instructions.
+
 ## Developing
 
 Code-generation pipeline (re-runs Upjet + controller-gen + angryjet, then
