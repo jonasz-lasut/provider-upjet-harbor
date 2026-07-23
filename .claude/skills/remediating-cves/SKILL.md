@@ -39,13 +39,16 @@ never from `main` HEAD — a security patch must not carry unreleased changes.
 
 ### 2. Pull the CVE list from code scanning
 
-Filter on the exact ref the scan uploaded against — the repo may carry alerts
-for other refs too:
+Pass `ref` as an actual **query parameter**, not a client-side filter. The
+list endpoint only returns alerts for the default branch unless `ref` is
+given in the request itself — fetching all alerts and filtering afterward
+with `select(.most_recent_instance.ref==...)` silently returns an empty
+result even when open alerts exist for the tag:
 
 ```bash
-gh api repos/{owner}/{repo}/code-scanning/alerts --paginate \
-  --jq ".[] | select(.state==\"open\" and .most_recent_instance.ref==\"refs/tags/${TAG}\") |
-        {number, rule: .rule.id, severity: .rule.security_severity_level, desc: .rule.description}"
+gh api "repos/{owner}/{repo}/code-scanning/alerts?ref=refs/tags/${TAG}&state=open" \
+  --paginate \
+  --jq ".[] | {number, rule: .rule.id, severity: .rule.security_severity_level, desc: .rule.description}"
 ```
 
 For full detail (affected package, fixed-in version) on one alert:
@@ -213,3 +216,7 @@ IDs remediated and the new version released.
   `main` since the release branch was cut.
 - Triggering step 8 or 9 before the prior workflow run has actually finished
   — the tag or image it depends on won't exist yet.
+- Fetching `code-scanning/alerts` with no `ref` query parameter and filtering
+  by `most_recent_instance.ref` afterward — this returns an empty list even
+  when the tag has real open alerts, reading as "no CVEs found" instead of
+  a query bug. Always pass `ref=refs/tags/<tag>` in the request itself.
