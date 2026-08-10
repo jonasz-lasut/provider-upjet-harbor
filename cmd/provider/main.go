@@ -100,27 +100,7 @@ func main() {
 	cfg, err := ctrl.GetConfig()
 	kingpin.FatalIfError(err, "Cannot get API server rest config")
 
-	// Get the TLS certs directory from the environment variables set by
-	// Crossplane if they're available.
-	// In older XP versions we used WEBHOOK_TLS_CERT_DIR, in newer versions
-	// we use TLS_SERVER_CERTS_DIR. If an explicit certs dir is not supplied
-	// via the command-line options, then these environment variables are used
-	// instead.
-	if !certsDirSet {
-		// backwards-compatibility concerns
-		xpCertsDir := os.Getenv(certsDirEnvVar)
-		if xpCertsDir == "" {
-			xpCertsDir = os.Getenv(tlsServerCertDirEnvVar)
-		}
-		if xpCertsDir == "" {
-			xpCertsDir = os.Getenv(webhookTLSCertDirEnvVar)
-		}
-		// we probably don't need this condition but just to be on the
-		// safe side, if we are missing any kingpin machinery details...
-		if xpCertsDir != "" {
-			*certsDir = xpCertsDir
-		}
-	}
+	*certsDir = resolveCertsDir(certsDirSet, *certsDir)
 
 	mgr, err := ctrl.NewManager(cfg, ctrl.Options{
 		LeaderElection:   *leaderElection,
@@ -182,7 +162,6 @@ func main() {
 		Provider:              clusterProvider,
 		WorkspaceStore:        terraform.NewWorkspaceStore(log),
 		SetupFn:               clients.TerraformSetupBuilder(sdkProvider),
-		StartWebhooks:         *certsDir != "",
 		PollJitter:            pollJitter,
 		OperationTrackerStore: tjcontroller.NewOperationStore(log),
 	}
@@ -203,7 +182,6 @@ func main() {
 		Provider:              namespacedProvider,
 		WorkspaceStore:        terraform.NewWorkspaceStore(log),
 		SetupFn:               clients.TerraformSetupBuilder(sdkProvider),
-		StartWebhooks:         *certsDir != "",
 		PollJitter:            pollJitter,
 		OperationTrackerStore: tjcontroller.NewOperationStore(log),
 	}
@@ -231,6 +209,14 @@ func main() {
 		namespacedOpts.ChangeLogOptions = &clo
 	}
 
+	// Conversion webhooks are registered eagerly on every replica so that
+	// every replica (leader and followers alike) can serve conversion requests.
+	// Reconciler setup is deferred to the gate and only runs on the leader.
+	if *certsDir != "" {
+		kingpin.FatalIfError(controllerCluster.SetupWebhookWithManager(mgr), "Cannot setup cluster-scoped webhooks")
+		kingpin.FatalIfError(controllerNamespaced.SetupWebhookWithManager(mgr), "Cannot setup namespaced webhooks")
+	}
+
 	canSafeStart, err := canWatchCRD(context.TODO(), mgr)
 	kingpin.FatalIfError(err, "SafeStart precheck failed")
 	if canSafeStart {
@@ -253,6 +239,30 @@ func main() {
 	kingpin.FatalIfError(conversion.RegisterConversions(clusterOpts.Provider, namespacedOpts.Provider, mgr.GetScheme()), "Cannot initialize the webhook conversion registry")
 
 	kingpin.FatalIfError(mgr.Start(ctrl.SetupSignalHandler()), "Cannot start controller manager")
+}
+
+// resolveCertsDir returns the TLS certs directory to use. When no explicit
+// certs dir was supplied via the command-line options, the environment
+// variables set by Crossplane are used instead: in older XP versions
+// WEBHOOK_TLS_CERT_DIR, in newer versions TLS_SERVER_CERTS_DIR.
+func resolveCertsDir(certsDirSet bool, certsDir string) string {
+	if certsDirSet {
+		return certsDir
+	}
+	// backwards-compatibility concerns
+	xpCertsDir := os.Getenv(certsDirEnvVar)
+	if xpCertsDir == "" {
+		xpCertsDir = os.Getenv(tlsServerCertDirEnvVar)
+	}
+	if xpCertsDir == "" {
+		xpCertsDir = os.Getenv(webhookTLSCertDirEnvVar)
+	}
+	// we probably don't need this condition but just to be on the
+	// safe side, if we are missing any kingpin machinery details...
+	if xpCertsDir != "" {
+		return xpCertsDir
+	}
+	return certsDir
 }
 
 func canWatchCRD(ctx context.Context, mgr manager.Manager) (bool, error) {

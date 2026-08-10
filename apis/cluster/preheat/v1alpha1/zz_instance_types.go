@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceInitParameters struct {
@@ -37,10 +37,10 @@ type InstanceInitParameters struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String, Sensitive) The password for the preheat instance. Required if auth_mode is "BASIC". Defaults to an empty string.
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// (String, Sensitive) The token for the preheat instance. Required if auth_mode is "OAUTH". Defaults to an empty string.
-	TokenSecretRef *v1.SecretKeySelector `json:"tokenSecretRef,omitempty" tf:"-"`
+	TokenSecretRef *v2.SecretKeySelector `json:"tokenSecretRef,omitempty" tf:"-"`
 
 	// (String) The username for the preheat instance. Required if auth_mode is "BASIC". Defaults to an empty string.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
@@ -114,11 +114,11 @@ type InstanceParameters struct {
 
 	// (String, Sensitive) The password for the preheat instance. Required if auth_mode is "BASIC". Defaults to an empty string.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// (String, Sensitive) The token for the preheat instance. Required if auth_mode is "OAUTH". Defaults to an empty string.
 	// +kubebuilder:validation:Optional
-	TokenSecretRef *v1.SecretKeySelector `json:"tokenSecretRef,omitempty" tf:"-"`
+	TokenSecretRef *v2.SecretKeySelector `json:"tokenSecretRef,omitempty" tf:"-"`
 
 	// (String) The username for the preheat instance. Required if auth_mode is "BASIC". Defaults to an empty string.
 	// +kubebuilder:validation:Optional
@@ -131,8 +131,8 @@ type InstanceParameters struct {
 
 // InstanceSpec defines the desired state of Instance
 type InstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -148,8 +148,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

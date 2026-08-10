@@ -114,6 +114,7 @@ resources:
             - name: main
               manifest: |-
                 {
+                  "disabled_audit_log_event_types": "create_artifact,delete_artifact",
                   "notification_enable": true,
                   "project_creation_restriction": "adminonly",
                   "robot_name_prefix": "harbor@",
@@ -124,6 +125,7 @@ resources:
             audit_log_forward_endpoint: (String) The endpoint to forward audit logs to.
             banner_message: (Block Set) (see below for nested schema)
             closable: (Boolean) Whether or not the banner message is closable.
+            disabled_audit_log_event_types: '(String) Comma-separated list of audit event types to disable. When set, these events will not be logged. Example: "create_artifact,delete_artifact,pull_artifact"'
             from_date: '(String) The date the banner message will start displaying. (Format: MM/DD/YYYY)'
             id: (String) The ID of this resource.
             message: (String) The message to display in the banner.

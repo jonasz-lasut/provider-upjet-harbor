@@ -86,6 +86,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  disabledAuditLogEventTypes:
+                    description: 'separated list of audit event types to disable.
+                      When set, these events will not be logged. Example: "create_artifact,delete_artifact,pull_artifact"'
+                    type: string
                   notificationEnable:
                     description: level webhook policies are silently ignored. Defaults
                       to true.
@@ -159,6 +163,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  disabledAuditLogEventTypes:
+                    description: 'separated list of audit event types to disable.
+                      When set, these events will not be logged. Example: "create_artifact,delete_artifact,pull_artifact"'
+                    type: string
                   notificationEnable:
                     description: level webhook policies are silently ignored. Defaults
                       to true.
@@ -282,6 +290,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  disabledAuditLogEventTypes:
+                    description: 'separated list of audit event types to disable.
+                      When set, these events will not be logged. Example: "create_artifact,delete_artifact,pull_artifact"'
+                    type: string
                   id:
                     description: (String) The ID of this resource.
                     type: string
@@ -363,6 +375,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation

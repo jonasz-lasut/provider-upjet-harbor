@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type WebhookInitParameters struct {
@@ -47,11 +46,11 @@ type WebhookInitParameters struct {
 
 	// Reference to a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Boolean) checks the for validate SSL certificate.
 	SkipCertVerify *bool `json:"skipCertVerify,omitempty" tf:"skip_cert_verify,omitempty"`
@@ -135,11 +134,11 @@ type WebhookParameters struct {
 
 	// Reference to a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (Boolean) checks the for validate SSL certificate.
 	// +kubebuilder:validation:Optional
@@ -165,8 +164,8 @@ type WebhookSpec struct {
 
 // WebhookStatus defines the observed state of Webhook.
 type WebhookStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        WebhookObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               WebhookObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AuthInitParameters struct {
@@ -52,7 +52,7 @@ type AuthInitParameters struct {
 	LdapSearchDn *string `json:"ldapSearchDn,omitempty" tf:"ldap_search_dn,omitempty"`
 
 	// (String, Sensitive) The password for the user that will perform the LDAP search
-	LdapSearchPasswordSecretRef *v1.SecretKeySelector `json:"ldapSearchPasswordSecretRef,omitempty" tf:"-"`
+	LdapSearchPasswordSecretRef *v2.SecretKeySelector `json:"ldapSearchPasswordSecretRef,omitempty" tf:"-"`
 
 	// (String) The attribute used in a search to match a user. It could be uid, cn, email, sAMAccountName or other attributes depending on your LDAP/AD.
 	LdapUID *string `json:"ldapUid,omitempty" tf:"ldap_uid,omitempty"`
@@ -73,7 +73,7 @@ type AuthInitParameters struct {
 	OidcClientID *string `json:"oidcClientId,omitempty" tf:"oidc_client_id,omitempty"`
 
 	// (String, Sensitive) The client secret for the oidc server.
-	OidcClientSecretSecretRef *v1.SecretKeySelector `json:"oidcClientSecretSecretRef,omitempty" tf:"-"`
+	OidcClientSecretSecretRef *v2.SecretKeySelector `json:"oidcClientSecretSecretRef,omitempty" tf:"-"`
 
 	// complaint server.
 	OidcEndpoint *string `json:"oidcEndpoint,omitempty" tf:"oidc_endpoint,omitempty"`
@@ -242,7 +242,7 @@ type AuthParameters struct {
 
 	// (String, Sensitive) The password for the user that will perform the LDAP search
 	// +kubebuilder:validation:Optional
-	LdapSearchPasswordSecretRef *v1.SecretKeySelector `json:"ldapSearchPasswordSecretRef,omitempty" tf:"-"`
+	LdapSearchPasswordSecretRef *v2.SecretKeySelector `json:"ldapSearchPasswordSecretRef,omitempty" tf:"-"`
 
 	// (String) The attribute used in a search to match a user. It could be uid, cn, email, sAMAccountName or other attributes depending on your LDAP/AD.
 	// +kubebuilder:validation:Optional
@@ -270,7 +270,7 @@ type AuthParameters struct {
 
 	// (String, Sensitive) The client secret for the oidc server.
 	// +kubebuilder:validation:Optional
-	OidcClientSecretSecretRef *v1.SecretKeySelector `json:"oidcClientSecretSecretRef,omitempty" tf:"-"`
+	OidcClientSecretSecretRef *v2.SecretKeySelector `json:"oidcClientSecretSecretRef,omitempty" tf:"-"`
 
 	// complaint server.
 	// +kubebuilder:validation:Optional
@@ -311,8 +311,8 @@ type AuthParameters struct {
 
 // AuthSpec defines the desired state of Auth
 type AuthSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AuthParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AuthParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -328,8 +328,8 @@ type AuthSpec struct {
 
 // AuthStatus defines the observed state of Auth.
 type AuthStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AuthObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AuthObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

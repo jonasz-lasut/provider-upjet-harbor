@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BannerMessageInitParameters struct {
@@ -81,6 +80,9 @@ type SystemInitParameters struct {
 	// (Block Set) (see below for nested schema)
 	BannerMessage []BannerMessageInitParameters `json:"bannerMessage,omitempty" tf:"banner_message,omitempty"`
 
+	// separated list of audit event types to disable. When set, these events will not be logged. Example: "create_artifact,delete_artifact,pull_artifact"
+	DisabledAuditLogEventTypes *string `json:"disabledAuditLogEventTypes,omitempty" tf:"disabled_audit_log_event_types,omitempty"`
+
 	// level webhook policies are silently ignored. Defaults to true.
 	NotificationEnable *bool `json:"notificationEnable,omitempty" tf:"notification_enable,omitempty"`
 
@@ -113,6 +115,9 @@ type SystemObservation struct {
 
 	// (Block Set) (see below for nested schema)
 	BannerMessage []BannerMessageObservation `json:"bannerMessage,omitempty" tf:"banner_message,omitempty"`
+
+	// separated list of audit event types to disable. When set, these events will not be logged. Example: "create_artifact,delete_artifact,pull_artifact"
+	DisabledAuditLogEventTypes *string `json:"disabledAuditLogEventTypes,omitempty" tf:"disabled_audit_log_event_types,omitempty"`
 
 	// (String) The ID of this resource.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -151,6 +156,10 @@ type SystemParameters struct {
 	// (Block Set) (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	BannerMessage []BannerMessageParameters `json:"bannerMessage,omitempty" tf:"banner_message,omitempty"`
+
+	// separated list of audit event types to disable. When set, these events will not be logged. Example: "create_artifact,delete_artifact,pull_artifact"
+	// +kubebuilder:validation:Optional
+	DisabledAuditLogEventTypes *string `json:"disabledAuditLogEventTypes,omitempty" tf:"disabled_audit_log_event_types,omitempty"`
 
 	// level webhook policies are silently ignored. Defaults to true.
 	// +kubebuilder:validation:Optional
@@ -204,8 +213,8 @@ type SystemSpec struct {
 
 // SystemStatus defines the observed state of System.
 type SystemStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SystemObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SystemObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

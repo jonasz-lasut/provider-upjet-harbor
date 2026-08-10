@@ -6,54 +6,54 @@
 
 package v1alpha1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this AuditLog.
-func (mg *AuditLog) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *AuditLog) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this AuditLog.
-func (mg *AuditLog) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *AuditLog) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this AuditLog.
-func (mg *AuditLog) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *AuditLog) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this AuditLog.
-func (mg *AuditLog) GetProviderConfigReference() *xpv1.Reference {
+func (mg *AuditLog) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this AuditLog.
-func (mg *AuditLog) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *AuditLog) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this AuditLog.
-func (mg *AuditLog) SetConditions(c ...xpv1.Condition) {
+func (mg *AuditLog) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this AuditLog.
-func (mg *AuditLog) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *AuditLog) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this AuditLog.
-func (mg *AuditLog) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *AuditLog) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this AuditLog.
-func (mg *AuditLog) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *AuditLog) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this AuditLog.
-func (mg *AuditLog) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *AuditLog) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
