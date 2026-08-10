@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RegistryInitParameters struct {
@@ -20,7 +19,7 @@ type RegistryInitParameters struct {
 	AccessID *string `json:"accessId,omitempty" tf:"access_id,omitempty"`
 
 	// (String, Sensitive) The password / access key / token for the external container register.
-	AccessSecretSecretRef *v1.LocalSecretKeySelector `json:"accessSecretSecretRef,omitempty" tf:"-"`
+	AccessSecretSecretRef *v2.LocalSecretKeySelector `json:"accessSecretSecretRef,omitempty" tf:"-"`
 
 	// encoded CA certificate trusting the registry custom-signed certificate.
 	// (ignored in <2.15.0)
@@ -84,7 +83,7 @@ type RegistryParameters struct {
 
 	// (String, Sensitive) The password / access key / token for the external container register.
 	// +kubebuilder:validation:Optional
-	AccessSecretSecretRef *v1.LocalSecretKeySelector `json:"accessSecretSecretRef,omitempty" tf:"-"`
+	AccessSecretSecretRef *v2.LocalSecretKeySelector `json:"accessSecretSecretRef,omitempty" tf:"-"`
 
 	// encoded CA certificate trusting the registry custom-signed certificate.
 	// (ignored in <2.15.0)
@@ -131,8 +130,8 @@ type RegistrySpec struct {
 
 // RegistryStatus defines the observed state of Registry.
 type RegistryStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RegistryObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RegistryObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

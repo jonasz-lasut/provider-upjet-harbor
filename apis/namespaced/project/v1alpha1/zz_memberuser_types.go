@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type MemberUserInitParameters struct {
@@ -23,11 +22,11 @@ type MemberUserInitParameters struct {
 
 	// Reference to a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) The permissions that the entity will be granted.
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
@@ -39,11 +38,11 @@ type MemberUserInitParameters struct {
 
 	// Reference to a User in harbor to populate userName.
 	// +kubebuilder:validation:Optional
-	UserNameRef *v1.NamespacedReference `json:"userNameRef,omitempty" tf:"-"`
+	UserNameRef *v2.NamespacedReference `json:"userNameRef,omitempty" tf:"-"`
 
 	// Selector for a User in harbor to populate userName.
 	// +kubebuilder:validation:Optional
-	UserNameSelector *v1.NamespacedSelector `json:"userNameSelector,omitempty" tf:"-"`
+	UserNameSelector *v2.NamespacedSelector `json:"userNameSelector,omitempty" tf:"-"`
 }
 
 type MemberUserObservation struct {
@@ -74,11 +73,11 @@ type MemberUserParameters struct {
 
 	// Reference to a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) The permissions that the entity will be granted.
 	// +kubebuilder:validation:Optional
@@ -92,11 +91,11 @@ type MemberUserParameters struct {
 
 	// Reference to a User in harbor to populate userName.
 	// +kubebuilder:validation:Optional
-	UserNameRef *v1.NamespacedReference `json:"userNameRef,omitempty" tf:"-"`
+	UserNameRef *v2.NamespacedReference `json:"userNameRef,omitempty" tf:"-"`
 
 	// Selector for a User in harbor to populate userName.
 	// +kubebuilder:validation:Optional
-	UserNameSelector *v1.NamespacedSelector `json:"userNameSelector,omitempty" tf:"-"`
+	UserNameSelector *v2.NamespacedSelector `json:"userNameSelector,omitempty" tf:"-"`
 }
 
 // MemberUserSpec defines the desired state of MemberUser
@@ -118,8 +117,8 @@ type MemberUserSpec struct {
 
 // MemberUserStatus defines the observed state of MemberUser.
 type MemberUserStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        MemberUserObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               MemberUserObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

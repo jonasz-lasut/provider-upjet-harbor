@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TagRuleInitParameters struct {
@@ -26,11 +25,11 @@ type TagRuleInitParameters struct {
 
 	// Reference to a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) For the repositories excluding.
 	RepoExcluding *string `json:"repoExcluding,omitempty" tf:"repo_excluding,omitempty"`
@@ -83,11 +82,11 @@ type TagRuleParameters struct {
 
 	// Reference to a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) For the repositories excluding.
 	// +kubebuilder:validation:Optional
@@ -125,8 +124,8 @@ type TagRuleSpec struct {
 
 // TagRuleStatus defines the observed state of TagRule.
 type TagRuleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TagRuleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TagRuleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

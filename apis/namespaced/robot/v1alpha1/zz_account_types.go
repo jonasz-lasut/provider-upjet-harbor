@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessInitParameters struct {
@@ -74,7 +73,7 @@ type AccountInitParameters struct {
 	Permissions []PermissionsInitParameters `json:"permissions,omitempty" tf:"permissions,omitempty"`
 
 	// (String, Sensitive) The secret of the robot account used for authentication. Defaults to random generated string from Harbor.
-	SecretSecretRef *v1.LocalSecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
+	SecretSecretRef *v2.LocalSecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
 
 	// only) Write-only alternative for secret. Must be used together with secret_wo_version.
 	SecretWo *string `json:"secretWo,omitempty" tf:"secret_wo,omitempty"`
@@ -147,7 +146,7 @@ type AccountParameters struct {
 
 	// (String, Sensitive) The secret of the robot account used for authentication. Defaults to random generated string from Harbor.
 	// +kubebuilder:validation:Optional
-	SecretSecretRef *v1.LocalSecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
+	SecretSecretRef *v2.LocalSecretKeySelector `json:"secretSecretRef,omitempty" tf:"-"`
 
 	// only) Write-only alternative for secret. Must be used together with secret_wo_version.
 	// +kubebuilder:validation:Optional
@@ -173,11 +172,11 @@ type PermissionsInitParameters struct {
 
 	// Reference to a Project in harbor to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a Project in harbor to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 type PermissionsObservation struct {
@@ -210,11 +209,11 @@ type PermissionsParameters struct {
 
 	// Reference to a Project in harbor to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.NamespacedReference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a Project in harbor to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.NamespacedSelector `json:"namespaceSelector,omitempty" tf:"-"`
 }
 
 // AccountSpec defines the desired state of Account
@@ -236,8 +235,8 @@ type AccountSpec struct {
 
 // AccountStatus defines the observed state of Account.
 type AccountStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AccountObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AccountObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

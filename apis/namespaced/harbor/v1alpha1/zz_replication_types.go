@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FiltersInitParameters struct {
@@ -115,11 +114,11 @@ type ReplicationInitParameters struct {
 
 	// Reference to a Registry in harbor to populate registryId.
 	// +kubebuilder:validation:Optional
-	RegistryIDRef *v1.NamespacedReference `json:"registryIdRef,omitempty" tf:"-"`
+	RegistryIDRef *v2.NamespacedReference `json:"registryIdRef,omitempty" tf:"-"`
 
 	// Selector for a Registry in harbor to populate registryId.
 	// +kubebuilder:validation:Optional
-	RegistryIDSelector *v1.NamespacedSelector `json:"registryIdSelector,omitempty" tf:"-"`
+	RegistryIDSelector *v2.NamespacedSelector `json:"registryIdSelector,omitempty" tf:"-"`
 
 	// (String) The scheduled time of when the container register will be push / pull. In cron base format. Hourly "0 0 * * * *", Daily "0 0 0 * * *", Monthly "0 0 0 * * 0". Can be one of the following: event_based, manual, cron format (Default: manual)
 	Schedule *string `json:"schedule,omitempty" tf:"schedule,omitempty"`
@@ -239,11 +238,11 @@ type ReplicationParameters struct {
 
 	// Reference to a Registry in harbor to populate registryId.
 	// +kubebuilder:validation:Optional
-	RegistryIDRef *v1.NamespacedReference `json:"registryIdRef,omitempty" tf:"-"`
+	RegistryIDRef *v2.NamespacedReference `json:"registryIdRef,omitempty" tf:"-"`
 
 	// Selector for a Registry in harbor to populate registryId.
 	// +kubebuilder:validation:Optional
-	RegistryIDSelector *v1.NamespacedSelector `json:"registryIdSelector,omitempty" tf:"-"`
+	RegistryIDSelector *v2.NamespacedSelector `json:"registryIdSelector,omitempty" tf:"-"`
 
 	// (String) The scheduled time of when the container register will be push / pull. In cron base format. Hourly "0 0 * * * *", Daily "0 0 0 * * *", Monthly "0 0 0 * * 0". Can be one of the following: event_based, manual, cron format (Default: manual)
 	// +kubebuilder:validation:Optional
@@ -277,8 +276,8 @@ type ReplicationSpec struct {
 
 // ReplicationStatus defines the observed state of Replication.
 type ReplicationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ReplicationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ReplicationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

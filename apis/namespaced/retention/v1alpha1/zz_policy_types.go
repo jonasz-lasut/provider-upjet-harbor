@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type PolicyInitParameters struct {
@@ -29,11 +28,11 @@ type PolicyInitParameters struct {
 
 	// Reference to a Project in harbor to populate scope.
 	// +kubebuilder:validation:Optional
-	ScopeRef *v1.NamespacedReference `json:"scopeRef,omitempty" tf:"-"`
+	ScopeRef *v2.NamespacedReference `json:"scopeRef,omitempty" tf:"-"`
 
 	// Selector for a Project in harbor to populate scope.
 	// +kubebuilder:validation:Optional
-	ScopeSelector *v1.NamespacedSelector `json:"scopeSelector,omitempty" tf:"-"`
+	ScopeSelector *v2.NamespacedSelector `json:"scopeSelector,omitempty" tf:"-"`
 }
 
 type PolicyObservation struct {
@@ -69,11 +68,11 @@ type PolicyParameters struct {
 
 	// Reference to a Project in harbor to populate scope.
 	// +kubebuilder:validation:Optional
-	ScopeRef *v1.NamespacedReference `json:"scopeRef,omitempty" tf:"-"`
+	ScopeRef *v2.NamespacedReference `json:"scopeRef,omitempty" tf:"-"`
 
 	// Selector for a Project in harbor to populate scope.
 	// +kubebuilder:validation:Optional
-	ScopeSelector *v1.NamespacedSelector `json:"scopeSelector,omitempty" tf:"-"`
+	ScopeSelector *v2.NamespacedSelector `json:"scopeSelector,omitempty" tf:"-"`
 }
 
 type RuleInitParameters struct {
@@ -214,8 +213,8 @@ type PolicySpec struct {
 
 // PolicyStatus defines the observed state of Policy.
 type PolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        PolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               PolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

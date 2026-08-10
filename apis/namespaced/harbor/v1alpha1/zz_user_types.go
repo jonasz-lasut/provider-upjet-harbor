@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type UserInitParameters struct {
@@ -29,7 +28,7 @@ type UserInitParameters struct {
 	FullName *string `json:"fullName,omitempty" tf:"full_name,omitempty"`
 
 	// (String, Sensitive) The password for the internal user. Conflicts with password_wo_version.
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// only) Write-only alternative for password. Must be used together with password_wo_version.
 	PasswordWo *string `json:"passwordWo,omitempty" tf:"password_wo,omitempty"`
@@ -88,7 +87,7 @@ type UserParameters struct {
 
 	// (String, Sensitive) The password for the internal user. Conflicts with password_wo_version.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// only) Write-only alternative for password. Must be used together with password_wo_version.
 	// +kubebuilder:validation:Optional
@@ -122,8 +121,8 @@ type UserSpec struct {
 
 // UserStatus defines the observed state of User.
 type UserStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        UserObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               UserObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -182,7 +182,6 @@ func main() {
 		Provider:              clusterProvider,
 		WorkspaceStore:        terraform.NewWorkspaceStore(log),
 		SetupFn:               clients.TerraformSetupBuilder(sdkProvider),
-		StartWebhooks:         *certsDir != "",
 		PollJitter:            pollJitter,
 		OperationTrackerStore: tjcontroller.NewOperationStore(log),
 	}
@@ -203,7 +202,6 @@ func main() {
 		Provider:              namespacedProvider,
 		WorkspaceStore:        terraform.NewWorkspaceStore(log),
 		SetupFn:               clients.TerraformSetupBuilder(sdkProvider),
-		StartWebhooks:         *certsDir != "",
 		PollJitter:            pollJitter,
 		OperationTrackerStore: tjcontroller.NewOperationStore(log),
 	}
@@ -229,6 +227,14 @@ func main() {
 		}
 		clusterOpts.ChangeLogOptions = &clo
 		namespacedOpts.ChangeLogOptions = &clo
+	}
+
+	// Conversion webhooks are registered eagerly on every replica so that
+	// every replica (leader and followers alike) can serve conversion requests.
+	// Reconciler setup is deferred to the gate and only runs on the leader.
+	if *certsDir != "" {
+		kingpin.FatalIfError(controllerCluster.SetupWebhookWithManager(mgr), "Cannot setup cluster-scoped webhooks")
+		kingpin.FatalIfError(controllerNamespaced.SetupWebhookWithManager(mgr), "Cannot setup namespaced webhooks")
 	}
 
 	canSafeStart, err := canWatchCRD(context.TODO(), mgr)

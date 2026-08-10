@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type MemberGroupInitParameters struct {
@@ -26,11 +25,11 @@ type MemberGroupInitParameters struct {
 
 	// Reference to a Group in harbor to populate groupName.
 	// +kubebuilder:validation:Optional
-	GroupNameRef *v1.NamespacedReference `json:"groupNameRef,omitempty" tf:"-"`
+	GroupNameRef *v2.NamespacedReference `json:"groupNameRef,omitempty" tf:"-"`
 
 	// Selector for a Group in harbor to populate groupName.
 	// +kubebuilder:validation:Optional
-	GroupNameSelector *v1.NamespacedSelector `json:"groupNameSelector,omitempty" tf:"-"`
+	GroupNameSelector *v2.NamespacedSelector `json:"groupNameSelector,omitempty" tf:"-"`
 
 	// (String) The distinguished name of the group within AD/LDAP.
 	LdapGroupDn *string `json:"ldapGroupDn,omitempty" tf:"ldap_group_dn,omitempty"`
@@ -42,11 +41,11 @@ type MemberGroupInitParameters struct {
 
 	// Reference to a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) The permissions that the entity will be granted.
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
@@ -96,11 +95,11 @@ type MemberGroupParameters struct {
 
 	// Reference to a Group in harbor to populate groupName.
 	// +kubebuilder:validation:Optional
-	GroupNameRef *v1.NamespacedReference `json:"groupNameRef,omitempty" tf:"-"`
+	GroupNameRef *v2.NamespacedReference `json:"groupNameRef,omitempty" tf:"-"`
 
 	// Selector for a Group in harbor to populate groupName.
 	// +kubebuilder:validation:Optional
-	GroupNameSelector *v1.NamespacedSelector `json:"groupNameSelector,omitempty" tf:"-"`
+	GroupNameSelector *v2.NamespacedSelector `json:"groupNameSelector,omitempty" tf:"-"`
 
 	// (String) The distinguished name of the group within AD/LDAP.
 	// +kubebuilder:validation:Optional
@@ -114,11 +113,11 @@ type MemberGroupParameters struct {
 
 	// Reference to a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDRef *v1.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
+	ProjectIDRef *v2.NamespacedReference `json:"projectIdRef,omitempty" tf:"-"`
 
 	// Selector for a Project in harbor to populate projectId.
 	// +kubebuilder:validation:Optional
-	ProjectIDSelector *v1.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
+	ProjectIDSelector *v2.NamespacedSelector `json:"projectIdSelector,omitempty" tf:"-"`
 
 	// (String) The permissions that the entity will be granted.
 	// +kubebuilder:validation:Optional
@@ -148,8 +147,8 @@ type MemberGroupSpec struct {
 
 // MemberGroupStatus defines the observed state of MemberGroup.
 type MemberGroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        MemberGroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               MemberGroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

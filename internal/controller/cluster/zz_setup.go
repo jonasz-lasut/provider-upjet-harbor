@@ -97,3 +97,35 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		auth.SetupWebhookWithManager,
+		security.SetupWebhookWithManager,
+		system.SetupWebhookWithManager,
+		collection.SetupWebhookWithManager,
+		group.SetupWebhookWithManager,
+		label.SetupWebhookWithManager,
+		project.SetupWebhookWithManager,
+		registry.SetupWebhookWithManager,
+		replication.SetupWebhookWithManager,
+		tasks.SetupWebhookWithManager,
+		user.SetupWebhookWithManager,
+		tagrule.SetupWebhookWithManager,
+		services.SetupWebhookWithManager,
+		instance.SetupWebhookWithManager,
+		membergroup.SetupWebhookWithManager,
+		memberuser.SetupWebhookWithManager,
+		webhook.SetupWebhookWithManager,
+		providerconfig.SetupWebhookWithManager,
+		auditlog.SetupWebhookWithManager,
+		policy.SetupWebhookWithManager,
+		account.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}
