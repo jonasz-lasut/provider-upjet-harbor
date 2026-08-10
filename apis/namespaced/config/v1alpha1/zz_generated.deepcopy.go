@@ -946,6 +946,11 @@ func (in *SystemInitParameters) DeepCopyInto(out *SystemInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.DisabledAuditLogEventTypes != nil {
+		in, out := &in.DisabledAuditLogEventTypes, &out.DisabledAuditLogEventTypes
+		*out = new(string)
+		**out = **in
+	}
 	if in.NotificationEnable != nil {
 		in, out := &in.NotificationEnable, &out.NotificationEnable
 		*out = new(bool)
@@ -1045,6 +1050,11 @@ func (in *SystemObservation) DeepCopyInto(out *SystemObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.DisabledAuditLogEventTypes != nil {
+		in, out := &in.DisabledAuditLogEventTypes, &out.DisabledAuditLogEventTypes
+		*out = new(string)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -1116,6 +1126,11 @@ func (in *SystemParameters) DeepCopyInto(out *SystemParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.DisabledAuditLogEventTypes != nil {
+		in, out := &in.DisabledAuditLogEventTypes, &out.DisabledAuditLogEventTypes
+		*out = new(string)
+		**out = **in
 	}
 	if in.NotificationEnable != nil {
 		in, out := &in.NotificationEnable, &out.NotificationEnable

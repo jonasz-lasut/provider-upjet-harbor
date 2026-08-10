@@ -100,6 +100,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  disabledAuditLogEventTypes:
+                    description: 'separated list of audit event types to disable.
+                      When set, these events will not be logged. Example: "create_artifact,delete_artifact,pull_artifact"'
+                    type: string
                   notificationEnable:
                     description: level webhook policies are silently ignored. Defaults
                       to true.
@@ -173,6 +177,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  disabledAuditLogEventTypes:
+                    description: 'separated list of audit event types to disable.
+                      When set, these events will not be logged. Example: "create_artifact,delete_artifact,pull_artifact"'
+                    type: string
                   notificationEnable:
                     description: level webhook policies are silently ignored. Defaults
                       to true.
@@ -324,6 +332,10 @@ spec:
                           type: string
                       type: object
                     type: array
+                  disabledAuditLogEventTypes:
+                    description: 'separated list of audit event types to disable.
+                      When set, these events will not be logged. Example: "create_artifact,delete_artifact,pull_artifact"'
+                    type: string
                   id:
                     description: (String) The ID of this resource.
                     type: string
