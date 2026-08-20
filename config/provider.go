@@ -34,9 +34,6 @@ var harborBasePackages = ujconfig.BasePackages{
 	APIVersion: []string{
 		"v1beta1",
 	},
-	Controller: []string{
-		"providerconfig",
-	},
 	ControllerMap: map[string]string{
 		"providerconfig": ujconfig.PackageNameConfig,
 	},

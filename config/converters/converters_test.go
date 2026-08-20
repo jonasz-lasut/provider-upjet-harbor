@@ -23,7 +23,7 @@ func TestWrapReadDeriveStringID_SharedResourceDualScope(t *testing.T) {
 		Schema: map[string]*schema.Schema{
 			"registry_id": {Type: schema.TypeString, Optional: true},
 		},
-		Read: func(_ *schema.ResourceData, _ any) error {
+		Read: func(_ *schema.ResourceData, _ any) error { //nolint: staticcheck
 			reads++
 			return nil
 		},
