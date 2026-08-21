@@ -101,11 +101,17 @@ type SystemInitParameters struct {
 	// (Boolean) Whether or not to skip update pull time for scanner.
 	ScannerSkipUpdatePulltime *bool `json:"scannerSkipUpdatePulltime,omitempty" tf:"scanner_skip_update_pulltime,omitempty"`
 
+	// (Number) The session timeout for Harbor UI, in minutes. Defaults to 60.
+	SessionTimeout *int64 `json:"sessionTimeout,omitempty" tf:"session_timeout,omitempty"`
+
 	// (Boolean) Whether or not to skip audit log database.
 	SkipAuditLogDatabase *bool `json:"skipAuditLogDatabase,omitempty" tf:"skip_audit_log_database,omitempty"`
 
 	// 1 (unlimited).
 	StoragePerProject *int64 `json:"storagePerProject,omitempty" tf:"storage_per_project,omitempty"`
+
+	// (Number) The expiration time of a token created by the token service, in minutes. Defaults to 30.
+	TokenExpiration *int64 `json:"tokenExpiration,omitempty" tf:"token_expiration,omitempty"`
 }
 
 type SystemObservation struct {
@@ -140,11 +146,17 @@ type SystemObservation struct {
 	// (Boolean) Whether or not to skip update pull time for scanner.
 	ScannerSkipUpdatePulltime *bool `json:"scannerSkipUpdatePulltime,omitempty" tf:"scanner_skip_update_pulltime,omitempty"`
 
+	// (Number) The session timeout for Harbor UI, in minutes. Defaults to 60.
+	SessionTimeout *int64 `json:"sessionTimeout,omitempty" tf:"session_timeout,omitempty"`
+
 	// (Boolean) Whether or not to skip audit log database.
 	SkipAuditLogDatabase *bool `json:"skipAuditLogDatabase,omitempty" tf:"skip_audit_log_database,omitempty"`
 
 	// 1 (unlimited).
 	StoragePerProject *int64 `json:"storagePerProject,omitempty" tf:"storage_per_project,omitempty"`
+
+	// (Number) The expiration time of a token created by the token service, in minutes. Defaults to 30.
+	TokenExpiration *int64 `json:"tokenExpiration,omitempty" tf:"token_expiration,omitempty"`
 }
 
 type SystemParameters struct {
@@ -185,6 +197,10 @@ type SystemParameters struct {
 	// +kubebuilder:validation:Optional
 	ScannerSkipUpdatePulltime *bool `json:"scannerSkipUpdatePulltime,omitempty" tf:"scanner_skip_update_pulltime,omitempty"`
 
+	// (Number) The session timeout for Harbor UI, in minutes. Defaults to 60.
+	// +kubebuilder:validation:Optional
+	SessionTimeout *int64 `json:"sessionTimeout,omitempty" tf:"session_timeout,omitempty"`
+
 	// (Boolean) Whether or not to skip audit log database.
 	// +kubebuilder:validation:Optional
 	SkipAuditLogDatabase *bool `json:"skipAuditLogDatabase,omitempty" tf:"skip_audit_log_database,omitempty"`
@@ -192,6 +208,10 @@ type SystemParameters struct {
 	// 1 (unlimited).
 	// +kubebuilder:validation:Optional
 	StoragePerProject *int64 `json:"storagePerProject,omitempty" tf:"storage_per_project,omitempty"`
+
+	// (Number) The expiration time of a token created by the token service, in minutes. Defaults to 30.
+	// +kubebuilder:validation:Optional
+	TokenExpiration *int64 `json:"tokenExpiration,omitempty" tf:"token_expiration,omitempty"`
 }
 
 // SystemSpec defines the desired state of System
