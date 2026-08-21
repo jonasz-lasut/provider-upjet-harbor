@@ -128,11 +128,21 @@ spec:
                     description: (Boolean) Whether or not to skip update pull time
                       for scanner.
                     type: boolean
+                  sessionTimeout:
+                    description: (Number) The session timeout for Harbor UI, in minutes.
+                      Defaults to 60.
+                    format: int64
+                    type: integer
                   skipAuditLogDatabase:
                     description: (Boolean) Whether or not to skip audit log database.
                     type: boolean
                   storagePerProject:
                     description: 1 (unlimited).
+                    format: int64
+                    type: integer
+                  tokenExpiration:
+                    description: (Number) The expiration time of a token created by
+                      the token service, in minutes. Defaults to 30.
                     format: int64
                     type: integer
                 type: object
@@ -205,11 +215,21 @@ spec:
                     description: (Boolean) Whether or not to skip update pull time
                       for scanner.
                     type: boolean
+                  sessionTimeout:
+                    description: (Number) The session timeout for Harbor UI, in minutes.
+                      Defaults to 60.
+                    format: int64
+                    type: integer
                   skipAuditLogDatabase:
                     description: (Boolean) Whether or not to skip audit log database.
                     type: boolean
                   storagePerProject:
                     description: 1 (unlimited).
+                    format: int64
+                    type: integer
+                  tokenExpiration:
+                    description: (Number) The expiration time of a token created by
+                      the token service, in minutes. Defaults to 30.
                     format: int64
                     type: integer
                 type: object
@@ -363,11 +383,21 @@ spec:
                     description: (Boolean) Whether or not to skip update pull time
                       for scanner.
                     type: boolean
+                  sessionTimeout:
+                    description: (Number) The session timeout for Harbor UI, in minutes.
+                      Defaults to 60.
+                    format: int64
+                    type: integer
                   skipAuditLogDatabase:
                     description: (Boolean) Whether or not to skip audit log database.
                     type: boolean
                   storagePerProject:
                     description: 1 (unlimited).
+                    format: int64
+                    type: integer
+                  tokenExpiration:
+                    description: (Number) The expiration time of a token created by
+                      the token service, in minutes. Defaults to 30.
                     format: int64
                     type: integer
                 type: object

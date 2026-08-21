@@ -13,4 +13,6 @@ spec:
     projectCreationRestriction: adminonly
     robotNamePrefix: harbor@
     robotTokenExpiration: 30
+    sessionTimeout: 60
     storagePerProject: 100
+    tokenExpiration: 30

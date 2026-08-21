@@ -981,6 +981,11 @@ func (in *SystemInitParameters) DeepCopyInto(out *SystemInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.SessionTimeout != nil {
+		in, out := &in.SessionTimeout, &out.SessionTimeout
+		*out = new(int64)
+		**out = **in
+	}
 	if in.SkipAuditLogDatabase != nil {
 		in, out := &in.SkipAuditLogDatabase, &out.SkipAuditLogDatabase
 		*out = new(bool)
@@ -988,6 +993,11 @@ func (in *SystemInitParameters) DeepCopyInto(out *SystemInitParameters) {
 	}
 	if in.StoragePerProject != nil {
 		in, out := &in.StoragePerProject, &out.StoragePerProject
+		*out = new(int64)
+		**out = **in
+	}
+	if in.TokenExpiration != nil {
+		in, out := &in.TokenExpiration, &out.TokenExpiration
 		*out = new(int64)
 		**out = **in
 	}
@@ -1090,6 +1100,11 @@ func (in *SystemObservation) DeepCopyInto(out *SystemObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.SessionTimeout != nil {
+		in, out := &in.SessionTimeout, &out.SessionTimeout
+		*out = new(int64)
+		**out = **in
+	}
 	if in.SkipAuditLogDatabase != nil {
 		in, out := &in.SkipAuditLogDatabase, &out.SkipAuditLogDatabase
 		*out = new(bool)
@@ -1097,6 +1112,11 @@ func (in *SystemObservation) DeepCopyInto(out *SystemObservation) {
 	}
 	if in.StoragePerProject != nil {
 		in, out := &in.StoragePerProject, &out.StoragePerProject
+		*out = new(int64)
+		**out = **in
+	}
+	if in.TokenExpiration != nil {
+		in, out := &in.TokenExpiration, &out.TokenExpiration
 		*out = new(int64)
 		**out = **in
 	}
@@ -1162,6 +1182,11 @@ func (in *SystemParameters) DeepCopyInto(out *SystemParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.SessionTimeout != nil {
+		in, out := &in.SessionTimeout, &out.SessionTimeout
+		*out = new(int64)
+		**out = **in
+	}
 	if in.SkipAuditLogDatabase != nil {
 		in, out := &in.SkipAuditLogDatabase, &out.SkipAuditLogDatabase
 		*out = new(bool)
@@ -1169,6 +1194,11 @@ func (in *SystemParameters) DeepCopyInto(out *SystemParameters) {
 	}
 	if in.StoragePerProject != nil {
 		in, out := &in.StoragePerProject, &out.StoragePerProject
+		*out = new(int64)
+		**out = **in
+	}
+	if in.TokenExpiration != nil {
+		in, out := &in.TokenExpiration, &out.TokenExpiration
 		*out = new(int64)
 		**out = **in
 	}

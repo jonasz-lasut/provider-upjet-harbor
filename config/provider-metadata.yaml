@@ -119,7 +119,9 @@ resources:
                   "project_creation_restriction": "adminonly",
                   "robot_name_prefix": "harbor@",
                   "robot_token_expiration": 30,
-                  "storage_per_project": 100
+                  "session_timeout": 60,
+                  "storage_per_project": 100,
+                  "token_expiration": 30
                 }
         argumentDocs:
             audit_log_forward_endpoint: (String) The endpoint to forward audit logs to.
@@ -135,9 +137,11 @@ resources:
             robot_name_prefix: (String) Robot account prefix.
             robot_token_expiration: (Number) The amount of time in days a robot account will expire.
             scanner_skip_update_pulltime: (Boolean) Whether or not to skip update pull time for scanner.
+            session_timeout: (Number) The session timeout for Harbor UI, in minutes. Defaults to 60.
             skip_audit_log_database: (Boolean) Whether or not to skip audit log database.
             storage_per_project: (Number) Default quota space per project in GIB. Default is -1 (unlimited).
             to_date: '(String) The date the banner message will stop displaying. (Format: MM/DD/YYYY)'
+            token_expiration: (Number) The expiration time of a token created by the token service, in minutes. Defaults to 30.
             type: (String) The type of banner message. Can be "info", "warning", "success" or "danger".
         importStatements: []
     harbor_garbage_collection:
