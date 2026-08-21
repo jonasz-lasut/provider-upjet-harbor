@@ -206,6 +206,15 @@
       // We want dedicated PRs for each major bump to Github Actions
       "matchDepTypes": ["action"],
       "pinDigests": true
+    },
+    {
+      // The Dockerfile runtime base is pinned to a digest that moves with
+      // distroless's rebuilds of the `nonroot` tag: one PR per digest bump,
+      // so a rebuild that breaks the image is judged on its own.
+      "matchManagers": ["dockerfile"],
+      "matchPackageNames": ["gcr.io/distroless/static-debian13"],
+      "pinDigests": true,
+      "groupName": "runtime image"
     }
   ],
 }
