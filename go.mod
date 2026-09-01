@@ -1,6 +1,6 @@
 module github.com/jonasz-lasut/provider-upjet-harbor
 
-go 1.27.0
+go 1.27.1
 
 tool golang.org/x/tools/cmd/goimports
 
